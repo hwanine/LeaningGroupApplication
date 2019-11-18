@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@drawable/creategroupobjectborder">
+    android:layout_height="110dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -12,22 +11,22 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textTitle"
+            android:id="@+id/attenderName"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="제목"
-            android:layout_weight="60"
+            android:text="이름"
+            android:layout_weight="50"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:textStyle="bold"
             android:textColor="#33aabb"
             />
         <TextView
-            android:id="@+id/textGroupDate"
+            android:id="@+id/attenderEmail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="모임날짜"
-            android:layout_weight="40"
+            android:text="이메일"
+            android:layout_weight="50"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             />
@@ -40,22 +39,22 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textWriter"
+            android:id="@+id/attenderSchoolNumber"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="작성자"
-            android:layout_weight="60"
+            android:text="학번"
+            android:layout_weight="50"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:textStyle="bold"
             />
 
-        <TextView
-            android:id="@+id/GroupNumberOfMember"
+        <Button
+            android:id="@+id/reportButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="인원"
-            android:layout_weight="40"
+            android:text="신고하기"
+            android:layout_weight="50"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             />

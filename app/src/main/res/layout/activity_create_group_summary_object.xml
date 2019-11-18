@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@drawable/creategroupobjectborder">
+    android:layout_height="100dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -12,7 +11,19 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textTitle"
+            android:id="@+id/GroupNumber"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="게시글 번호"
+            android:layout_weight="60"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"
+            android:textColor="#33aabb"
+            />
+
+        <TextView
+            android:id="@+id/Title"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:text="제목"
@@ -22,8 +33,9 @@
             android:textStyle="bold"
             android:textColor="#33aabb"
             />
+
         <TextView
-            android:id="@+id/textGroupDate"
+            android:id="@+id/GroupDate"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:text="모임날짜"
@@ -40,7 +52,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textWriter"
+            android:id="@+id/Writer"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:text="작성자"
@@ -51,7 +63,7 @@
             />
 
         <TextView
-            android:id="@+id/GroupNumberOfMember"
+            android:id="@+id/GroupNumOfMem"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:text="인원"

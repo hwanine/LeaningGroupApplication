@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.os.AsyncTask;
 
@@ -18,6 +19,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +34,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //버튼들을 정의
+        ListView listView =findViewById(R.id.LanguageFrameListView);
+
+        ArrayList<createGroupSummaryObject> summaryObject = new ArrayList<>();
+        summaryObject.add(new createGroupSummaryObject("영어회화","2019/11/20-18:00~20:00","곽송이","4","1"));
+
+        ListAdapter Adapter = new ListAdapter(summaryObject);
+        listView.setAdapter(Adapter);
+
+        //버튼들을 정의, 프레임 레이아웃에서 다른 프레임으로 넘어가기 위함
         Button LanguageButton = (Button) findViewById(R.id.LanguageButton);
         LanguageButton.setOnClickListener(new Button.OnClickListener() {
 
@@ -97,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class BackgroundTask extends AsyncTask<Void, Void, String> { //모든 회원에 대한 정보를 가져오기 위한 쓰레드
+    class BackgroundTask extends AsyncTask<Void, Void, String> { //모든 회원에 대한 정보를 가져오기 위한 쓰레드 ,db연결 테스트 용 후에 버튼을 관리자만 볼 수 있게 바꾸기
 
         String target;
 
