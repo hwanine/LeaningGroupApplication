@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             //post.php는 파싱으로 가져올 웹페이지, 서버 페이지
-            target = "http://39.127.82.121:80/post.php";
+            target = "http://rkdlem1613.dothome.co.kr/connectTest.html";
         }
 
         @Override

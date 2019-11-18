@@ -19,7 +19,8 @@
     <color name="firstCombinationPointPink">#f3dfd2</color>
     <color name="firstCombinationPointThickPink">#de878b</color>
     <color name="firstCombinationPointPurple">#683751</color>
-    <color name="firstCombinationPointDeppBlue">#342d4b</color>
+    <color name="firstCombinationPointDeepBlue">#342d4b</color>
     <color name="firstCombinationPointBrightBlue">#7b7a95</color>
-    <color name="firstCombinationPointSky">#c5c9d8</color>
+    <color name="createGroupObjectLine">#2b2b2b</color>
+    <!--<color name="firstCombinationPointSky">#c5c9d8</color>-->
 </resources>
