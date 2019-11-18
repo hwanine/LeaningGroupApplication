@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListAdapter extends BaseAdapter {
+public class ListAdapter extends BaseAdapter { //모임화면에 모임정보를 간단하게 보이는 리스트뷰 오브젝트를 만드는 그룹 써머리 오브젝트 리스트 어댑터, 이 경우에도 클릭리스너를 만들어 모임화면으로 연결해야함
 
     LayoutInflater inflater = null;
     private ArrayList<createGroupSummaryObject> groupSummaryObject;

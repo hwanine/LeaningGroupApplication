@@ -15,9 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/EditTheme">
-        <activity android:name=".createGroupSummaryObject"></activity>
+        <activity android:name=".CheckAttenidngViewActivity"></activity>
+        <!--<activity android:name=".createGroupSummaryObject" />-->
         <activity android:name=".testDBConnect" />
-        <activity android:name=".CheckAttendingActivity" />
+        <!--<activity android:name=".CheckAttendingActivity" />-->
         <activity
             android:name=".LoadingActivity"
             android:screenOrientation="portrait"

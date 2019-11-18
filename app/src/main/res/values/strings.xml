@@ -23,5 +23,5 @@
     <string name="reading_group">독서</string>
     <string name="majoring_group">전공</string>
     <string name="hobby_group">취미</string>
-
+    <string name="check_attending_list">모임에 참여한 사람들</string>
 </resources>
