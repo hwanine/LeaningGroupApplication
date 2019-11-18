@@ -4,7 +4,7 @@ public class Comments {
     String commentWriter;
     String comment;
 
-
+//sd
     public String getCommentWriter() {
         return commentWriter;
     }
