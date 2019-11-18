@@ -29,8 +29,7 @@
             android:layout_height="48dp"
             android:background="@drawable/log"
             android:layout_marginLeft="5dp"
-            android:onClick="onClick_log"
-            tools:ignore="OnClick" />
+            android:onClick="onClick_log"/>
 
 
         <ImageView
