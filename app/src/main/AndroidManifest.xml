@@ -23,15 +23,20 @@
             android:name=".LoadingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".SignInActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".LogActivity"/>
+        <activity android:name=".CreatGroup"/>
+        <activity android:name=".GroupScreen"/>
+        <activity android:name="Comments"/>
+        <activity android:name="CommentsList"/>
     </application>
 
 </manifest>

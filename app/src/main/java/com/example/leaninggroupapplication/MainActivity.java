@@ -44,12 +44,14 @@ public class MainActivity extends AppCompatActivity {
 
         //버튼들을 정의, 프레임 레이아웃에서 다른 프레임으로 넘어가기 위함
         Button LanguageButton = (Button) findViewById(R.id.LanguageButton);
+        Button LogButton = (Button) findViewById(R.id.checkUserListButton);
         LanguageButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
                 changeView(0);
             }
         });
+
 
         Button LicenseButton = (Button) findViewById(R.id.LicenseButton);
         LicenseButton.setOnClickListener(new Button.OnClickListener() {
@@ -104,6 +106,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //모임작성화면으로 넘어가는 버튼
+        Button setupButton;
+        setupButton = (Button)findViewById(R.id.setupButton);
+        setupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,CreatGroup.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public void onClick_log(View view) {
+        Intent intent = new Intent(this, LogActivity.class);
+        startActivity(intent);
     }
 
 

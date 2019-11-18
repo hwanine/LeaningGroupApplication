@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CreatGroup">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/category_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:entries="@array/category">
+
+        </Spinner>
+
+        <EditText
+            android:id="@+id/cg_title"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:ellipsize="end"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:text="제목 입력"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="99dp"
+            tools:layout_editor_absoluteY="70dp" />
+
+        <TextView
+            android:id="@+id/cg_writer"
+            android:layout_width="52dp"
+            android:layout_height="wrap_content"
+            android:text="작성자"
+            tools:layout_editor_absoluteX="329dp"
+            tools:layout_editor_absoluteY="81dp" />
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/cg_content"
+        android:layout_width="match_parent"
+        android:layout_height="238dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+        android:inputType="textMultiLine"
+        android:text="내용입력"
+        android:textSize="15dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="24dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+    <TextView
+        android:id="@+id/cg_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="이용자 수"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="389dp" />
+
+    <EditText
+        android:id="@+id/cg_numberOfUser"
+        android:layout_width="271dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="참여자수 입력"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="440dp" />
+
+    <TextView
+        android:id="@+id/cg_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="날짜"
+        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteY="389dp" />
+
+    <EditText
+        android:id="@+id/cg_date"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="date"
+        android:text="날짜입력"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="440dp" />
+
+    <TextView
+        android:id="@+id/cg_text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:text="시간"
+        tools:layout_editor_absoluteX="329dp"
+        tools:layout_editor_absoluteY="389dp" />
+
+    <EditText
+        android:id="@+id/cg_time"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="5dp"
+        android:ems="10"
+        android:inputType="time"
+        android:text="시간입력"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="26dp"
+        tools:layout_editor_absoluteY="440dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/cg_cancelBtn"
+            android:layout_width="87dp"
+            android:layout_height="37dp"
+            android:text="취소"
+            tools:layout_editor_absoluteX="108dp"
+            tools:layout_editor_absoluteY="378dp" />
+
+        <Button
+            android:id="@+id/cg_OkBtn"
+            android:layout_width="87dp"
+            android:layout_height="37dp"
+            android:text="확인"
+            tools:layout_editor_absoluteX="108dp"
+            tools:layout_editor_absoluteY="378dp" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

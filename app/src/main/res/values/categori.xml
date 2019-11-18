@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category">
+        <item>언어</item>
+        <item>자격증</item>
+        <item>독서</item>
+        <item>취미</item>
+        <item>전공</item>
+    </string-array>
+
+</resources>
