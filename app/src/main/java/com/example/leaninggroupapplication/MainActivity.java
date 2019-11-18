@@ -34,12 +34,14 @@ public class MainActivity extends AppCompatActivity {
 
         //버튼들을 정의
         Button LanguageButton = (Button) findViewById(R.id.LanguageButton);
+        Button LogButton = (Button) findViewById(R.id.checkUserListButton);
         LanguageButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
                 changeView(0);
             }
         });
+
 
         Button LicenseButton = (Button) findViewById(R.id.LicenseButton);
         LicenseButton.setOnClickListener(new Button.OnClickListener() {
@@ -94,6 +96,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void onClick_log(View view) {
+        Intent intent = new Intent(this, LogActivity.class);
+        startActivity(intent);
     }
 
 
