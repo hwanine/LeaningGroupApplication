@@ -96,6 +96,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //모임작성화면으로 넘어가는 버튼
+        Button setupButton;
+        setupButton = (Button)findViewById(R.id.setupButton);
+        setupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,CreatGroup.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void onClick_log(View view) {
