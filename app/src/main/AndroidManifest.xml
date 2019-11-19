@@ -33,7 +33,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LogActivity"/>
-        <activity android:name=".CreatGroup"/>
+        <activity android:name=".CreateGroup"/>
         <activity android:name=".GroupScreen"/>
         <activity android:name="Comments"/>
         <activity android:name="CommentsList"/>
