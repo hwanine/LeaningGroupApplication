@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         //버튼들을 정의, 프레임 레이아웃에서 다른 프레임으로 넘어가기 위함
         Button LanguageButton = (Button) findViewById(R.id.LanguageButton);
-        Button LogButton = (Button) findViewById(R.id.checkUserListButton);
+        Button LogButton = (Button) findViewById(R.id.LogListButton);
         LanguageButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
@@ -98,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
         frame.removeView(MajoringFrame);
         frame.removeView(HobbyFrame);
 
-        Button checkUserListButton = (Button) findViewById(R.id.checkUserListButton); //회원정보를 확인하기 위한 버튼
+        /*Button checkUserListButton = (Button) findViewById(R.id.checkUserListButton); //회원정보를 확인하기 위한 버튼
         checkUserListButton.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) { //유저리스트를 확인하기 위한 버튼을 클릭하면 백그라운드에서 실행
                 new BackgroundTask().execute();
             }
-        });
+        });*/
 
         //모임작성화면으로 넘어가는 버튼
         Button setupButton;
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class BackgroundTask extends AsyncTask<Void, Void, String> { //모든 회원에 대한 정보를 가져오기 위한 쓰레드 ,db연결 테스트 용 후에 버튼을 관리자만 볼 수 있게 바꾸기
+   /* class BackgroundTask extends AsyncTask<Void, Void, String> { //모든 회원에 대한 정보를 가져오기 위한 쓰레드 ,db연결 테스트 용 후에 버튼을 관리자만 볼 수 있게 바꾸기
 
         String target;
 
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("userList", result); //파싱한 값을 넘겨줌
             MainActivity.this.startActivity(intent); //testDBconnect 액티비티로 넘어감
         }
-    }
+    }*/
 
     private void changeView(int index) { //버튼을 클릭함에 따라 프레임 뷰를 바꾸기 위함
 

@@ -24,7 +24,7 @@
 
 
         <Button
-            android:id="@+id/checkUserListButton"
+            android:id="@+id/LogListButton"
             android:layout_width="61dp"
             android:layout_height="48dp"
             android:background="@drawable/log"
@@ -37,7 +37,7 @@
             android:layout_width="61dp"
             android:layout_height="48dp"
             android:layout_marginLeft="100dp"
-            android:background="@drawable/user" />
+            android:background="@drawable/user"/>
 
 
         <LinearLayout
