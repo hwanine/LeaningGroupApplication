@@ -197,10 +197,10 @@
             android:id="@+id/gs_text4"/>
 
         <EditText
-            android:layout_width="250dp"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="2dp"
             android:inputType="text"
             android:text="내용을 입력하세요"
             android:textSize="15dp"
@@ -208,18 +208,17 @@
 
         <Button
             android:id="@+id/sendFileBtn"
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="30dp"
             android:layout_margin="2dp"
-            android:background="@drawable/sendFileBtn"
-            android:layout_marginLeft="5dp"
+            android:background="@drawable/sendfilebtn"
             />
 
         <Button
             android:layout_width="60dp"
             android:layout_height="37dp"
             android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="2dp"
             android:text="확인"
             android:id="@+id/gs_commentBtn"/>
 
