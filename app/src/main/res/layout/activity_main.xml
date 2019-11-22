@@ -29,8 +29,8 @@
             android:layout_height="48dp"
             android:background="@drawable/log"
             android:layout_marginLeft="5dp"
-            android:onClick="onClick_log"/>
-
+            />
+<!--            android:onClick="onClick_log"/>-->
 
         <ImageView
             android:id="@+id/textView3"
@@ -47,13 +47,13 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/getEmail"
                 android:layout_width="50dp"
                 android:layout_height="24dp"
-                android:text="ID       :" />
+                android:text="Email:" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/getNickName"
                 android:layout_width="50dp"
                 android:layout_height="24dp"
                 android:text="닉네임: " />
@@ -66,7 +66,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/main_id"
+                android:id="@+id/main_email"
                 android:layout_width="73dp"
                 android:layout_height="24dp" />
 

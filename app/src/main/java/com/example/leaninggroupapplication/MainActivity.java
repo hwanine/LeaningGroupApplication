@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout MajoringFrame;
     LinearLayout HobbyFrame;
 
+    TextView loginUserEmail;
+    TextView loginUserNickname;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +54,13 @@ public class MainActivity extends AppCompatActivity {
                 changeView(0);
             }
         });
+
+        loginUserEmail = (TextView)findViewById(R.id.getEmail);
+        loginUserNickname = (TextView)findViewById(R.id.getNickName);
+
+        Intent intent = getIntent();
+        loginUserEmail.setText(intent.getStringExtra("userEmail"));
+        loginUserNickname.setText(intent.getStringExtra("userNickname"));
 
 
         Button LicenseButton = (Button) findViewById(R.id.LicenseButton);
@@ -119,10 +129,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onClick_log(View view) {
+   /* public void onClick_log(View view) {
         Intent intent = new Intent(this, LogActivity.class);
         startActivity(intent);
-    }
+    }*/
 
 
    /* class BackgroundTask extends AsyncTask<Void, Void, String> { //모든 회원에 대한 정보를 가져오기 위한 쓰레드 ,db연결 테스트 용 후에 버튼을 관리자만 볼 수 있게 바꾸기
