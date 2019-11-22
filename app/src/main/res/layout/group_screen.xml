@@ -169,16 +169,33 @@
         tools:layout_editor_absoluteX="329dp"
         tools:layout_editor_absoluteY="389dp" />
 
-    <TextView
-        android:id="@+id/gs_time"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_marginLeft="5dp"
-        android:ems="10"
-        android:inputType="time"
-        android:text="시간입력"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="440dp" />
+        <TextView
+            android:id="@+id/gs_start_time"
+            android:layout_width="70dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="5dp"
+            android:inputType="time"
+            android:text="시작시간"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="440dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_marginLeft="5dp"
+            android:text="~"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="440dp" />
+
+        <TextView
+            android:id="@+id/gs_end_time"
+            android:layout_width="70dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="5dp"
+            android:inputType="time"
+            android:text="종료시간"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="440dp" />
 
     </LinearLayout>
 
@@ -197,14 +214,14 @@
             android:id="@+id/gs_text4"/>
 
         <EditText
+            android:id="@+id/gs_enterComments"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="2dp"
-            android:inputType="text"
+            android:inputType="textWebEditText|textMultiLine|text"
             android:text="내용을 입력하세요"
-            android:textSize="15dp"
-            android:id="@+id/gs_enterComments"/>
+            android:textSize="15dp" />
 
         <Button
             android:id="@+id/sendFileBtn"
@@ -227,9 +244,9 @@
     <ListView
         android:id="@+id/gs_commentList"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_height="wrap_content">
+        android:layout_marginRight="5dp">
 
     </ListView>
 
