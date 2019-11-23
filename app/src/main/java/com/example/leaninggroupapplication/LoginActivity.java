@@ -4,131 +4,245 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
     EditText email, passwd;
     Button loginButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2);
 
-        email = (EditText)findViewById(R.id.email);
-        passwd = (EditText)findViewById(R.id.password);
-        loginButton = (Button)findViewById(R.id.loginbutton);
+        init();
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
+    }
+
+
+    void init(){
+
+        email = findViewById(R.id.email);
+        passwd = findViewById(R.id.password);
+        loginButton = findViewById(R.id.loginbutton);
+        loginButton.setOnClickListener(new View.OnClickListener(){
+
             @Override
-            public void onClick(View v){
+            public void onClick(View view) {
 
-                final String userEmail = email.getText().toString();
-                final String userPasswd = passwd.getText().toString();
-
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-
-                    @Override
-                    public void onResponse(String response) {
-
-                        try{
-
-                            JSONObject jsonObject = new JSONObject(response);
-                            boolean success = jsonObject.getBoolean("success");
-
-                            if(success){
-
-                                String userEmail = jsonObject.getString("email");
-                                String userPasswd = jsonObject.getString("passwd");
-                                String userNickname = jsonObject.getString("nickname");
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra("userEmail",userEmail);
-                                intent.putExtra("userPasswd",userPasswd);
-                                intent.putExtra("userNickname",userNickname);
-
-                                LoginActivity.this.startActivity(intent);
-
-                            }else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setMessage("로그인에 실패하였습니다.");
-                                builder.setNegativeButton("retry again", null);
-                                builder.create();
-                                builder.show();
-                            }
-
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                };
-
-                LoginRequest loginRequest = new LoginRequest(userEmail,userPasswd, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
+                userLogin();
 
             }
-
         });
     }
 
-    public void onClick_Singin(View view){
+
+    private void userLogin(){
+
+        final String userEmail = email.getText().toString();
+        final String userPasswd = passwd.getText().toString();
+
+        if(TextUtils.isEmpty(userEmail)){
+
+            email.setError("Please enter email");
+            email.requestFocus();
+            return;
+        }
+        if(TextUtils.isEmpty(userPasswd)){
+
+            passwd.setError("Please enter password");
+            passwd.requestFocus();
+            return;
+        }
+
+        UserLogin ul = new UserLogin(userEmail, userPasswd);
+        ul.execute();
+    }
+
+    class UserLogin extends AsyncTask<Void, Void, String>{
+
+        String userEmail, userPasswd;
+
+        UserLogin(String userEmail, String userPasswd){
+
+            this.userEmail = userEmail;
+            this.userPasswd = userPasswd;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+
+            super.onPostExecute(s);
+
+            try {
+
+                JSONObject obj = new JSONObject(s);
+
+                if (!obj.getBoolean("error")) {
+
+                    Toast.makeText(getApplicationContext(), obj.getString("messane"), Toast.LENGTH_SHORT).show();
+                    JSONObject userJson = obj.getJSONObject("user");
+
+                    User user = new User(
+                        userJson.getString("email"),
+                        userJson.getString("nickname")
+                    );
+
+                    PrefManager.getInstance(getApplicationContext()).setUserLogin(user);
+
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                }else{
+                    Toast.makeText(getApplicationContext(),"Invalid",Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... voids){
+
+            RequestHandler requestHandler = new RequestHandler();
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("userEmail", userEmail);
+            params.put("userPasswd", userPasswd);
+
+            return requestHandler.sendPostRequest(URLS.URL_LOGIN, params);
+        }
+    }
+
+   /* View.OnClickListener loginButtonClickListener = new View.OnClickListener(){
+
+      @Override
+      public void onClick(View v ){
+
+          String temp = "{\"email\""+":"+"\""+ email.getText().toString() + "\""+","
+                  + "\"passwd\""+":" + "\"" + passwd.getText().toString() +"\""+"}";
+
+      }
+    };
+*/
+
+    public void onClick_Singin(View view) {
         Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
     }
 
-    public void onClick_FindEmail(View view){
+    public void onClick_FindEmail(View view) {
         Intent intent = new Intent(this, SignInActivity.class); //find email activity 만들어야함
         startActivity(intent);
     }
 
-    public void onClick_ChangePassword(View view){
+    public void onClick_ChangePassword(View view) {
         Intent intent = new Intent(this, SignInActivity.class); //find email activity 만들어야함
         startActivity(intent);
     }
 
-    public void onClick_GoMain(View view){
+    public void onClick_GoMain(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 }
 
-class LoginRequest extends StringRequest {
+/*
+class Login extends AsyncTask<Void, Integer, Void> {
 
-    final static private String URL = "http://rkdlem1613.dothome.co.kr/login.php";
-    private Map<String, String> parameter;
+    @Override
+    protected Void doInBackground(Void... unused){
 
-    public LoginRequest(String userEmail, String userPasswd, Response.Listener<String> listener){
+        String param = "email";
+        Log.e("POST",param);
 
-        super(Method.POST, URL, listener, null);
         try{
 
-            parameter = new HashMap<>();
-            parameter.put("email", userEmail);
-            parameter.put("passwd",userPasswd);
+            URL url = new URL("http://rkdlem1613.dothome.co.kr/login2.php");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.connect();
 
-        }catch(Exception e){
-            e.printStackTrace();
+            OutputStream out = connection.getOutputStream();
+            out.write(param.getBytes("UTF-8"));
+            out.flush();
+            out.close();
+
+            InputStream is = null;
+            BufferedReader in = null;
+            String data = "";
+
+            is = connection.getInputStream();
+            in = new BufferedReader(new InputStreamReader(is),8*1024);
+            String line = null;
+            StringBuffer buf = new StringBuffer();
+
+            while((line = in.readLine())!=null){
+                buf.append((line+"\n"));
+            }
+
+            data = buf.toString().trim();
+
+            if(data.equals("0")){
+                Log.e("RESULT","processing is success");
+            }
+            else{
+                Log.e("RESULT","error occure!"+data);
+            }
+
+        }catch(MalformedURLException e){
+            Log.e("RESULT","processing is success");
+        }catch(IOException e){
+            Log.e("RESULT","error occur!");
         }
+
+        return null;
     }
 
     @Override
-    protected Map<String, String> getParams() {
-        return parameter;
+    protected void onPostExecute(Void aVoid){
+
+        super.onPostExecute(aVoid);
+
+        Log.e("RECV DATA",data);
+
+        if(data.)
     }
+
 }
+
+ */
