@@ -46,7 +46,7 @@
     <EditText
         android:id="@+id/cg_content"
         android:layout_width="match_parent"
-        android:layout_height="238dp"
+        android:layout_height="240dp"
         android:layout_marginRight="5dp"
         android:layout_marginLeft="5dp"
         android:selectAllOnFocus="false"
@@ -113,17 +113,46 @@
         tools:layout_editor_absoluteX="329dp"
         tools:layout_editor_absoluteY="389dp" />
 
-    <EditText
-        android:id="@+id/cg_time"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left">
+     <EditText
+        android:id="@+id/cg_start_time"
+        android:layout_width="130dp"
         android:layout_height="48dp"
         android:layout_marginLeft="5dp"
+         android:layout_marginRight="5dp"
         android:ems="10"
         android:inputType="time"
-        android:text="시간입력"
+        android:text="00:00"
         android:textSize="15dp"
         tools:layout_editor_absoluteX="26dp"
         tools:layout_editor_absoluteY="440dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="~"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="440dp" />
+
+        <EditText
+            android:id="@+id/cg_end_time"
+            android:layout_width="130dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:ems="10"
+            android:inputType="time"
+            android:text="00:00"
+            android:textSize="15dp"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="440dp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -134,6 +163,7 @@
             android:id="@+id/cg_cancelBtn"
             android:layout_width="87dp"
             android:layout_height="37dp"
+            android:layout_marginRight="5dp"
             android:text="취소"
             tools:layout_editor_absoluteX="108dp"
             tools:layout_editor_absoluteY="378dp" />
@@ -142,6 +172,7 @@
             android:id="@+id/cg_OkBtn"
             android:layout_width="87dp"
             android:layout_height="37dp"
+            android:layout_marginLeft="5dp"
             android:text="확인"
             tools:layout_editor_absoluteX="108dp"
             tools:layout_editor_absoluteY="378dp" />
