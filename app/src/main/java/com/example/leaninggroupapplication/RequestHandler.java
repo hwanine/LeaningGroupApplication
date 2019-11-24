@@ -16,12 +16,12 @@ import java.util.Map;
 
 public class RequestHandler {
 
-    String sendPostRequest(String requestURL, HashMap<String, String> postDataParams){
+    String sendPostRequest(String requestURL, HashMap<String, String> postDataParams) {
 
         URL url;
         StringBuilder sb = new StringBuilder();
 
-        try{
+        try {
             url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(15000);
@@ -39,13 +39,13 @@ public class RequestHandler {
             os.close();
             int responseCode = connection.getResponseCode();
 
-            if(responseCode == HttpURLConnection.HTTP_OK){
+            if (responseCode == HttpURLConnection.HTTP_OK) {
 
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 sb = new StringBuilder();
                 String response;
 
-                while((response = br.readLine()) != null){
+                while ((response = br.readLine()) != null) {
 
                     sb.append(response);
                 }
@@ -60,13 +60,13 @@ public class RequestHandler {
         return sb.toString();
     }
 
-    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException{
+    private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
 
         StringBuilder result = new StringBuilder();
         boolean first = true;
-        for(Map.Entry<String, String> entry : params.entrySet()){
+        for (Map.Entry<String, String> entry : params.entrySet()) {
 
-            if(first)
+            if (first)
                 first = false;
             else
                 result.append("&");

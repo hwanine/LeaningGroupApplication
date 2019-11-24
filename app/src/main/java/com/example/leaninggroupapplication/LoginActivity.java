@@ -48,12 +48,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    void init(){
+    void init() {
 
         email = findViewById(R.id.email);
         passwd = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginbutton);
-        loginButton.setOnClickListener(new View.OnClickListener(){
+        loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -65,18 +65,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void userLogin(){
+    private void userLogin() {
 
         final String userEmail = email.getText().toString();
         final String userPasswd = passwd.getText().toString();
 
-        if(TextUtils.isEmpty(userEmail)){
+        if (TextUtils.isEmpty(userEmail)) {
 
             email.setError("Please enter email");
             email.requestFocus();
             return;
         }
-        if(TextUtils.isEmpty(userPasswd)){
+        if (TextUtils.isEmpty(userPasswd)) {
 
             passwd.setError("Please enter password");
             passwd.requestFocus();
@@ -87,18 +87,18 @@ public class LoginActivity extends AppCompatActivity {
         ul.execute();
     }
 
-    class UserLogin extends AsyncTask<Void, Void, String>{
+    class UserLogin extends AsyncTask<Void, Void, String> {
 
         String userEmail, userPasswd;
 
-        UserLogin(String userEmail, String userPasswd){
+        UserLogin(String userEmail, String userPasswd) {
 
             this.userEmail = userEmail;
             this.userPasswd = userPasswd;
         }
 
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             super.onPreExecute();
         }
 
@@ -113,20 +113,31 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (!obj.getBoolean("error")) {
 
-                    Toast.makeText(getApplicationContext(), obj.getString("messane"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject userJson = obj.getJSONObject("user");
 
                     User user = new User(
-                        userJson.getString("email"),
-                        userJson.getString("nickname")
+                            userJson.getString("email"),
+                            userJson.getString("nickname")
                     );
 
                     PrefManager.getInstance(getApplicationContext()).setUserLogin(user);
 
                     finish();
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                }else{
-                    Toast.makeText(getApplicationContext(),"Invalid",Toast.LENGTH_SHORT).show();
+
+                    String inputEmail = user.getEmail();
+                    String inputNickname = user.getNickname();
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("inputEmail",inputEmail);
+                    intent.putExtra("inputNickname", inputNickname);
+
+                    startActivity(intent);
+
+                    //startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                } else {
+                    Log.e("here",s);
+                    Toast.makeText(getApplicationContext(), "Invalid email or password retry again", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -134,13 +145,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Void... voids){
+        protected String doInBackground(Void... voids) {
 
             RequestHandler requestHandler = new RequestHandler();
 
             HashMap<String, String> params = new HashMap<>();
-            params.put("userEmail", userEmail);
-            params.put("userPasswd", userPasswd);
+            params.put("email", userEmail);
+            params.put("passwd", userPasswd);
 
             return requestHandler.sendPostRequest(URLS.URL_LOGIN, params);
         }
@@ -178,6 +189,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
 
 /*
 class Login extends AsyncTask<Void, Integer, Void> {
@@ -221,7 +233,7 @@ class Login extends AsyncTask<Void, Integer, Void> {
                 Log.e("RESULT","processing is success");
             }
             else{
-                Log.e("RESULT","error occure!"+data);
+                Log.e("RESULT","error occur!"+data);
             }
 
         }catch(MalformedURLException e){

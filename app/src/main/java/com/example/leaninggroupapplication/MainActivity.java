@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView loginUserEmail;
     TextView loginUserNickname;
+    Button loginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +58,29 @@ public class MainActivity extends AppCompatActivity {
 
         loginUserEmail = (TextView)findViewById(R.id.getEmail);
         loginUserNickname = (TextView)findViewById(R.id.getNickName);
+        loginButton = (Button)findViewById(R.id.loginbutton);
 
-        Intent intent = getIntent();
-        loginUserEmail.setText(intent.getStringExtra("userEmail"));
-        loginUserNickname.setText(intent.getStringExtra("userNickname"));
+        PrefManager prefManager = PrefManager.getInstance(MainActivity.this);
+        User user = prefManager.getUser();
+
+        if(prefManager.isLoggedIn()){
+            loginButton.setVisibility(View.GONE);
+        }else{
+            loginButton.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v){
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+            });
+        }
+
+        loginUserEmail.setText(String.valueOf(user.getEmail()));
+        loginUserNickname.setText(String.valueOf(user.getNickname()));
+
+        //Intent intent = getIntent();
+        //loginUserEmail.setText(intent.getStringExtra("userEmail"));
+        //loginUserNickname.setText(intent.getStringExtra("userNickname"));
 
 
         Button LicenseButton = (Button) findViewById(R.id.LicenseButton);
