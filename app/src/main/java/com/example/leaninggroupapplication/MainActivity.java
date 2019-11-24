@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView =findViewById(R.id.LanguageFrameListView);
 
         ArrayList<createGroupSummaryObject> summaryObject = new ArrayList<>();
-        summaryObject.add(new createGroupSummaryObject("영어회화","2019/11/20-18:00~20:00","곽송이","4","1"));
+        //summaryObject.add(new createGroupSummaryObject("영어회화","2019/11/20-18:00~20:00","곽송이","4","1"));
 
         ListAdapter Adapter = new ListAdapter(summaryObject);
         listView.setAdapter(Adapter);

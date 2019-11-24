@@ -25,7 +25,6 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".CheckAttenidngViewActivity"></activity>
         <!--<activity android:name=".createGroupSummaryObject" />-->
-        <activity android:name=".testDBConnect" />
         <!--<activity android:name=".CheckAttendingActivity" />-->
         <activity
             android:name=".LoadingActivity"
