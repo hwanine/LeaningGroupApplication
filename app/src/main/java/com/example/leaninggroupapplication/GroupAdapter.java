@@ -40,12 +40,14 @@ public class GroupAdapter extends BaseAdapter {
             TextView numName = (TextView) convertView.findViewById(R.id.group_name);
             TextView numType = (TextView) convertView.findViewById(R.id.group_type);
             TextView numDate = (TextView) convertView.findViewById(R.id.group_date);
-            TextView numTime = (TextView) convertView.findViewById(R.id.group_time);
+            TextView numstTime = (TextView) convertView.findViewById(R.id.group_starttime);
+            TextView numenTime = (TextView) convertView.findViewById(R.id.group_endtime);
             holder.numText = numText;
             holder.numName = numName;
             holder.numType = numType;
             holder.numDate = numDate;
-            holder.numTime = numTime;
+            holder.numstTime = numstTime;
+            holder.numenTime = numenTime;
             convertView.setTag(holder);
         }
         else
@@ -56,7 +58,8 @@ public class GroupAdapter extends BaseAdapter {
         holder.numName.setText(group.getGroup_name());
         holder.numType.setText(group.getGroup_type());
         holder.numDate.setText(group.getGroup_date());
-        holder.numTime.setText(group.getGroup_time());
+        holder.numstTime.setText(group.getGroup_endtime());
+        holder.numenTime.setText(group.getGroup_starttime());
         return convertView;
     }
 
@@ -65,6 +68,7 @@ public class GroupAdapter extends BaseAdapter {
         TextView numName;
         TextView numType;
         TextView numDate;
-        TextView numTime;
+        TextView numstTime;
+        TextView numenTime;
     }
 }

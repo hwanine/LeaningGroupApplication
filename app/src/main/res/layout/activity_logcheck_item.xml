@@ -46,18 +46,26 @@
 
         <TextView
             android:id="@+id/group_date"
-            android:layout_width="wrap_content"
+            android:layout_width="51dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:text="group_date" />
 
         <TextView
-            android:id="@+id/group_time"
-            android:layout_width="wrap_content"
+            android:id="@+id/group_starttime"
+            android:layout_width="57dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_margin="10dp"
-            android:text="group_time" />
+            android:layout_weight="1"
+            android:text="group_starttime" />
+
+        <TextView
+            android:id="@+id/group_endtime"
+            android:layout_width="66dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:text="group_endtime" />
     </LinearLayout>
 </LinearLayout>

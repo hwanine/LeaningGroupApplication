@@ -162,10 +162,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-   /* public void onClick_log(View view) {
+    public void onClick_log(View view) {
         Intent intent = new Intent(this, LogActivity.class);
         startActivity(intent);
-    }*/
+    }
 
 
    /* class BackgroundTask extends AsyncTask<Void, Void, String> { //모든 회원에 대한 정보를 가져오기 위한 쓰레드 ,db연결 테스트 용 후에 버튼을 관리자만 볼 수 있게 바꾸기

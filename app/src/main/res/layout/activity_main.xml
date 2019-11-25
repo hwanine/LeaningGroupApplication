@@ -29,8 +29,7 @@
             android:layout_height="48dp"
             android:background="@drawable/log"
             android:layout_marginLeft="5dp"
-            />
-<!--            android:onClick="onClick_log"/>-->
+            android:onClick="onClick_log"/>
 
         <Button
             android:id="@+id/loginbutton"

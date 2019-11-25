@@ -5,14 +5,16 @@ public class GroupList {
     private String group_name;
     private String group_type;
     private String group_date;
-    private String group_time;
+    private String group_starttime;
+    private String group_endtime;
 
-    public GroupList(String group_num, String group_name, String group_type, String group_date, String group_time) {
+    public GroupList(String group_num, String group_name, String group_type, String group_date, String group_starttime, String group_endtime) {
         this.group_num = group_num;
         this.group_name = group_name;
         this.group_type = group_type;
         this.group_date = group_date;
-        this.group_time = group_time;
+        this.group_starttime = group_starttime;
+        this.group_endtime = group_endtime;
     }
 
     public String getGroup_num() {
@@ -31,8 +33,11 @@ public class GroupList {
         return group_date;
     }
 
-    public String getGroup_time() {
-        return group_time;
+    public String getGroup_starttime() {
+        return group_starttime;
+    }
+    public String getGroup_endtime() {
+        return group_endtime;
     }
 
     public void setGroup_num(String group_num) {
@@ -51,8 +56,11 @@ public class GroupList {
         this.group_date = group_date;
     }
 
-    public void setGroup_time(String group_time) {
-        this.group_time = group_time;
+    public void setGroup_starttime(String group_starttime) {
+        this.group_starttime = group_starttime;
+    }
+    public void setGroup_endtime(String group_endtime) {
+        this.group_endtime = group_endtime;
     }
 
     @Override
@@ -62,7 +70,8 @@ public class GroupList {
                 ", group_name='" + group_name + '\'' +
                 ", group_type='" + group_type + '\'' +
                 ", group_date='" + group_date + '\'' +
-                ", group_time='" + group_time + '\'' +
+                ", group_starttime='" + group_starttime + '\'' +
+                ", group_endtime='" + group_endtime + '\'' +
                 '}';
     }
 }
