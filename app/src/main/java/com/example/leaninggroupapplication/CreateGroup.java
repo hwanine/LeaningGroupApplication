@@ -84,15 +84,14 @@ public class CreateGroup extends AppCompatActivity {
 
                         try {
 
-                            JSONObject jsonResponse = new JSONObject();
+                            JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
-                            System.out.println("asdsfdfwegergerger");
 
                             if(success){
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(CreateGroup.this);
                                 builder.setMessage("모임 등록에 성공했습니다.").setPositiveButton("확인",null).create().show();
-                                Intent intent = new Intent(CreateGroup.this, GroupScreen.class);
+                                Intent intent = new Intent(CreateGroup.this, MainActivity.class);
                                 startActivity(intent);
                             }
                             else{
