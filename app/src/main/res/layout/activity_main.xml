@@ -34,14 +34,13 @@
 
         <Button
             android:id="@+id/loginbutton"
-            android:layout_width="70dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="로그인"
             android:layout_marginBottom="5dp"
             />
 
         <ImageView
-            android:id="@+id/textView3"
+            android:id="@+id/Button"
             android:layout_width="61dp"
             android:layout_height="48dp"
             android:background="@drawable/user"/>
@@ -50,20 +49,22 @@
         <LinearLayout
             android:id="@+id/userInfoIfLogin"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/getEmail"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:text="Email:" />
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/getNickName"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:text="닉네임: " />
+                android:layout_height="wrap_content"
+                android:text="닉네임: "
+                android:layout_weight="2"/>
 
         </LinearLayout>
 
@@ -74,7 +75,7 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

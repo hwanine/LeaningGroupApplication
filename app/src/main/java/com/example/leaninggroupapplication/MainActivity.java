@@ -1,7 +1,9 @@
 package com.example.leaninggroupapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -60,12 +62,27 @@ public class MainActivity extends AppCompatActivity {
         loginUserNickname = (TextView)findViewById(R.id.getNickName);
         loginButton = (Button)findViewById(R.id.loginbutton);
 
-        PrefManager prefManager = PrefManager.getInstance(MainActivity.this);
+        final PrefManager prefManager = PrefManager.getInstance(MainActivity.this);
         User user = prefManager.getUser();
 
         if(prefManager.isLoggedIn()){
-            loginButton.setVisibility(View.GONE);
-        }else{
+
+            loginUserEmail.setText(String.valueOf(user.getEmail()));
+            loginUserNickname.setText(String.valueOf(user.getNickname()));
+
+            loginButton.setText("로그아웃"); //로그인 되어있을 경우 로그아웃으로
+            loginButton.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    prefManager.logout();
+                }
+            });
+
+        }else{ //로그인 안 되어있을 경우
+
+            loginButton.setText("로그인");
             loginButton.setOnClickListener(new View.OnClickListener(){
 
                 @Override
@@ -74,10 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-        loginUserEmail.setText(String.valueOf(user.getEmail()));
-        loginUserNickname.setText(String.valueOf(user.getNickname()));
-
         //Intent intent = getIntent();
         //loginUserEmail.setText(intent.getStringExtra("userEmail"));
         //loginUserNickname.setText(intent.getStringExtra("userNickname"));

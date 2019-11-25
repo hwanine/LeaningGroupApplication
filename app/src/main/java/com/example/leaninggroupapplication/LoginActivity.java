@@ -109,12 +109,15 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
 
+                //Log.e("here",s);
                 JSONObject obj = new JSONObject(s);
 
                 if (!obj.getBoolean("error")) {
 
                     Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject userJson = obj.getJSONObject("user");
+
+                    //System.out.println(userJson);
 
                     User user = new User(
                             userJson.getString("email"),
