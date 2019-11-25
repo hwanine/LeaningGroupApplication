@@ -88,7 +88,7 @@ public class LogActivity extends AppCompatActivity {
         public void onProgressUpdate(Void... values){
             super.onProgressUpdate();
         }
-
+//
         public void onPostExecute(String result){
             try{
                 JSONObject jsonObject = new JSONObject(result);
