@@ -61,37 +61,37 @@ public class LogActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Void... Voids) {
-            try{
-                URL url = new URL(target);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String temp;
-                StringBuilder stringBuilder = new StringBuilder();
-                while((temp = bufferedReader.readLine()) != null){
-                    stringBuilder.append(temp + "\n");
-                    System.out.println(temp);
+                protected String doInBackground(Void... Voids) {
+                    try{
+                        URL url = new URL(target);
+                        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                        InputStream inputStream = httpURLConnection.getInputStream();
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                        String temp;
+                        StringBuilder stringBuilder = new StringBuilder();
+                        while((temp = bufferedReader.readLine()) != null){
+                            stringBuilder.append(temp + "\n");
+                            System.out.println(temp);
+                        }
+
+                        bufferedReader.close();
+                        inputStream.close();
+                        httpURLConnection.disconnect();
+                        return stringBuilder.toString().trim();
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    return null;
                 }
 
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        public void onProgressUpdate(Void... values){
-            super.onProgressUpdate();
-        }
+                public void onProgressUpdate(Void... values){
+                    super.onProgressUpdate();
+                }
 //
-        public void onPostExecute(String result){
-            try{
-                JSONObject jsonObject = new JSONObject(result);
+                public void onPostExecute(String result){
+                    try{
+                        JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonArray =jsonObject.getJSONArray("response");
                 int count = 0;
                 String category;
