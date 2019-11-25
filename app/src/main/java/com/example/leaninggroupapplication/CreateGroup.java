@@ -40,7 +40,8 @@ import java.util.Map;
 //import android.support.v4.app.AppCompatActivity;
 
 public class CreateGroup extends AppCompatActivity {
-    // TextView textView;
+
+    Button cg_cancleBtn;
     Button cg_OkBtn;
     Spinner category_spinner;
     EditText cg_title;
@@ -67,6 +68,16 @@ public class CreateGroup extends AppCompatActivity {
         cg_starttime = (EditText) findViewById(R.id.cg_start_time);
         cg_endtime = (EditText) findViewById(R.id.cg_end_time);
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
+
+
+        cg_cancleBtn = findViewById(R.id.cg_cancelBtn);
+        cg_cancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateGroup.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         cg_OkBtn = findViewById(R.id.cg_OkBtn);
         cg_OkBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -113,6 +124,9 @@ public class CreateGroup extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(CreateGroup.this);
                 queue.add(insertData);
 
+                Intent intent = new Intent(CreateGroup.this, MainActivity.class);
+                startActivity(intent);
+
             }
         });
 
@@ -128,25 +142,9 @@ public class CreateGroup extends AppCompatActivity {
             }
         });
 
-        // cg_content = (EditText) findViewById(R.id.cg_content);
-        // SharedPreferences sharedPreferences = getSharedPreferences(shared, 0);
-        // String value = sharedPreferences.getString("neyoung", "");
-        // cg_content.setText(value);
-
-        //원래 메인화면으로 가야하는데 그룹스크린 확인하려고 냅둠
     }
 
-  /*  @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(shared, 0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String value = cg_content.getText().toString();
-        editor.putString("neyoung", value);
-        editor.commit();
-
-    }*/
 
     class InsertData extends StringRequest {
 
