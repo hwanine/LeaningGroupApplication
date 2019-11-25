@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:textColor="@color/colorPrimaryDark"
-        android:text="이용자 수"
+        android:text="최대 참여자 수"
         tools:layout_editor_absoluteX="35dp"
         tools:layout_editor_absoluteY="389dp" />
 
@@ -76,7 +76,7 @@
         android:layout_marginLeft="5dp"
         android:ems="10"
         android:inputType="number"
-        android:text="참여자수 입력"
+        android:text="0"
         android:textSize="15dp"
         tools:layout_editor_absoluteX="26dp"
         tools:layout_editor_absoluteY="440dp" />
@@ -98,7 +98,7 @@
         android:layout_marginLeft="5dp"
         android:ems="10"
         android:inputType="date"
-        android:text="날짜입력"
+        android:text="00-00-00"
         android:textSize="15dp"
         tools:layout_editor_absoluteX="26dp"
         tools:layout_editor_absoluteY="440dp" />

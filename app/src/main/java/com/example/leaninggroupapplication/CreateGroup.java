@@ -1,5 +1,7 @@
+
 package com.example.leaninggroupapplication;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +17,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,11 +34,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 //import android.support.v4.app.AppCompatActivity;
 
 public class CreateGroup extends AppCompatActivity {
-    // TextView textView;
+
+    Button cg_cancleBtn;
     Button cg_OkBtn;
     Spinner category_spinner;
     EditText cg_title;
@@ -54,13 +67,21 @@ public class CreateGroup extends AppCompatActivity {
         cg_date = (EditText) findViewById(R.id.cg_date);
         cg_starttime = (EditText) findViewById(R.id.cg_start_time);
         cg_endtime = (EditText) findViewById(R.id.cg_end_time);
-
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
+
+
+        cg_cancleBtn = findViewById(R.id.cg_cancelBtn);
+        cg_cancleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateGroup.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         cg_OkBtn = findViewById(R.id.cg_OkBtn);
         cg_OkBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                category = "";
                 String title = cg_title.getText().toString();
                 String content = cg_content.getText().toString();
                 String numberOfUser = cg_numberOfUser.getText().toString();
@@ -68,12 +89,44 @@ public class CreateGroup extends AppCompatActivity {
                 String starttime = cg_starttime.getText().toString();
                 String endtime = cg_endtime.getText().toString();
 
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
-                InsertData task = new InsertData();
-                task.execute("http://ljh951103.dothome.co.kr/php/insertmy.php", category, title, content, numberOfUser, date, starttime, endtime);
+                        try {
 
-                Intent intent = new Intent(CreateGroup.this, GroupScreen.class);
+                            JSONObject jsonResponse = new JSONObject();
+                            boolean success = jsonResponse.getBoolean("success");
+                            System.out.println("asdsfdfwegergerger");
+
+                            if(success){
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(CreateGroup.this);
+                                builder.setMessage("모임 등록에 성공했습니다.").setPositiveButton("확인",null).create().show();
+                                Intent intent = new Intent(CreateGroup.this, GroupScreen.class);
+                                startActivity(intent);
+                            }
+                            else{
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(CreateGroup.this);
+                                builder.setMessage("모임 등록에 실패했습니다.").setNegativeButton("확인",null).create().show();
+                                Intent intent = new Intent(CreateGroup.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        }
+                        catch (JSONException e){
+                            e.printStackTrace();
+                            System.out.println("EWfw");
+                        }
+                    }
+                };
+                InsertData insertData = new InsertData(category, title, content, numberOfUser, date, starttime, endtime, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(CreateGroup.this);
+                queue.add(insertData);
+
+                Intent intent = new Intent(CreateGroup.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
 
@@ -89,95 +142,30 @@ public class CreateGroup extends AppCompatActivity {
             }
         });
 
-        // cg_content = (EditText) findViewById(R.id.cg_content);
-        // SharedPreferences sharedPreferences = getSharedPreferences(shared, 0);
-        // String value = sharedPreferences.getString("neyoung", "");
-        // cg_content.setText(value);
-
-        //원래 메인화면으로 가야하는데 그룹스크린 확인하려고 냅둠
     }
 
-  /*  @Override
-    protected void onDestroy() {
-        super.onDestroy();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(shared, 0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String value = cg_content.getText().toString();
-        editor.putString("neyoung", value);
-        editor.commit();
 
-    }*/
+    class InsertData extends StringRequest {
 
-    class InsertData extends AsyncTask<String, Void, String> {
+        final static private String URL = "http://rkdlem1613.dothome.co.kr/insert6.php";
+        private Map<String, String> parameters;
 
-        protected void onPreExecute() {
-            super.onPreExecute();
-
+        public InsertData(String  category, String title, String content, String numberOfUser, String date,
+                          String starttime, String endtime, Response.Listener<String> listener){
+            super(Method.POST, URL, listener, null);
+            parameters = new HashMap<>();
+            parameters.put("category", category);
+            parameters.put("title", title);
+            parameters.put("content", content);
+            parameters.put("numberOfUser", numberOfUser);
+            parameters.put("date", date);
+            parameters.put("starttime", starttime);
+            parameters.put("endtime", endtime);
         }
 
-        @Override
-        protected String doInBackground(String... strings) {
-
-
-            String category = (String) strings[1];
-            String title = (String) strings[2];
-            String content = (String) strings[3];
-            String numberOfUser = (String) strings[4];
-            String date = (String) strings[5];
-            String starttime = (String) strings[6];
-            String endtime = (String) strings[6];
-            String serverURL = (String) strings[0];
-
-            String postParameters = "category=" + category + "&title=" + title + "&content=" + content +
-                    "&numberOfUser=" + numberOfUser + "&date=" + date + "&starttime=" + starttime + "&endtime=" + endtime;
-
-            try{
-
-                URL url = new URL(serverURL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.connect();
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d("test", "POST response code - " + responseStatusCode);
-
-                InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                while((line = bufferedReader.readLine()) != null){
-                    sb.append(line);
-                }
-
-
-                bufferedReader.close();
-                return sb.toString();
-
-            } catch (Exception e) {
-
-                Log.d("test", "InsertData: Error ", e);
-
-                return new String("Error: " + e.getMessage());
-            }
+        public Map<String, String> getParams(){
+            return parameters;
         }
     }
 }
