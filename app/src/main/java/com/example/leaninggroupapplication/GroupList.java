@@ -44,9 +44,7 @@ public class GroupList {
         this.group_num = group_num;
     }
 
-    public void setGroup_name(String group_name) {
-        this.group_name = group_name;
-    }
+    public void setGroup_name(String group_name) { this.group_name = group_name; }
 
     public void setGroup_type(String group_type) {
         this.group_type = group_type;

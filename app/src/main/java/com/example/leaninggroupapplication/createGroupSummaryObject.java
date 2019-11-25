@@ -23,4 +23,36 @@ public class createGroupSummaryObject extends AppCompatActivity { //모임 요�
         this.GroupNum = GroupNum;
 
     }
+
+    public String Title() {
+        return Title;
+    }
+
+    public String GroupDate() {
+        return GroupDate;
+    }
+
+    public String Writer() {
+        return Writer;
+    }
+
+    public String GroupNumOfMem() {
+        return GroupNumOfMem;
+    }
+
+    public String GroupNum() {
+        return GroupNum;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "Title='" + Title + '\'' +
+                ", GroupDate='" + GroupDate + '\'' +
+                ", Writer='" +Writer + '\'' +
+                ", GroupNumOfMem='" + GroupNumOfMem + '\'' +
+                ", GroupNum='" + GroupNum + '\'' +
+                '}';
+    }
+
 }
