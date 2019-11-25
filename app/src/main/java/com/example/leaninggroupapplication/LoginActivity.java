@@ -109,12 +109,15 @@ public class LoginActivity extends AppCompatActivity {
 
             try {
 
+                //Log.e("here",s);
                 JSONObject obj = new JSONObject(s);
 
                 if (!obj.getBoolean("error")) {
 
                     Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                     JSONObject userJson = obj.getJSONObject("user");
+
+                    //System.out.println(userJson);
 
                     User user = new User(
                             userJson.getString("email"),
@@ -190,71 +193,3 @@ public class LoginActivity extends AppCompatActivity {
     }
 }
 
-
-/*
-class Login extends AsyncTask<Void, Integer, Void> {
-
-    @Override
-    protected Void doInBackground(Void... unused){
-
-        String param = "email";
-        Log.e("POST",param);
-
-        try{
-
-            URL url = new URL("http://rkdlem1613.dothome.co.kr/login2.php");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
-            connection.setRequestMethod("POST");
-            connection.setDoInput(true);
-            connection.connect();
-
-            OutputStream out = connection.getOutputStream();
-            out.write(param.getBytes("UTF-8"));
-            out.flush();
-            out.close();
-
-            InputStream is = null;
-            BufferedReader in = null;
-            String data = "";
-
-            is = connection.getInputStream();
-            in = new BufferedReader(new InputStreamReader(is),8*1024);
-            String line = null;
-            StringBuffer buf = new StringBuffer();
-
-            while((line = in.readLine())!=null){
-                buf.append((line+"\n"));
-            }
-
-            data = buf.toString().trim();
-
-            if(data.equals("0")){
-                Log.e("RESULT","processing is success");
-            }
-            else{
-                Log.e("RESULT","error occur!"+data);
-            }
-
-        }catch(MalformedURLException e){
-            Log.e("RESULT","processing is success");
-        }catch(IOException e){
-            Log.e("RESULT","error occur!");
-        }
-
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid){
-
-        super.onPostExecute(aVoid);
-
-        Log.e("RECV DATA",data);
-
-        if(data.)
-    }
-
-}
-
- */

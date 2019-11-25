@@ -141,8 +141,8 @@ public class SignInActivity extends AppCompatActivity {
 
                     User user = new User(
 
-                            userJson.getString("nickname"),
-                            userJson.getString("email")
+                            userJson.getString("email"),
+                            userJson.getString("nickname")
                     );
 
                     PrefManager.getInstance(getApplicationContext()).setUserLogin(user);
