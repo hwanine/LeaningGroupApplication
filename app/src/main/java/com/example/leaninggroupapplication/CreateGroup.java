@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class CreateGroup extends AppCompatActivity {
 
-    Button cg_cancleBtn;
+    Button cg_cancelBtn;
     Button cg_OkBtn;
     Spinner category_spinner;
     EditText cg_title;
@@ -70,8 +70,8 @@ public class CreateGroup extends AppCompatActivity {
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
 
 
-        cg_cancleBtn = findViewById(R.id.cg_cancelBtn);
-        cg_cancleBtn.setOnClickListener(new View.OnClickListener() {
+        cg_cancelBtn = findViewById(R.id.cg_cancelBtn);
+        cg_cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CreateGroup.this, MainActivity.class);
