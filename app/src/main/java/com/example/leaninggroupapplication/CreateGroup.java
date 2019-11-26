@@ -51,6 +51,7 @@ public class CreateGroup extends AppCompatActivity {
     EditText cg_starttime;
     EditText cg_endtime;
     String category;
+    TextView cg_writer;
 
 
     String shared = "file";
@@ -68,6 +69,7 @@ public class CreateGroup extends AppCompatActivity {
         cg_starttime = (EditText) findViewById(R.id.cg_start_time);
         cg_endtime = (EditText) findViewById(R.id.cg_end_time);
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
+        cg_writer = (TextView)findViewById(R.id.cg_writer);
 
 
         cg_cancelBtn = findViewById(R.id.cg_cancelBtn);
@@ -88,6 +90,7 @@ public class CreateGroup extends AppCompatActivity {
                 String date = cg_date.getText().toString();
                 String starttime = cg_starttime.getText().toString();
                 String endtime = cg_endtime.getText().toString();
+                String writer = cg_writer.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -119,7 +122,7 @@ public class CreateGroup extends AppCompatActivity {
                         }
                     }
                 };
-                InsertData insertData = new InsertData(category, title, content, numberOfUser, date, starttime, endtime, responseListener);
+                InsertData insertData = new InsertData(category, title, content, numberOfUser, date, starttime, endtime, writer, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateGroup.this);
                 queue.add(insertData);
 
@@ -151,7 +154,7 @@ public class CreateGroup extends AppCompatActivity {
         private Map<String, String> parameters;
 
         public InsertData(String  category, String title, String content, String numberOfUser, String date,
-                          String starttime, String endtime, Response.Listener<String> listener){
+                          String starttime, String endtime, String writer, Response.Listener<String> listener){
             super(Method.POST, URL, listener, null);
             parameters = new HashMap<>();
             parameters.put("category", category);
@@ -161,6 +164,7 @@ public class CreateGroup extends AppCompatActivity {
             parameters.put("date", date);
             parameters.put("starttime", starttime);
             parameters.put("endtime", endtime);
+            parameters.put("writer",writer);
         }
 
         public Map<String, String> getParams(){

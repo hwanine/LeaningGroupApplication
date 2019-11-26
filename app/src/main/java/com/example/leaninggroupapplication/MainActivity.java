@@ -62,14 +62,10 @@ public class MainActivity extends AppCompatActivity {
         GroupNumOfMem=findViewById(R.id.GroupNumOfMem);
         GroupNumber=findViewById(R.id.GroupNumber);
 
-        //String url = "http://rkdlem1613.dothome.co.kr/nnew.php";
-
-
         setContentView(R.layout.activity_main);
         ListView listView =(ListView)findViewById(R.id.LanguageFrameListView);
 
         summaryObject = new ArrayList<>();
-        //summaryObject.add(new createGroupSummaryObject("영어회화","2019/11/20-18:00~20:00","곽송이","4","1"));
 
         adapter = new ListAdapter(summaryObject);
 
@@ -210,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
        protected  void onPreExecute(){
-           target = "http://rkdlem1613.dothome.co.kr/nnew.php";
+           target = "http://rkdlem1613.dothome.co.kr/getlog3.php";
        }
 
         @Override
@@ -254,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
                 String date;
                 String starttime;
                 String endtime;
+                String writer;
                 System.out.println(jsonArray.length());
                 while(count < jsonArray.length()){
                     JSONObject object = jsonArray.getJSONObject(count);
@@ -264,7 +261,8 @@ public class MainActivity extends AppCompatActivity {
                     date = object.getString("meeting_date");
                     //starttime = object.getString("meeting_start_time");
                     //endtime = object.getString("meeting_end_time");
-                    createGroupSummaryObject infrom = new createGroupSummaryObject(title, date, "tt",member_number,group_roomnumber );
+                    writer = object.getString("writer");
+                    createGroupSummaryObject infrom = new createGroupSummaryObject(title, date, writer,member_number,group_roomnumber );
                     summaryObject.add(infrom);
                     adapter.notifyDataSetChanged();
                     count++;
