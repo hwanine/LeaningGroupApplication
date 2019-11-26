@@ -14,9 +14,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,6 +132,8 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra("inputEmail",inputEmail);
                     intent.putExtra("inputNickname", inputNickname);
 
+                    Intent groupIntent = new Intent(getApplicationContext(), GroupScreen.class); //커멘트 쿼리 작성하는데 필요해서 가져감
+                    groupIntent.putExtra("inputNickname", inputNickname);
                     startActivity(intent);
 
                     //startActivity(new Intent(getApplicationContext(), MainActivity.class));

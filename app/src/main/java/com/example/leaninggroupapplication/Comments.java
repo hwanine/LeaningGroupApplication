@@ -3,9 +3,9 @@ package com.example.leaninggroupapplication;
 public class Comments {
     String commentWriter;
     String comment;
+    String comment_time;
 
-//sdesdf
-    public String getCommentWriter() {
+    public String getCommentWriter() { //댓글 작성자
         return commentWriter;
     }
 
@@ -21,8 +21,9 @@ public class Comments {
         this.comment = comment;
     }
 
-    public Comments(String commentWriter, String comment) {
+    public Comments(String commentWriter, String comment,String comment_time) {
         this.commentWriter = commentWriter;
         this.comment = comment;
+        this.comment_time =comment_time;
     }
 }
