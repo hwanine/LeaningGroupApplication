@@ -38,6 +38,7 @@ public class LogActivity extends AppCompatActivity {
     String date;
     String starttime;
     String endtime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
