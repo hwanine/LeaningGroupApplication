@@ -86,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 //Title.toString(),GroupDate.toString(),Writer.toString(),GroupNumOfMem.toString(),GroupNumber.toString()
-        NetworkTask nt= new NetworkTask();
-        nt.execute();
+
 
        // NetworkTask networkTask = new NetworkTask(url, null);
        // networkTask.execute();
@@ -192,6 +191,8 @@ public class MainActivity extends AppCompatActivity {
                 new BackgroundTask().execute();
             }
         });*/
+        NetworkTask nt= new NetworkTask();
+        nt.execute();
 
         //모임작성화면으로 넘어가는 버튼
         Button setupButton;
@@ -216,12 +217,12 @@ public class MainActivity extends AppCompatActivity {
             this.Title = Title;
             this.GroupDate = GroupDate;
             this.Writer = Writer;
-            this. GroupNumOfMem =  GroupNumOfMem;
+            this.GroupNumOfMem =  GroupNumOfMem;
             this.GroupNumber = GroupNumber;
         }*/
 
        protected  void onPreExecute(){
-           target = "http://rkdlem1613.dothome.co.kr/nnew.php";
+           target = "http://rkdlem1613.dothome.co.kr/getlog3.php";
        }
 
         @Override
@@ -273,8 +274,8 @@ public class MainActivity extends AppCompatActivity {
                     member_number =object.getString("member_number");
                     title = object.getString("group_room_name");
                     date = object.getString("meeting_date");
-                    //starttime = object.getString("meeting_start_time");
-                    //endtime = object.getString("meeting_end_time");
+                   // starttime = object.getString("meeting_start_time");
+                   // endtime = object.getString("meeting_end_time");
                     createGroupSummaryObject infrom = new createGroupSummaryObject(title, date, "tt",member_number,group_roomnumber );
                     summaryObject.add(infrom);
                     adapter.notifyDataSetChanged();
@@ -292,7 +293,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClick_log(View view) {
+        String nic = (String) loginUserEmail.getText();
         Intent intent = new Intent(this, LogActivity.class);
+        intent.putExtra("nic", nic);
         startActivity(intent);
     }
 
