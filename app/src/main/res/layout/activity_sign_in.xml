@@ -38,10 +38,16 @@
             android:id="@+id/input_email_authentication_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/check_email"
-            android:onClick="onClick"/>
+            android:text="@string/check_email"/>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="귀하의 창원대학교 이메일을 입력해주세요."
+        android:textColor="@color/cautionColor"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"

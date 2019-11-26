@@ -23,30 +23,27 @@
         android:supportsRtl="true"
         android:theme="@style/EditTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".CheckAttenidngViewActivity"></activity>
-        <!--<activity android:name=".createGroupSummaryObject" />-->
-        <!--<activity android:name=".CheckAttendingActivity" />-->
+        <activity android:name=".Authentication"></activity>
+        <activity android:name=".CheckAttenidngViewActivity" /> <!-- <activity android:name=".createGroupSummaryObject" /> -->
+        <!-- <activity android:name=".CheckAttendingActivity" /> -->
         <activity
             android:name=".LoadingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".SignInActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".LogActivity"/>
-        <activity android:name=".CreateGroup"/>
-        <activity android:name=".GroupScreen"/>
-        <activity android:name="Comments"/>
-        <activity android:name="CommentsList"/>
-        <activity android:name=".RequestHttpURLConnection"/>
-
-
+        <activity android:name=".LogActivity" />
+        <activity android:name=".CreateGroup" />
+        <activity android:name=".GroupScreen" />
+        <activity android:name=".Comments" />
+        <activity android:name=".CommentsList" />
     </application>
 
 </manifest>
