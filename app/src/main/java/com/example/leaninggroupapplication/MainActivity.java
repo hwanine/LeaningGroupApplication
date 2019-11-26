@@ -3,6 +3,7 @@ package com.example.leaninggroupapplication;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +15,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,26 +39,51 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout MajoringFrame;
     LinearLayout HobbyFrame;
 
+    TextView Title;
+    TextView GroupDate;
+    TextView Writer;
+    TextView GroupNumOfMem;
+    TextView GroupNumber;
+    ArrayList<createGroupSummaryObject> summaryObject;
+    ListAdapter adapter;
+
     TextView loginUserEmail;
     TextView loginUserNickname;
     Button loginButton;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Title=findViewById(R.id.Title);
+        GroupDate=findViewById(R.id.GroupDate);
+        Writer=findViewById(R.id.Writer);
+        GroupNumOfMem=findViewById(R.id.GroupNumOfMem);
+        GroupNumber=findViewById(R.id.GroupNumber);
+
+        //String url = "http://rkdlem1613.dothome.co.kr/nnew.php";
+
+
         setContentView(R.layout.activity_main);
+        ListView listView =(ListView)findViewById(R.id.LanguageFrameListView);
 
-        ListView listView =findViewById(R.id.LanguageFrameListView);
-
-        ArrayList<createGroupSummaryObject> summaryObject = new ArrayList<>();
+        summaryObject = new ArrayList<>();
         //summaryObject.add(new createGroupSummaryObject("영어회화","2019/11/20-18:00~20:00","곽송이","4","1"));
 
-        ListAdapter Adapter = new ListAdapter(summaryObject);
-        listView.setAdapter(Adapter);
+        adapter = new ListAdapter(summaryObject);
+
+        listView.setAdapter(adapter);
+//Title.toString(),GroupDate.toString(),Writer.toString(),GroupNumOfMem.toString(),GroupNumber.toString()
+        NetworkTask nt= new NetworkTask();
+        nt.execute();
+
+       // NetworkTask networkTask = new NetworkTask(url, null);
+       // networkTask.execute();
 
         //버튼들을 정의, 프레임 레이아웃에서 다른 프레임으로 넘어가기 위함
         Button LanguageButton = (Button) findViewById(R.id.LanguageButton);
-        Button LogButton = (Button) findViewById(R.id.LogListButton);
+        Button LogButton = (Button) findViewById(R.id.LogListButton);//언어
         LanguageButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
@@ -96,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         //loginUserNickname.setText(intent.getStringExtra("userNickname"));
 
 
-        Button LicenseButton = (Button) findViewById(R.id.LicenseButton);
+        Button LicenseButton = (Button) findViewById(R.id.LicenseButton);//자격증
         LicenseButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
@@ -104,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button ReadingButton = (Button) findViewById(R.id.ReadingButton);
+        Button ReadingButton = (Button) findViewById(R.id.ReadingButton);//독서
         ReadingButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
@@ -112,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button MajoringButton = (Button) findViewById(R.id.MajoringButton);
+        Button MajoringButton = (Button) findViewById(R.id.MajoringButton);//전공
         MajoringButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
@@ -120,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button HobbyButton = (Button) findViewById(R.id.HobbyButton);
+        Button HobbyButton = (Button) findViewById(R.id.HobbyButton);//취미
         HobbyButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
@@ -161,6 +194,91 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+//온크리에이트 끝
+
+    public class NetworkTask extends AsyncTask<Void, Void, String> {
+
+        String target;
+        String Title,GroupDate,Writer,GroupNumOfMem,GroupNumber;
+
+        /*public NetworkTask(String Title,String GroupDate,String Writer,String GroupNumOfMem,String GroupNumber) {
+            this.Title = Title;
+            this.GroupDate = GroupDate;
+            this.Writer = Writer;
+            this. GroupNumOfMem =  GroupNumOfMem;
+            this.GroupNumber = GroupNumber;
+        }*/
+
+       protected  void onPreExecute(){
+           target = "http://rkdlem1613.dothome.co.kr/nnew.php";
+       }
+
+        @Override
+        protected String doInBackground(Void... Voids) {
+            try{//
+            URL url = new URL(target);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            InputStream inputStream = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String temp;
+            StringBuilder stringBuilder = new StringBuilder();
+            while((temp = bufferedReader.readLine()) != null){
+                stringBuilder.append(temp + "\n");
+                System.out.println(temp);
+            }
+
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            return stringBuilder.toString().trim();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+            return null;
+    }
+
+    public void onProgressUpdate(Void... values){
+        super.onProgressUpdate();
+    }
+
+        public void onPostExecute(String result){
+            try{
+                JSONObject jsonObject = new JSONObject(result);
+                JSONArray jsonArray =jsonObject.getJSONArray("response");
+                int count = 0;
+                String category;
+                String title;
+                String group_roomnumber;
+                String member_number;
+                String date;
+                String starttime;
+                String endtime;
+                System.out.println(jsonArray.length());
+                while(count < jsonArray.length()){
+                    JSONObject object = jsonArray.getJSONObject(count);
+                    group_roomnumber = object.getString("group_roomnumber");
+                    //category = object.getString("category");
+                    member_number =object.getString("member_number");
+                    title = object.getString("group_room_name");
+                    date = object.getString("meeting_date");
+                    //starttime = object.getString("meeting_start_time");
+                    //endtime = object.getString("meeting_end_time");
+                    createGroupSummaryObject infrom = new createGroupSummaryObject(title, date, "tt",member_number,group_roomnumber );
+                    summaryObject.add(infrom);
+                    adapter.notifyDataSetChanged();
+                    count++;
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+
+
 
     public void onClick_log(View view) {
         Intent intent = new Intent(this, LogActivity.class);
