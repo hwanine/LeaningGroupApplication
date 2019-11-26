@@ -74,6 +74,16 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListAdapter(summaryObject);
 
         listView.setAdapter(adapter);
+        
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l){
+                Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                startActivity(groupScreenIntent);
+
+            }
+        })
 //Title.toString(),GroupDate.toString(),Writer.toString(),GroupNumOfMem.toString(),GroupNumber.toString()
         NetworkTask nt= new NetworkTask();
         nt.execute();
