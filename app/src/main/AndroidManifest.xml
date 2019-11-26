@@ -44,6 +44,7 @@
         <activity android:name=".GroupScreen"/>
         <activity android:name="Comments"/>
         <activity android:name="CommentsList"/>
+        <activity android:name=".RequestHttpURLConnection"/>
 
 
     </application>
