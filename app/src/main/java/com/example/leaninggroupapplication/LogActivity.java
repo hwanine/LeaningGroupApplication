@@ -18,8 +18,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -58,13 +60,31 @@ public class LogActivity extends AppCompatActivity {
 
         protected  void onPreExecute(){
             target = "http://rkdlem1613.dothome.co.kr/getlog2.php";
+
+            //InsertNic insert = new InsertNic(target, nic,);
         }
 
         @Override
                 protected String doInBackground(Void... Voids) {
                     try{
                         URL url = new URL(target);
+                        Intent intent = getIntent();
+                        String nic = intent.getStringExtra("nic");
+                        String postParameters = "nic=" + nic;
+
                         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                        httpURLConnection.setRequestMethod("POST");
+                        httpURLConnection.connect();
+
+                        OutputStream outputStream = httpURLConnection.getOutputStream();
+                        try {
+                            outputStream.write(postParameters.getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        outputStream.flush();
+                        outputStream.close();
+
                         InputStream inputStream = httpURLConnection.getInputStream();
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                         String temp;
@@ -120,5 +140,20 @@ public class LogActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    class InsertNic extends StringRequest {
+
+        private Map<String, String> parameters;
+
+        public InsertNic(String target, Response.Listener<String> listener){
+            super(Method.POST, target, listener, null);
+            //parameters = new HashMap<>();
+            //parameters.put("nic", nic);
+        }
+
+        public Map<String, String> getParams(){
+            return parameters;
+        }
     }
 }
