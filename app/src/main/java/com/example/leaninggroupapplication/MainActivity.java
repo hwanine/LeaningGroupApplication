@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -74,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListAdapter(summaryObject);
 
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l){
+                Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                startActivity(groupScreenIntent);
+
+            }
+        });
 //Title.toString(),GroupDate.toString(),Writer.toString(),GroupNumOfMem.toString(),GroupNumber.toString()
 
 
