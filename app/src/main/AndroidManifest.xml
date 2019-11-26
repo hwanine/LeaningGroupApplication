@@ -23,7 +23,6 @@
         android:supportsRtl="true"
         android:theme="@style/EditTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Authentication"></activity>
         <activity android:name=".CheckAttenidngViewActivity" /> <!-- <activity android:name=".createGroupSummaryObject" /> -->
         <!-- <activity android:name=".CheckAttendingActivity" /> -->
         <activity
@@ -37,6 +36,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignInActivity" />
+        <activity android:name=".Authentication" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LogActivity" />
