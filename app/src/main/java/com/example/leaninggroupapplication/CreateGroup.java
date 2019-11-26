@@ -140,8 +140,6 @@ public class CreateGroup extends AppCompatActivity {
 
     }
 
-
-
     class InsertData extends StringRequest {
 
         final static private String URL = "http://rkdlem1613.dothome.co.kr/insert6.php";

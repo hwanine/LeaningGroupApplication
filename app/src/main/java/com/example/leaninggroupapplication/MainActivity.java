@@ -1,8 +1,8 @@
 package com.example.leaninggroupapplication;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.os.AsyncTask;
+
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +33,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -78,10 +82,30 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l){
-                Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
-                groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
-                startActivity(groupScreenIntent);
+            public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l){
+                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("모임정보 확인");
+                builder.setMessage("모임을 보시겠습니까?.");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                adapterView.getItemAtPosition(position);
+
+                                Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                                groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                                startActivity(groupScreenIntent);
+                            }
+                        });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                });
+                builder.create();
+                builder.show();
+
+
+
 
             }
         });
@@ -377,4 +401,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class InsertData extends StringRequest {
+
+        final static private String URL = "http://rkdlem1613.dothome.co.kr/insert6.php";
+        private Map<String, String> parameters;
+
+        public InsertData(String  category, String title, String content, String numberOfUser, String date,
+                          String starttime, String endtime, Response.Listener<String> listener){
+            super(Method.POST, URL, listener, null);
+            parameters = new HashMap<>();
+            parameters.put("category", category);
+            parameters.put("title", title);
+            parameters.put("content", content);
+            parameters.put("numberOfUser", numberOfUser);
+            parameters.put("date", date);
+            parameters.put("starttime", starttime);
+            parameters.put("endtime", endtime);
+        }
+
+        public Map<String, String> getParams(){
+            return parameters;
+        }
+    }
 }
