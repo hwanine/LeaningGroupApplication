@@ -123,9 +123,6 @@ public class CreateGroup extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(CreateGroup.this);
                 queue.add(insertData);
 
-                Intent intent = new Intent(CreateGroup.this, MainActivity.class);
-                startActivity(intent);
-
             }
         });
 
