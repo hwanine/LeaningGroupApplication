@@ -54,7 +54,6 @@ public class CreateGroup extends AppCompatActivity {
     TextView cg_writer;
 
 
-    String shared = "file";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
