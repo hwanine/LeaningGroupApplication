@@ -24,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -94,6 +96,18 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    public boolean checkPasswdSecurity(String passwd) {
+
+        String pPattern = "^(?=.*\\d)(?=.*[~!@#$%^&*()-])(?=.*[a-z]).{8,14}$";
+        Matcher matcher = Pattern.compile(pPattern).matcher(passwd);
+
+        if (matcher.matches()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void registerUser() {
 
         final String email = userEmail.getText().toString().trim();
@@ -133,14 +147,21 @@ public class SignInActivity extends AppCompatActivity {
             userRealname.requestFocus();
             return;
         }
-        if (!passwd.equals(checkPasswd)) {
 
-            Toast.makeText(this, "비밀번호가 일치하지 않습니다. 재입력 해주시기 바랍니다.", Toast.LENGTH_SHORT).show();
+        if (checkPasswdSecurity(passwd)) {
 
+            if (!passwd.equals(checkPasswd)) {
+
+                Toast.makeText(this, "비밀번호가 일치하지 않습니다. 재입력 해주시기 바랍니다.", Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                RegisterUser ru = new RegisterUser(email, nickname, passwd, school_number, real_name);
+                ru.execute();
+            }
         } else {
 
-            RegisterUser ru = new RegisterUser(email, nickname, passwd, school_number, real_name);
-            ru.execute();
+            Toast.makeText(this, "비밀번호가 안전성 정책에 어긋납니다. 규칙대로 비밀번호를 생성해주세요.", Toast.LENGTH_SHORT).show();
         }
     }
 
