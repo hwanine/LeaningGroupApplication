@@ -47,6 +47,22 @@ public class SignInActivity extends AppCompatActivity {
         userSchoolnumber = findViewById(R.id.input_school_number);
         userRealname = findViewById(R.id.input_real_name);
 
+        final Intent back = getIntent();
+        final String afterEmail;
+        final boolean afterAuth;
+
+
+        if(back.getStringExtra("email") != null){//인텐트가 존재하면
+
+            afterEmail = back.getExtras().getString("email");
+            afterAuth = back.getExtras().getBoolean("personAllow");
+
+        }
+        else {
+            afterEmail = null;
+            afterAuth = false;
+        }
+
         emailAuthenticationButton = findViewById(R.id.input_email_authentication_button);
         emailAuthenticationButton.setOnClickListener(new View.OnClickListener(){
 
@@ -58,14 +74,22 @@ public class SignInActivity extends AppCompatActivity {
                 auth.execute();
 
             }
-
         });
 
         findViewById(R.id.join).setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
-                registerUser();
+
+                if(afterAuth){
+
+                    userEmail.setText(afterEmail);
+                    registerUser();
+
+                }else{
+
+                    Toast.makeText(getApplicationContext(),"이메일 인증을 먼저 진행 해주세요",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -144,7 +168,7 @@ public class SignInActivity extends AppCompatActivity {
 
                     AlertDialog.Builder alt = new AlertDialog.Builder(SignInActivity.this);
 
-                    alt.setMessage("사용 가능한 이메일 입니다. \n 해당 이메일로 인증번호를 보내시겠습니까?")
+                    alt.setMessage("사용 가능한 이메일 입니다. \n "+  email +"\n 해당 이메일로 인증번호를 보내시겠습니까?")
                             .setCancelable(false)
                             .setPositiveButton("네",
                                     new DialogInterface.OnClickListener(){

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,20 +26,22 @@ import java.util.Random;
 public class Authentication extends AppCompatActivity implements View.OnClickListener, Dialog.OnCancelListener {
 
 
-    //전역변수들
+    //전역변수
     private  int certNumLength = 6;
+    final String random = excuteGenerate();
 
-    TextView timer; //시간 보여줌
+    public static boolean personAllow = false;
+    public static String email;
+
+    //TextView timer; //시간 보여줌
     EditText auth_number;
     Button auth_button;
     CountDownTimer countDownTimer;
+
     final int MILLISINFUTURE = 300 * 1000; //총 시간 (300초 = 5분)
     final int COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
 
-    public Authentication(){
-        int random;
-    }
-
+    //랜덤난수 생성
     public String excuteGenerate() {
 
         Random random = new Random(System.currentTimeMillis());
@@ -62,34 +65,98 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
         this.certNumLength = certNumLength;
     }
 
-    //전역변수들
-    Authentication au   = new Authentication();
-    final String random = au.excuteGenerate();
-    final String email = getIntent().getStringExtra("inputEmail"); //intent로 앞에서 put한 이메일을 받아왔다.
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {  //onCreate
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
 
+
+        Intent intent = getIntent();
+        email = intent.getStringExtra("inputEmail");
+        //final Authentication au = new Authentication(email, false);
+
+        final AuthAttribute aa = new AuthAttribute(email, personAllow);
+
+        EmailAuth ea = new EmailAuth(email, random); //메일을 에러없이 보내는 것 처리하는 asyncTask(이메일에 랜덤번호로)
+        ea.execute();
+
+        //edittext에 입력받은걸 버튼 누르면 가져와서 비교하고 처리 onClick
+        //같으면 db에 있는 속성을 Y로 바꾸는걸 처리하는 asyncTask 있어야겠다 아니면 자바 자체에서 불린속성을 바꾸는 것
+
+        auth_button = (Button)findViewById(R.id.emailAuth_btn);
+        auth_number  = (EditText)findViewById(R.id.emailAuth_number);
+
+        auth_button.setOnClickListener(new View.OnClickListener() { //인증버튼을 누르면
+
+            @Override
+            public void onClick(View v) {
+
+                final String inputNum = auth_number.getText().toString().trim();
+
+                if(TextUtils.isEmpty(inputNum)){
+                    auth_number.setError("Please enter this component");
+                    auth_number.requestFocus();
+                    return;
+                }
+
+                if(inputNum.equals(random)){ //이메일 인증 성공이면 db에 인증했다고 흔적 남겨야함
+
+                    Toast.makeText(getApplicationContext(), "이메일 인증 성공", Toast.LENGTH_SHORT).show();
+                    aa.personAllow = true;
+
+                    Intent back = new Intent(Authentication.this, SignInActivity.class);
+                    back.putExtra("personAllow",aa.personAllow);
+                    back.putExtra("email", aa.email);
+
+                    startActivity(back);
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "이메일 인증 실패", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
+
     }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public boolean getPersonAllow(){
+        return  personAllow;
+    }
+
+    class AuthAttribute{
+
+        Authentication au = new Authentication();
+        String email = au.getEmail();
+        boolean personAllow = au.getPersonAllow();
+
+        public AuthAttribute(String email, boolean personAllow){
+            this.email = email;
+            this.personAllow = personAllow;
+
+        }
+    }
+
 
     @Override
     public void onCancel(DialogInterface dialog) {
 
+        countDownTimer.cancel();
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v) { //값 입력하고 기존의 random과 비교하기
 
     }
 
-    public void countDownTimer(){
+    /* public void countDownTimer(){ //타이머
 
         timer = (TextView) findViewById(R.id.emailAuth_time_counter);
-        auth_number = (EditText) findViewById(R.id.emailAuth_number);
-        auth_button = (Button) findViewById(R.id.emailAuth_btn);
 
         countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
             @Override
@@ -115,15 +182,17 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onFinish() { //시간이 다되면 다이얼로그 종료
-
+                cancel();
             }
         }.start();
     }
 
-    class EmailAuth extends AsyncTask<Void, Void, String> {
+*/
 
-        final String userEmail;
-        final String random;
+    class EmailAuth extends AsyncTask<Void, Void, String> { //이메일로 인증번호 보내기
+
+        private String userEmail;
+        private String random;
 
         EmailAuth(String userEmail, String random) {
 
@@ -149,22 +218,9 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
                 if (!obj.getBoolean("error")) { //에러없음. 적어도 이메일이 잘 간것!
                     Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
 
-                    new CountDownTimer(30000, 1000){ //30초 동안 1초 간격으로 onTick 메소드 호출
-                        public void onTick(long millisUntillFinished){
-
-                        }
-
-                        @Override
-                        public void onFinish() {
-
-                        }
-
-                    }.start();
-                    //System.out.println(userJson);
-                    //startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 } else {
                     Log.e("here",s);
-                    Toast.makeText(getApplicationContext(), "Invalid email or password retry again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "some error occured", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
