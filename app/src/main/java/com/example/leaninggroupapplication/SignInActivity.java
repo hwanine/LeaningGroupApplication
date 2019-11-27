@@ -83,7 +83,7 @@ public class SignInActivity extends AppCompatActivity {
 
                 if(afterAuth){
 
-                    userEmail.setText(afterEmail);
+                    userEmail.setText(String.valueOf(afterEmail));
                     registerUser();
 
                 }else{
