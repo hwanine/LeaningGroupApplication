@@ -8,7 +8,7 @@
     android:gravity="center_horizontal"
     tools:context=".SignInActivity"
     android:orientation="vertical"
-    android:background="@color/darkblue"
+    android:background="@color/alertColor"
     android:weightSum="10">
 
     <LinearLayout
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/prompt_email"
-            android:textColor="@color/EditTextColor"/>
+            android:textColor="@color/createGroupObjectLine"/>
 
         <EditText
             android:id="@+id/input_email_authentication"
@@ -33,13 +33,14 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:singleLine="true"
-            android:textColor="@color/white"/>
+            android:textColor="@color/createGroupObjectLine"/>
 
         <Button
             android:id="@+id/input_email_authentication_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/check_email"/>
+            android:text="@string/check_email"
+            android:background="@drawable/buttonborder"/>
 
     </LinearLayout>
 
@@ -47,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="귀하의 창원대학교 이메일을 입력해주세요."
-        android:textColor="#F1B0B0"
+        android:textColor="@color/cautionColor"
         />
 
     <LinearLayout
@@ -64,14 +65,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/nick_name"
-            android:textColor="@color/EditTextColor"/>
+            android:textColor="@color/createGroupObjectLine"/>
 
         <EditText
             android:id="@+id/input_nick_name"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColor="@color/createGroupObjectLine"/>
 
     </LinearLayout>
 
@@ -87,14 +89,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/prompt_password"
-            android:textColor="@color/EditTextColor"/>
+            android:textColor="@color/createGroupObjectLine"/>
 
         <EditText
             android:id="@+id/input_password"
             android:layout_width="295dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/createGroupObjectLine"/>
 
     </LinearLayout>
 
@@ -103,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/caution_password_security"
-        android:textColor="#F1B0B0"/>
+        android:textColor="@color/cautionColor"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -118,14 +121,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/check_password"
-            android:textColor="@color/EditTextColor"/>
+            android:textColor="@color/createGroupObjectLine"/>
 
         <EditText
             android:id="@+id/check_password"
             android:layout_width="292dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/createGroupObjectLine"/>
 
     </LinearLayout>
 
@@ -135,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/check_password_incorrect"
-        android:textColor="#F1B0B0"/>
+        android:textColor="@color/cautionColor"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -151,14 +155,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/school_number"
-            android:textColor="@color/EditTextColor"/>
+            android:textColor="@color/createGroupObjectLine"/>
 
         <EditText
             android:id="@+id/input_school_number"
             android:layout_width="310dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/createGroupObjectLine"/>
 
     </LinearLayout>
 
@@ -176,14 +181,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/real_name"
-            android:textColor="@color/EditTextColor"/>
+            android:textColor="@color/createGroupObjectLine"/>
 
         <EditText
             android:id="@+id/input_real_name"
             android:layout_width="310dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/createGroupObjectLine"/>
 
     </LinearLayout>
 
@@ -192,7 +198,8 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:text="@string/join_action"/>
+        android:text="@string/join_action"
+        android:background="@drawable/buttonborder"/>
         <!--android:onClick="insert"/>-->
 
     <TextView
@@ -203,7 +210,8 @@
         android:layout_gravity="center"
         android:text="@string/log_in"
         android:textStyle="bold"
-        android:textColor="@color/EditTextColor"/>
+        android:textColor="@color/createGroupObjectLine"
+        android:onClick="onClick_Login"/>
     <!--로그인 링크-->
     <!--뒤로가기 하면 로그인 페이지라서 빼도 될 것 같기도!-->
 
@@ -215,7 +223,8 @@
         android:layout_gravity="center"
         android:text="@string/find_eamil"
         android:textStyle="bold"
-        android:textColor="@color/EditTextColor"/>
+        android:textColor="@color/createGroupObjectLine"
+        android:onClick="onClick_FindEmail"/>
     <!--이메일 찾기 링크-->
 
     <TextView
@@ -226,7 +235,8 @@
         android:layout_gravity="center"
         android:text="@string/change_password"
         android:textStyle="bold"
-        android:textColor="@color/EditTextColor"/>
+        android:textColor="@color/createGroupObjectLine"
+        android:onClick="onClick_ChangePassword"/>
     <!--비밀번호 바꾸기 링크-->
 </LinearLayout>
 

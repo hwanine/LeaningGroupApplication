@@ -11,7 +11,7 @@
     <string name="join_action">가입하기</string>
     <string name="check_password">비밀번호 \n 재입력  </string>
     <string name="check_password_correct">비밀번호가 올바르게 입력되었습니다.  </string>
-    <string name="check_password_incorrect">비밀번호가 다르게 입력되었습니다.  </string>
+    <string name="check_password_incorrect">비밀번호를 한 번 더 입력해 주십시오.  </string>
     <string name="school_number">학번  </string>
     <string name="real_name">성명  </string>
     <string name="loading_ment">모임은 쉽게,\n공부는 더 쉽게  </string>
