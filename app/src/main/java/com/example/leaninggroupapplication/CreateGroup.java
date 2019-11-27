@@ -44,6 +44,11 @@ public class CreateGroup extends AppCompatActivity {
     Button cg_cancelBtn;
     Button cg_OkBtn;
     Spinner category_spinner;
+    Spinner cg_start_time;
+    Spinner cg_start_time_m;
+    Spinner cg_end_time;
+    Spinner cg_end_time_m;
+
     EditText cg_title;
     EditText cg_content;
     EditText cg_numberOfUser;
@@ -51,6 +56,13 @@ public class CreateGroup extends AppCompatActivity {
     EditText cg_starttime;
     EditText cg_endtime;
     String category;
+    String start_time;
+    String start_time_m;
+    String end_time;
+    String end_time_m;
+    String starttime;
+    String endtime;
+
     TextView cg_writer;
 
 
@@ -65,10 +77,13 @@ public class CreateGroup extends AppCompatActivity {
         cg_content = (EditText) findViewById(R.id.cg_content);
         cg_title = (EditText) findViewById(R.id.cg_title);
         cg_date = (EditText) findViewById(R.id.cg_date);
-        cg_starttime = (EditText) findViewById(R.id.cg_start_time);
-        cg_endtime = (EditText) findViewById(R.id.cg_end_time);
+        cg_start_time = (Spinner) findViewById(R.id.cg_start_time);
+        cg_end_time = (Spinner) findViewById(R.id.cg_end_time);
+        cg_start_time_m = (Spinner) findViewById(R.id.cg_start_time_m);
+        cg_end_time_m = (Spinner) findViewById(R.id.cg_end_time_m);
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
         cg_writer = (TextView)findViewById(R.id.cg_writer);
+
 
 
         cg_cancelBtn = findViewById(R.id.cg_cancelBtn);
@@ -87,8 +102,8 @@ public class CreateGroup extends AppCompatActivity {
                 String content = cg_content.getText().toString();
                 String numberOfUser = cg_numberOfUser.getText().toString();
                 String date = cg_date.getText().toString();
-                String starttime = cg_starttime.getText().toString();
-                String endtime = cg_endtime.getText().toString();
+                //String starttime = cg_starttime.getText().toString();
+                //String endtime = cg_endtime.getText().toString();
                 String writer = cg_writer.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
@@ -140,7 +155,54 @@ public class CreateGroup extends AppCompatActivity {
             }
         });
 
+        cg_start_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                start_time = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        cg_start_time_m.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                start_time_m = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        cg_end_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                end_time = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        cg_end_time_m.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                end_time_m = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        starttime=start_time+":"+start_time_m;
+        endtime=end_time+":"+end_time_m;
     }
+
 
     class InsertData extends StringRequest {
 

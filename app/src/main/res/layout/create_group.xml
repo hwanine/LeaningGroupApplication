@@ -117,18 +117,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left">
-     <EditText
-        android:id="@+id/cg_start_time"
-        android:layout_width="130dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="5dp"
-         android:layout_marginRight="5dp"
-        android:ems="10"
-        android:inputType="time"
-        android:text="00:00"
-        android:textSize="15dp"
-        tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="440dp" />
+
+        <Spinner
+            android:id="@+id/cg_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:entries="@array/time"
+            android:textSize="14dp"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text=":"
+            tools:layout_editor_absoluteX="26dp"
+            tools:layout_editor_absoluteY="440dp" />
+        <Spinner
+            android:id="@+id/cg_start_time_m"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:entries="@array/time_m"
+            android:textSize="14dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -139,18 +150,28 @@
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="440dp" />
 
-        <EditText
+        <Spinner
             android:id="@+id/cg_end_time"
-            android:layout_width="130dp"
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:entries="@array/time"
+            android:textSize="14dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:ems="10"
-            android:inputType="time"
-            android:text="00:00"
-            android:textSize="15dp"
+            android:text=":"
             tools:layout_editor_absoluteX="26dp"
             tools:layout_editor_absoluteY="440dp" />
+
+        <Spinner
+        android:id="@+id/cg_end_time_m"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:entries="@array/time_m"
+        android:textSize="14dp"/>
 
     </LinearLayout>
 
