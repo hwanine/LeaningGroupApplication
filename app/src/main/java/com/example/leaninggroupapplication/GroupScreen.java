@@ -48,12 +48,6 @@ public class GroupScreen extends AppCompatActivity {
     //댓글 테스트
     ArrayList< Comments> items = new ArrayList<>();
 
-    Button gs_joinBtn;
-    Button sendFileBtn;
-    Button gs_commentBtn;
-
-    EditText gs_enterComments;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +59,7 @@ public class GroupScreen extends AppCompatActivity {
 
         listView = findViewById(R.id.gs_commentList);
         //ArrayList< Comments> items = new ArrayList<>();
-        adapter = new CommentsList(items, getApplicationContext());
+        adapter = new CommentsList(items);
         listView.setAdapter(adapter);
 
 
@@ -92,9 +86,6 @@ public class GroupScreen extends AppCompatActivity {
                 CommentCommunicate taskComment = new CommentCommunicate();
                 taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php",comment_nickname ,enterCommentString,group_room_number); // groupNumber은 구현후 들어가도록 하겠다
 
-                adapter = new CommentsList(items, getApplicationContext());
-                listView.setAdapter(adapter);
-                items.clear();
             }
         });
 
@@ -188,7 +179,7 @@ public class GroupScreen extends AppCompatActivity {
                 outputStream.close();
 
                 if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
-                    // Log.d("됬나","성공?");
+
 
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
                     int i = 0 ;
@@ -221,7 +212,7 @@ public class GroupScreen extends AppCompatActivity {
             super.onPostExecute(s);
 
             try {
-
+                adapter.notifyDataSetChanged();
             } catch (Exception e) {
                 e.printStackTrace();
             }

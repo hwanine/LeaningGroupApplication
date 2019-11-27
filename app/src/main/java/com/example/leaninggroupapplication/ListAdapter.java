@@ -14,7 +14,7 @@ public class ListAdapter extends BaseAdapter { //모임화면에 모임정보를
 
     LayoutInflater inflater = null;
     private ArrayList<createGroupSummaryObject> groupSummaryObject;
-   // private ArrayList<CheckAttendingActivity> checkAttenders = null;
+    // private ArrayList<CheckAttendingActivity> checkAttenders = null;
 
     private int listCntGroupSummary = 0;
     //private int listCntCheckAttender = 0;

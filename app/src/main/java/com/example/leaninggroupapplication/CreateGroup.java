@@ -44,6 +44,11 @@ public class CreateGroup extends AppCompatActivity {
     Button cg_cancelBtn;
     Button cg_OkBtn;
     Spinner category_spinner;
+    Spinner cg_start_time;
+    Spinner cg_start_time_m;
+    Spinner cg_end_time;
+    Spinner cg_end_time_m;
+
     EditText cg_title;
     EditText cg_content;
     EditText cg_numberOfUser;
@@ -51,9 +56,17 @@ public class CreateGroup extends AppCompatActivity {
     EditText cg_starttime;
     EditText cg_endtime;
     String category;
+    String start_time;
+    String start_time_m;
+    String end_time;
+    String end_time_m;
+    String starttime;
+    String endtime;
 
 
-    String shared = "file";
+    TextView cg_writer;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +78,13 @@ public class CreateGroup extends AppCompatActivity {
         cg_content = (EditText) findViewById(R.id.cg_content);
         cg_title = (EditText) findViewById(R.id.cg_title);
         cg_date = (EditText) findViewById(R.id.cg_date);
-        cg_starttime = (EditText) findViewById(R.id.cg_start_time);
-        cg_endtime = (EditText) findViewById(R.id.cg_end_time);
+        cg_start_time = (Spinner) findViewById(R.id.cg_start_time);
+        cg_end_time = (Spinner) findViewById(R.id.cg_end_time);
+        cg_start_time_m = (Spinner) findViewById(R.id.cg_start_time_m);
+        cg_end_time_m = (Spinner) findViewById(R.id.cg_end_time_m);
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
+        cg_writer = (TextView)findViewById(R.id.cg_writer);
+
 
 
         cg_cancelBtn = findViewById(R.id.cg_cancelBtn);
@@ -86,8 +103,9 @@ public class CreateGroup extends AppCompatActivity {
                 String content = cg_content.getText().toString();
                 String numberOfUser = cg_numberOfUser.getText().toString();
                 String date = cg_date.getText().toString();
-                String starttime = cg_starttime.getText().toString();
-                String endtime = cg_endtime.getText().toString();
+                //String starttime = cg_starttime.getText().toString();
+                //String endtime = cg_endtime.getText().toString();
+                String writer = cg_writer.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -119,7 +137,7 @@ public class CreateGroup extends AppCompatActivity {
                         }
                     }
                 };
-                InsertData insertData = new InsertData(category, title, content, numberOfUser, date, starttime, endtime, responseListener);
+                InsertData insertData = new InsertData(category, title, content, numberOfUser, date, starttime, endtime, writer, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(CreateGroup.this);
                 queue.add(insertData);
 
@@ -138,7 +156,63 @@ public class CreateGroup extends AppCompatActivity {
             }
         });
 
+        cg_start_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                start_time = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        cg_start_time_m.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                start_time_m = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        cg_end_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                end_time = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        cg_end_time_m.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                end_time_m = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        starttime=start_time+":"+start_time_m;
+        endtime=end_time+":"+end_time_m;
+
+        final PrefManager prefManager = PrefManager.getInstance(CreateGroup.this);
+        User user = prefManager.getUser();
+
+        if(prefManager.isLoggedIn()){
+            cg_writer.setText(String.valueOf(user.getNickname()));
+            }
+
+
     }
+
 
     class InsertData extends StringRequest {
 
@@ -146,7 +220,7 @@ public class CreateGroup extends AppCompatActivity {
         private Map<String, String> parameters;
 
         public InsertData(String  category, String title, String content, String numberOfUser, String date,
-                          String starttime, String endtime, Response.Listener<String> listener){
+                          String starttime, String endtime, String writer, Response.Listener<String> listener){
             super(Method.POST, URL, listener, null);
             parameters = new HashMap<>();
             parameters.put("category", category);
@@ -156,6 +230,7 @@ public class CreateGroup extends AppCompatActivity {
             parameters.put("date", date);
             parameters.put("starttime", starttime);
             parameters.put("endtime", endtime);
+            parameters.put("writer",writer);
         }
 
         public Map<String, String> getParams(){
