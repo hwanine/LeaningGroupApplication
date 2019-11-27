@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -34,32 +35,24 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/*
-<<<<<<< Updated upstream
-        Button gs_joinBtn;
-        Button sendFileBtn;
-        Button gs_commentBtn;
-        TextView gs_category;
-        TextView gs_title;
-        TextView gs_writer;
-        TextView gs_content;
-        TextView gs_numberOfUserMax;
-        TextView gs_numberOfUserNow;
-        TextView gs_date;
-        TextView gs_start_time;
-        TextView gs_end_time;
-        EditText gs_enterComments;
 
-        =======*/
+
+
 public class GroupScreen extends AppCompatActivity {
     EditText enterCommentsEdit;
     public final int REQUEST_CODE = 101;
     private ListView listView;
     CommentsList adapter;
     private ArrayAdapter<String> listAdapter;
-//>>>>>>> Stashed changes
+    //>>>>>>> Stashed changes
     //댓글 테스트
     ArrayList< Comments> items = new ArrayList<>();
+
+    Button gs_joinBtn;
+    Button sendFileBtn;
+    Button gs_commentBtn;
+
+    EditText gs_enterComments;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +69,14 @@ public class GroupScreen extends AppCompatActivity {
         listView.setAdapter(adapter);
 
 
+
         Intent gIntent = getIntent();
         final String comment_nickname=gIntent.getStringExtra("inputNickname");
         String group_room_number=gIntent.getStringExtra("group_number");
+
+        BackgroundUITask UItask= new BackgroundUITask();
+        UItask.execute(group_room_number);
+
         commentsButton=(Button) findViewById(R.id.gs_commentBtn);
         commentsButton.setOnClickListener(new View.OnClickListener() { //댓글 쓰고 확인 버튼 누를때
             @Override
@@ -91,7 +89,7 @@ public class GroupScreen extends AppCompatActivity {
                 //else if (!isNetWork()) {
                 //        Toast.makeText(getApplicationContext(), "네트워크 연결 불량", Toast.LENGTH_LONG).show();
 
-                CommentCommuincate taskComment = new CommentCommuincate();
+                CommentCommunicate taskComment = new CommentCommunicate();
                 taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php",comment_nickname ,enterCommentString,"1"); // groupNumber은 구현후 들어가도록 하겠다
 
                 adapter = new CommentsList(items, getApplicationContext());
@@ -159,7 +157,7 @@ public class GroupScreen extends AppCompatActivity {
         }
     }
 
-    private class CommentCommuincate extends AsyncTask<String,String,String> {
+    private class CommentCommunicate extends AsyncTask<String,String,String> {
         SimpleDateFormat format1 = new SimpleDateFormat (  "yyyy-MM-dd HH:mm:ss");
         Date time = new Date();
 
@@ -205,7 +203,7 @@ public class GroupScreen extends AppCompatActivity {
                     }
                     Log.d("됬나",output);
 
-                    comment_extraction(output); //json 반환받는곳
+                    //comment_extraction(output); //json 반환받는곳
 
                     br.close();
                 }
@@ -251,7 +249,106 @@ public class GroupScreen extends AppCompatActivity {
         }
 
     }
+    //모임 정보 쿼리문
+    class BackgroundUITask extends AsyncTask<String, String, String> {
+
+        String target;
+
+        protected void onPreExecute() {
+            target = "http://rkdlem1613.dothome.co.kr/groupScreen.php";
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String group_number = "group_number=" + params[0];
+            try {
+
+                Log.d("가져온거 ", "호출됨0");
+                URL url = new URL(target);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(group_number.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+                Log.d("가져간거",group_number);
+
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp;
+                StringBuilder stringBuilder = new StringBuilder();
+                while ((temp = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(temp + "\n");
+                    System.out.println(temp);
+                }
+                Log.d("가져온거 ", stringBuilder.toString());
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        public void onProgressUpdate(Void... values) {
+            super.onProgressUpdate();
+        }
+
+        //
+        public void onPostExecute(String result) {
+            Log.d("가져온거 ", "호출됨01");
+            try {
+                Log.d("가져온거 ", "여기1");
+                JSONObject jsonObject = new JSONObject(result);
+
+                JSONArray jsonArray = jsonObject.getJSONArray("response");
+                int count = 0;
+                Log.d("가져온거 ", "호출됨");
+                TextView gs_category = findViewById(R.id.gs_category);
+                TextView gs_title = findViewById(R.id.gs_title);
+                TextView gs_writer = findViewById(R.id.gs_writer);
+                TextView gs_content = findViewById(R.id.gs_content);
+                TextView gs_numberOfUserMax = findViewById(R.id.gs_numberOfUserMax);
+                TextView gs_numberOfUserNow = findViewById(R.id.gs_numberOfUserNow);
+                TextView gs_date = findViewById(R.id.gs_date);
+                TextView gs_start_time = findViewById(R.id.gs_start_time);
+                TextView gs_end_time = findViewById(R.id.gs_end_time);
+
+                gs_numberOfUserMax.setText("10");
+
+                JSONObject object = jsonArray.getJSONObject(count);
+                String num = object.getString("group_roomnumber");
+
+                String category = object.getString("category");
+                gs_category.setText(category);
+                String title = object.getString("group_room_name");
+                gs_title.setText(title);
+                String date = object.getString("meeting_date");
+                gs_date.setText(date);
+                String startTime = object.getString("meeting_start_time");
+                gs_start_time.setText(startTime);
+                String endTime = object.getString("meeting_end_time");
+                gs_end_time.setText(endTime);
+                String writer = object.getString("writer");
+                gs_writer.setText(writer);
+                String content = object.getString("group_contents");
+                gs_content.setText(content);
+                String memberNumber = object.getString("member_number");
+                gs_numberOfUserNow.setText(memberNumber);
 
 
 
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("가져온거 ", "실패");
+            }
+
+        }
+
+    }
 }
