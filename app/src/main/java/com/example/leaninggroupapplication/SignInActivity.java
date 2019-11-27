@@ -1,8 +1,14 @@
 package com.example.leaninggroupapplication;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -42,6 +48,18 @@ public class SignInActivity extends AppCompatActivity {
         userRealname = findViewById(R.id.input_real_name);
 
         emailAuthenticationButton = findViewById(R.id.input_email_authentication_button);
+        emailAuthenticationButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) { //이메일 인증 버튼
+
+                final String email = userEmail.getText().toString().trim();
+                Auth auth = new Auth(email);
+                auth.execute();
+
+            }
+
+        });
 
         findViewById(R.id.join).setOnClickListener(new View.OnClickListener(){
 
@@ -90,6 +108,83 @@ public class SignInActivity extends AppCompatActivity {
         ru.execute();
     }
 
+    private class Auth extends AsyncTask<Void, Void, String>{
+
+        private String email;
+
+        Auth(String email){
+            this.email = email;
+        }
+
+        @Override
+        protected  void onPreExecute(){
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            RequestHandler requestHandler = new RequestHandler();
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("email",email);
+
+            return requestHandler.sendPostRequest(URLS.URL_AVAIL_AUTH, params);
+        }
+
+        @Override
+        protected void onPostExecute(String s){
+            super.onPostExecute(s);
+
+            try{
+
+                JSONObject obj = new JSONObject(s);
+
+                if(!obj.getBoolean("error")){ //에러 미발생
+
+                    AlertDialog.Builder alt = new AlertDialog.Builder(SignInActivity.this);
+
+                    alt.setMessage("사용 가능한 이메일 입니다. \n 해당 이메일로 인증번호를 보내시겠습니까?")
+                            .setCancelable(false)
+                            .setPositiveButton("네",
+                                    new DialogInterface.OnClickListener(){
+                                        public void onClick(DialogInterface dialog, int id){
+                                            //네 클릭
+                                            //Intent intent = new Intent(SignInActivity.this, Authentication.class);
+                                            //startActivity(intent);
+
+
+                                            Intent intent = new Intent(SignInActivity.this, Authentication.class);
+                                            intent.putExtra("inputEmail",email);
+
+                                            startActivity(intent);
+                                        }
+
+                                    })
+                            .setNegativeButton("아니오",
+                                    new DialogInterface.OnClickListener(){
+                                        public void onClick(DialogInterface dialog, int id){
+                                            //아니오 클릭
+                                            dialog.cancel();
+                                        }
+                                    });
+
+                    AlertDialog alert = alt.create();
+                    alert.setTitle("이메일 인증 요청");
+
+                    alert.show();
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "이미 존재하는 사용자입니다.", Toast.LENGTH_SHORT).show();
+                    //에러 발생
+                }
+
+            }catch (JSONException e ){
+                e.printStackTrace();
+            }
+
+        }
+    }
     private class RegisterUser extends AsyncTask<Void, Void, String>{
 
         private String email, nickname, passwd, school_number, real_name;

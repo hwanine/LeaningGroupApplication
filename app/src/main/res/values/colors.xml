@@ -22,5 +22,7 @@
     <color name="firstCombinationPointDeepBlue">#342d4b</color>
     <color name="firstCombinationPointBrightBlue">#7b7a95</color>
     <color name="createGroupObjectLine">#2b2b2b</color>
+
+    <color name="alertColor">#CFD8DC</color>
     <!--<color name="firstCombinationPointSky">#c5c9d8</color>-->
 </resources>

@@ -6,5 +6,6 @@ public class URLS {
     public static final String URL_REGISTER = URL_ROOT + "api.php?action=signup";
     public static final String URL_LOGIN= URL_ROOT + "api.php?action=login";
     public static final String URL_AUTH= URL_ROOT + "phpmail.php";
+    public static final String URL_AVAIL_AUTH= URL_ROOT + "api.php?action=authentication";
 
 }
