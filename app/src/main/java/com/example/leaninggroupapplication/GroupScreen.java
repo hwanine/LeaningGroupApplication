@@ -71,9 +71,9 @@ public class GroupScreen extends AppCompatActivity {
 
 
         Intent gIntent = getIntent();
-        final String comment_nickname=gIntent.getStringExtra("inputNickname");
-        String group_room_number=gIntent.getStringExtra("group_number");
-
+        final String comment_nickname=gIntent.getStringExtra("nickname");
+        final String group_room_number=gIntent.getStringExtra("group_number");
+        Log.d("닉넴",comment_nickname);
         BackgroundUITask UItask= new BackgroundUITask();
         UItask.execute(group_room_number);
 
@@ -90,7 +90,7 @@ public class GroupScreen extends AppCompatActivity {
                 //        Toast.makeText(getApplicationContext(), "네트워크 연결 불량", Toast.LENGTH_LONG).show();
 
                 CommentCommunicate taskComment = new CommentCommunicate();
-                taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php",comment_nickname ,enterCommentString,"1"); // groupNumber은 구현후 들어가도록 하겠다
+                taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php",comment_nickname ,enterCommentString,group_room_number); // groupNumber은 구현후 들어가도록 하겠다
 
                 adapter = new CommentsList(items, getApplicationContext());
                 listView.setAdapter(adapter);
@@ -128,7 +128,6 @@ public class GroupScreen extends AppCompatActivity {
             }
         }*/
     public void comment_extraction(String response)  {
-        JSONObject area1;
 
         try{
             JSONObject jsonObject = new JSONObject(response);
@@ -158,8 +157,8 @@ public class GroupScreen extends AppCompatActivity {
     }
 
     private class CommentCommunicate extends AsyncTask<String,String,String> {
-        SimpleDateFormat format1 = new SimpleDateFormat (  "yyyy-MM-dd HH:mm:ss");
-        Date time = new Date();
+        //SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
+        //Date time = new Date();
 
         @Override
         protected String doInBackground(String... params) {
@@ -167,9 +166,10 @@ public class GroupScreen extends AppCompatActivity {
             String comment_content = params[2];
             String groupRoomNumber = params[3];
             String output = "";
-            String commentTime = format1.format(time);
-            String postParameters = "comment_member=" + comment_member + "&comment_content=" + comment_content + "&group_roomnumber=" + groupRoomNumber
-                    +"&comment_time"+commentTime;
+           // String commentTime = format1.format(time);
+            Log.d("그룹넘버 확인",groupRoomNumber);
+           // Log.d("시간 확인",commentTime);
+            String postParameters = "comment_member=" + comment_member + "&comment_content=" + comment_content + "&group_roomnumber=" + groupRoomNumber;
 
             try {
                 //연결 url 설정
@@ -203,7 +203,7 @@ public class GroupScreen extends AppCompatActivity {
                     }
                     Log.d("됬나",output);
 
-                    //comment_extraction(output); //json 반환받는곳
+                    comment_extraction(output); //json 반환받는곳
 
                     br.close();
                 }
@@ -222,28 +222,7 @@ public class GroupScreen extends AppCompatActivity {
 
             try {
 
-                //Log.e("here",s);
-                JSONObject obj = new JSONObject(s);
-
-                if (!obj.getBoolean("error")) {
-
-                    Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-                    JSONObject userJson = obj.getJSONObject("comment");
-
-                    //System.out.println(userJson);
-
-
-                    String comment_member=userJson.getString("comment_member");
-                    String comment_content=userJson.getString("comment_content");
-
-
-
-                    //startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                } else {
-                    Log.e("here",s);
-                    Toast.makeText(getApplicationContext(), "Invalid email or password retry again", Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
