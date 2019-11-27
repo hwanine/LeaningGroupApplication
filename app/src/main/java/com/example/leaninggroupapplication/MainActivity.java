@@ -43,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout ReadingFrame;
     LinearLayout MajoringFrame;
     LinearLayout HobbyFrame;
+    ListView LanguageFrameListView;
+    ListView LicenseFrameListView;
+    ListView ReadingFrameListView;
+    ListView MajoringFrameListView;
+    ListView HobbyFrameListView;
 
     TextView Title;
     TextView GroupDate;
@@ -51,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
     TextView GroupNumber;
     ArrayList<createGroupSummaryObject> summaryObject;
     ListAdapter adapter;
+
+    String category;
 
     TextView loginUserEmail;
     TextView loginUserNickname;
@@ -67,18 +74,23 @@ public class MainActivity extends AppCompatActivity {
         GroupNumOfMem=findViewById(R.id.GroupNumOfMem);
         GroupNumber=findViewById(R.id.GroupNumber);
 
-        //String url = "http://rkdlem1613.dothome.co.kr/nnew.php";
+
+        summaryObject = new ArrayList<>();
+
+        adapter = new ListAdapter(summaryObject);
+
         final PrefManager prefManager = PrefManager.getInstance(MainActivity.this);
         user = prefManager.getUser();
 
         setContentView(R.layout.activity_main);
+
+        LanguageFrameListView =(ListView)findViewById(R.id.LanguageFrameListView);
+        LicenseFrameListView = (ListView)findViewById(R.id.LicenseFrameListView);
+        ReadingFrameListView = (ListView)findViewById(R.id.ReadingFrameListView);
+        MajoringFrameListView = (ListView)findViewById(R.id.MajoringFrameListView);
+        HobbyFrameListView = (ListView)findViewById(R.id.HobbyFrameListView);
+
         ListView listView =(ListView)findViewById(R.id.LanguageFrameListView);
-
-        summaryObject = new ArrayList<>();
-        //summaryObject.add(new createGroupSummaryObject("영어회화","2019/11/20-18:00~20:00","곽송이","4","1"));
-
-        adapter = new ListAdapter(summaryObject);
-
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -88,20 +100,20 @@ public class MainActivity extends AppCompatActivity {
                 builder.setTitle("모임정보 확인");
                 builder.setMessage("모임을 보시겠습니까?.");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                adapterView.getItemAtPosition(position);
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapterView.getItemAtPosition(position);
 
-                                Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
-                                groupScreenIntent.putExtra("nickname",String.valueOf(user.getNickname()));
-                                groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
-                                startActivity(groupScreenIntent);
-                            }
-                        });
+                        Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getNickname()));
+                        groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                        startActivity(groupScreenIntent);
+                    }
+                });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
                 });
                 builder.create();
                 builder.show();
@@ -112,18 +124,10 @@ public class MainActivity extends AppCompatActivity {
 //Title.toString(),GroupDate.toString(),Writer.toString(),GroupNumOfMem.toString(),GroupNumber.toString()
 
 
-       // NetworkTask networkTask = new NetworkTask(url, null);
-       // networkTask.execute();
+        // NetworkTask networkTask = new NetworkTask(url, null);
+        // networkTask.execute();
 
-        //버튼들을 정의, 프레임 레이아웃에서 다른 프레임으로 넘어가기 위함
-        Button LanguageButton = (Button) findViewById(R.id.LanguageButton);
-        Button LogButton = (Button) findViewById(R.id.LogListButton);//언어
-        LanguageButton.setOnClickListener(new Button.OnClickListener() {
 
-            public void onClick(View view) {
-                changeView(0);
-            }
-        });
 
         loginUserEmail = (TextView)findViewById(R.id.getEmail);
         loginUserNickname = (TextView)findViewById(R.id.getNickName);
@@ -161,12 +165,28 @@ public class MainActivity extends AppCompatActivity {
         //loginUserEmail.setText(intent.getStringExtra("userEmail"));
         //loginUserNickname.setText(intent.getStringExtra("userNickname"));
 
+        //버튼들을 정의, 프레임 레이아웃에서 다른 프레임으로 넘어가기 위함
+        Button LanguageButton = (Button) findViewById(R.id.LanguageButton);//언어
+        LanguageButton.setOnClickListener(new Button.OnClickListener() {
+
+            public void onClick(View view) {
+                changeView(0);
+                category="언어";
+                LanguageFrameListView.setAdapter(adapter);
+                NetworkTask nt = new NetworkTask();
+                nt.execute();
+            }
+        });
 
         Button LicenseButton = (Button) findViewById(R.id.LicenseButton);//자격증
         LicenseButton.setOnClickListener(new Button.OnClickListener() {
 
             public void onClick(View view) {
                 changeView(1);
+                category="자격증";
+                LicenseFrameListView.setAdapter(adapter);
+                NetworkTask nt= new NetworkTask();
+                nt.execute();
             }
         });
 
@@ -175,6 +195,10 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View view) {
                 changeView(2);
+                category="독서";
+                ReadingFrameListView.setAdapter(adapter);
+                NetworkTask nt= new NetworkTask();
+                nt.execute();
             }
         });
 
@@ -183,6 +207,10 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View view) {
                 changeView(3);
+                category="전공";
+                MajoringFrameListView.setAdapter(adapter);
+                NetworkTask nt= new NetworkTask();
+                nt.execute();
             }
         });
 
@@ -191,10 +219,17 @@ public class MainActivity extends AppCompatActivity {
 
             public void onClick(View view) {
                 changeView(4);
+                category="취미";
+                HobbyFrameListView.setAdapter(adapter);
+                NetworkTask nt= new NetworkTask();
+                nt.execute();
             }
         });
 
-        LanguageFrame = (LinearLayout) findViewById(R.id.LanguageFrame); //버튼을 클릭하면 각 버튼에 대한 프레임을 실행하기 위해 findView하고 하나의 프레임만 남아있게 제거하는 과정
+
+        //버튼을 클릭하면 각 버튼에 대한 프레임을 실행하기 위해 findView하고 하나의 프레임만 남아있게 제거하는 과정
+
+        LanguageFrame = (LinearLayout) findViewById(R.id.LanguageFrame);
         LicenseFrame = (LinearLayout) findViewById(R.id.LicenseFrame);
         ReadingFrame = (LinearLayout) findViewById(R.id.ReadingFrame);
         MajoringFrame = (LinearLayout) findViewById(R.id.MajoringFrame);
@@ -206,6 +241,11 @@ public class MainActivity extends AppCompatActivity {
         frame.removeView(ReadingFrame);
         frame.removeView(MajoringFrame);
         frame.removeView(HobbyFrame);
+        frame.removeView(LicenseFrameListView);
+        frame.removeView(ReadingFrameListView);
+        frame.removeView(MajoringFrameListView);
+        frame.removeView(HobbyFrameListView);
+
 
         /*Button checkUserListButton = (Button) findViewById(R.id.checkUserListButton); //회원정보를 확인하기 위한 버튼
         checkUserListButton.setOnClickListener(new View.OnClickListener() {
@@ -214,8 +254,8 @@ public class MainActivity extends AppCompatActivity {
                 new BackgroundTask().execute();
             }
         });*/
-        NetworkTask nt= new NetworkTask();
-        nt.execute();
+        //NetworkTask nt= new NetworkTask();
+        //nt.execute();
 
         //모임작성화면으로 넘어가는 버튼
         Button setupButton;
@@ -244,38 +284,45 @@ public class MainActivity extends AppCompatActivity {
             this.GroupNumber = GroupNumber;
         }*/
 
-       protected  void onPreExecute(){
-           target = "http://rkdlem1613.dothome.co.kr/getlog3.php";
-       }
+        protected  void onPreExecute(){
+            target = "http://rkdlem1613.dothome.co.kr/gettest.php";
+        }
 
         @Override
         protected String doInBackground(Void... Voids) {
             try{//
-            URL url = new URL(target);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            String temp;
-            StringBuilder stringBuilder = new StringBuilder();
-            while((temp = bufferedReader.readLine()) != null){
-                stringBuilder.append(temp + "\n");
-                System.out.println(temp);
+                URL url = new URL(target);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                String postParameters = "category=" + category;
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                String temp;
+                StringBuilder stringBuilder = new StringBuilder();
+                while((temp = bufferedReader.readLine()) != null){
+                    stringBuilder.append(temp + "\n");
+                    System.out.println(temp);
+                }
+
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return stringBuilder.toString().trim();
+
+            }catch (Exception e){
+                e.printStackTrace();
             }
-
-            bufferedReader.close();
-            inputStream.close();
-            httpURLConnection.disconnect();
-            return stringBuilder.toString().trim();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
             return null;
-    }
+        }
 
-    public void onProgressUpdate(Void... values){
-        super.onProgressUpdate();
-    }
+        public void onProgressUpdate(Void... values){
+            super.onProgressUpdate();
+        }
 
         public void onPostExecute(String result){
             try{
@@ -289,6 +336,7 @@ public class MainActivity extends AppCompatActivity {
                 String date;
                 String starttime;
                 String endtime;
+                String writer;
                 System.out.println(jsonArray.length());
                 while(count < jsonArray.length()){
                     JSONObject object = jsonArray.getJSONObject(count);
@@ -297,9 +345,10 @@ public class MainActivity extends AppCompatActivity {
                     member_number =object.getString("member_number");
                     title = object.getString("group_room_name");
                     date = object.getString("meeting_date");
-                   // starttime = object.getString("meeting_start_time");
-                   // endtime = object.getString("meeting_end_time");
-                    createGroupSummaryObject infrom = new createGroupSummaryObject(title, date, "tt",member_number,group_roomnumber );
+                    // starttime = object.getString("meeting_start_time");
+                    // endtime = object.getString("meeting_end_time");
+                    writer = object.getString("writer");
+                    createGroupSummaryObject infrom = new createGroupSummaryObject(title, date, writer,member_number,group_roomnumber );
                     summaryObject.add(infrom);
                     adapter.notifyDataSetChanged();
                     count++;
