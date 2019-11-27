@@ -76,16 +76,20 @@ public class GroupScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                items.clear();
+                adapter.notifyDataSetChanged();
+
+
                 enterCommentsEdit = (EditText) findViewById(R.id.gs_enterComments); //댓글 내용 가져오기
                 String enterCommentString = enterCommentsEdit.getText().toString();  // 댓글 내용 스트링변환
-                if (enterCommentString.length() == 0) //아무것도 안썻을때
+                if (enterCommentString.length() == 0) {//아무것도 안썻을때
                     Toast.makeText(getApplicationContext(), "comment를 입력해주세요", Toast.LENGTH_LONG).show();
-                //else if (!isNetWork()) {
-                //        Toast.makeText(getApplicationContext(), "네트워크 연결 불량", Toast.LENGTH_LONG).show();
-
-                CommentCommunicate taskComment = new CommentCommunicate();
-                taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php",comment_nickname ,enterCommentString,group_room_number); // groupNumber은 구현후 들어가도록 하겠다
-
+                    //else if (!isNetWork()) {
+                    //        Toast.makeText(getApplicationContext(), "네트워크 연결 불량", Toast.LENGTH_LONG).show();
+                }else {
+                    CommentCommunicate taskComment = new CommentCommunicate();
+                    taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php", comment_nickname, enterCommentString, group_room_number); // groupNumber은 구현후 들어가도록 하겠다
+                }
             }
         });
 
@@ -126,18 +130,19 @@ public class GroupScreen extends AppCompatActivity {
             int count = 0;
             String commet_mem;
             String comment_cont;
-            String comment_timeout;
-            String group_number;
+            String commentTime;
+            SimpleDateFormat format = new SimpleDateFormat (  "HH:mm:ss");
+
 
             System.out.println(jsonArray.length());
             while(count < jsonArray.length()){
                 JSONObject object = jsonArray.getJSONObject(count);
                 commet_mem = object.getString("comment_member");
                 comment_cont = object.getString("comment_content");
-                comment_timeout = object.getString("comment_time");
-                //group_number = object.getString("group_number");
-
-                Comments commentData = new Comments(commet_mem,comment_cont, comment_timeout);
+                commentTime = object.getString("comment_time");
+                //commentTime = format.format(commentTime);
+                //Log.d("혹시 너때문이니",commentTime.toString());
+                Comments commentData = new Comments(commet_mem,comment_cont,commentTime);
                 items.add(commentData);
                 count++;
 
@@ -157,9 +162,7 @@ public class GroupScreen extends AppCompatActivity {
             String comment_content = params[2];
             String groupRoomNumber = params[3];
             String output = "";
-           // String commentTime = format1.format(time);
-            Log.d("그룹넘버 확인",groupRoomNumber);
-           // Log.d("시간 확인",commentTime);
+
             String postParameters = "comment_member=" + comment_member + "&comment_content=" + comment_content + "&group_roomnumber=" + groupRoomNumber;
 
             try {
@@ -194,7 +197,7 @@ public class GroupScreen extends AppCompatActivity {
                     }
                     Log.d("됬나",output);
 
-                    comment_extraction(output); //json 반환받는곳
+
 
                     br.close();
                 }
@@ -212,6 +215,8 @@ public class GroupScreen extends AppCompatActivity {
             super.onPostExecute(s);
 
             try {
+                comment_extraction(s);
+
                 adapter.notifyDataSetChanged();
             } catch (Exception e) {
                 e.printStackTrace();

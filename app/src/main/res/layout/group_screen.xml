@@ -228,7 +228,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="2dp"
             android:inputType="textWebEditText|textMultiLine|text"
-            android:text="내용을 입력하세요"
+            android:hint="내용을 입력하세요"
             android:textSize="15dp" />
 
         <Button
@@ -254,8 +254,8 @@
         android:id="@+id/gs_commentList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
 
     </ListView>
 

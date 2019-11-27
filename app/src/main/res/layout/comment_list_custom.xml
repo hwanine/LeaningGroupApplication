@@ -9,8 +9,6 @@
         android:orientation="horizontal"
         >
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,16 +18,19 @@
                 android:id="@+id/comment_userNicknameTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="13dp"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/comment_comment_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="13dp"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/comment_dateTime"
+                android:textSize="13dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
