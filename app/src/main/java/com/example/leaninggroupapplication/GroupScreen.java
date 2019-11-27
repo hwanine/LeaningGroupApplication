@@ -451,7 +451,7 @@ public class GroupScreen extends AppCompatActivity {
                 String memberNumber = object.getString("member_number");
                 gs_numberOfUserNow.setText(memberNumber);
 
-
+//
 
             } catch (Exception e) {
                 e.printStackTrace();
