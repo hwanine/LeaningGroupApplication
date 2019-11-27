@@ -55,9 +55,8 @@ public class MainActivity extends AppCompatActivity {
     TextView loginUserEmail;
     TextView loginUserNickname;
     Button loginButton;
-
-    String nic;
     User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,22 +88,20 @@ public class MainActivity extends AppCompatActivity {
                 builder.setTitle("모임정보 확인");
                 builder.setMessage("모임을 보시겠습니까?.");
                 builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        adapterView.getItemAtPosition(position);
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                adapterView.getItemAtPosition(position);
 
-
-                        Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
-                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getEmail()));
-                        groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
-                        startActivity(groupScreenIntent);
-
-                    }
-                });
+                                Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                                groupScreenIntent.putExtra("nickname",String.valueOf(user.getNickname()));
+                                groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                                startActivity(groupScreenIntent);
+                            }
+                        });
                 builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
                 });
                 builder.create();
                 builder.show();
@@ -115,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
 //Title.toString(),GroupDate.toString(),Writer.toString(),GroupNumOfMem.toString(),GroupNumber.toString()
 
 
-        // NetworkTask networkTask = new NetworkTask(url, null);
-        // networkTask.execute();
+       // NetworkTask networkTask = new NetworkTask(url, null);
+       // networkTask.execute();
 
         //버튼들을 정의, 프레임 레이아웃에서 다른 프레임으로 넘어가기 위함
         Button LanguageButton = (Button) findViewById(R.id.LanguageButton);
@@ -247,38 +244,38 @@ public class MainActivity extends AppCompatActivity {
             this.GroupNumber = GroupNumber;
         }*/
 
-        protected  void onPreExecute(){
-            target = "http://rkdlem1613.dothome.co.kr/getlog3.php";
-        }
+       protected  void onPreExecute(){
+           target = "http://rkdlem1613.dothome.co.kr/getlog3.php";
+       }
 
         @Override
         protected String doInBackground(Void... Voids) {
             try{//
-                URL url = new URL(target);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                String temp;
-                StringBuilder stringBuilder = new StringBuilder();
-                while((temp = bufferedReader.readLine()) != null){
-                    stringBuilder.append(temp + "\n");
-                    System.out.println(temp);
-                }
-
-                bufferedReader.close();
-                inputStream.close();
-                httpURLConnection.disconnect();
-                return stringBuilder.toString().trim();
-
-            }catch (Exception e){
-                e.printStackTrace();
+            URL url = new URL(target);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            InputStream inputStream = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String temp;
+            StringBuilder stringBuilder = new StringBuilder();
+            while((temp = bufferedReader.readLine()) != null){
+                stringBuilder.append(temp + "\n");
+                System.out.println(temp);
             }
-            return null;
-        }
 
-        public void onProgressUpdate(Void... values){
-            super.onProgressUpdate();
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            return stringBuilder.toString().trim();
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
+            return null;
+    }
+
+    public void onProgressUpdate(Void... values){
+        super.onProgressUpdate();
+    }
 
         public void onPostExecute(String result){
             try{
@@ -300,8 +297,8 @@ public class MainActivity extends AppCompatActivity {
                     member_number =object.getString("member_number");
                     title = object.getString("group_room_name");
                     date = object.getString("meeting_date");
-                    // starttime = object.getString("meeting_start_time");
-                    // endtime = object.getString("meeting_end_time");
+                   // starttime = object.getString("meeting_start_time");
+                   // endtime = object.getString("meeting_end_time");
                     createGroupSummaryObject infrom = new createGroupSummaryObject(title, date, "tt",member_number,group_roomnumber );
                     summaryObject.add(infrom);
                     adapter.notifyDataSetChanged();
@@ -319,7 +316,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClick_log(View view) {
-        nic = (String) loginUserEmail.getText();
+        String nic = (String) loginUserEmail.getText();
         Intent intent = new Intent(this, LogActivity.class);
         intent.putExtra("nic", nic);
         startActivity(intent);
@@ -403,5 +400,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class InsertData extends StringRequest {
 
+        final static private String URL = "http://rkdlem1613.dothome.co.kr/insert6.php";
+        private Map<String, String> parameters;
+
+        public InsertData(String  category, String title, String content, String numberOfUser, String date,
+                          String starttime, String endtime, Response.Listener<String> listener){
+            super(Method.POST, URL, listener, null);
+            parameters = new HashMap<>();
+            parameters.put("category", category);
+            parameters.put("title", title);
+            parameters.put("content", content);
+            parameters.put("numberOfUser", numberOfUser);
+            parameters.put("date", date);
+            parameters.put("starttime", starttime);
+            parameters.put("endtime", endtime);
+        }
+
+        public Map<String, String> getParams(){
+            return parameters;
+        }
+    }
 }

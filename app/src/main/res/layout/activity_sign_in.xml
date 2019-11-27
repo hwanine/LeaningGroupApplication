@@ -32,7 +32,8 @@
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/input_email_authentication_button"
@@ -46,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="귀하의 창원대학교 이메일을 입력해주세요."
-        android:textColor="@color/cautionColor"
+        android:textColor="#F1B0B0"
         />
 
     <LinearLayout
@@ -102,7 +103,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/caution_password_security"
-        android:textColor="@color/cautionColor"/>
+        android:textColor="#F1B0B0"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -134,7 +135,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/check_password_incorrect"
-        android:textColor="@color/cautionColor"/>
+        android:textColor="#F1B0B0"/>
 
     <LinearLayout
         android:layout_width="match_parent"
