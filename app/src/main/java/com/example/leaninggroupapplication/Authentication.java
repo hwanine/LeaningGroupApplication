@@ -28,7 +28,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
 
     //전역변수
     private  int certNumLength = 6;
-    final String random = excuteGenerate();
+    final String random = executeGenerate();
 
     public static boolean personAllow = false;
     public static String email;
@@ -42,7 +42,7 @@ public class Authentication extends AppCompatActivity implements View.OnClickLis
     final int COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
 
     //랜덤난수 생성
-    public String excuteGenerate() {
+    public String executeGenerate() {
 
         Random random = new Random(System.currentTimeMillis());
 

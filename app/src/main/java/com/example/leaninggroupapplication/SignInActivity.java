@@ -35,6 +35,9 @@ public class SignInActivity extends AppCompatActivity {
     /*public void aithenticationEmail(){
     }*/
 
+    //11.28 로그인시 워닝카운트가 5인 사용자 영구차단
+    //11.28 닉네임과 실명을 입력하면 이메일을 찾아주기
+
     EditText userEmail, userNickname, userPasswd, userPasswdcheck, userSchoolnumber, userRealname;
     Button emailAuthenticationButton;
 
