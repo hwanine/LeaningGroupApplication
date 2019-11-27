@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     TextView loginUserEmail;
     TextView loginUserNickname;
     Button loginButton;
-
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity {
         GroupNumber=findViewById(R.id.GroupNumber);
 
         //String url = "http://rkdlem1613.dothome.co.kr/nnew.php";
-
+        final PrefManager prefManager = PrefManager.getInstance(MainActivity.this);
+        user = prefManager.getUser();
 
         setContentView(R.layout.activity_main);
         ListView listView =(ListView)findViewById(R.id.LanguageFrameListView);
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                                 adapterView.getItemAtPosition(position);
 
                                 Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                                groupScreenIntent.putExtra("nickname",String.valueOf(user.getNickname()));
                                 groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
                                 startActivity(groupScreenIntent);
                             }
@@ -103,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 });
                 builder.create();
                 builder.show();
-
-
 
 
             }
@@ -129,8 +129,7 @@ public class MainActivity extends AppCompatActivity {
         loginUserNickname = (TextView)findViewById(R.id.getNickName);
         loginButton = (Button)findViewById(R.id.loginbutton);
 
-        final PrefManager prefManager = PrefManager.getInstance(MainActivity.this);
-        User user = prefManager.getUser();
+
 
         if(prefManager.isLoggedIn()){
 
