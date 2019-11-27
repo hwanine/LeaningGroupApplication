@@ -63,6 +63,7 @@ public class CreateGroup extends AppCompatActivity {
     String starttime;
     String endtime;
 
+
     TextView cg_writer;
 
 
@@ -201,6 +202,15 @@ public class CreateGroup extends AppCompatActivity {
         });
         starttime=start_time+":"+start_time_m;
         endtime=end_time+":"+end_time_m;
+
+        final PrefManager prefManager = PrefManager.getInstance(CreateGroup.this);
+        User user = prefManager.getUser();
+
+        if(prefManager.isLoggedIn()){
+            cg_writer.setText(String.valueOf(user.getNickname()));
+            }
+
+
     }
 
 
