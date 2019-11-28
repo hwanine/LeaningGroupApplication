@@ -207,7 +207,7 @@ public class CreateGroup extends AppCompatActivity {
         User user = prefManager.getUser();
 
         if(prefManager.isLoggedIn()){
-            cg_writer.setText(String.valueOf(user.getNickname()));
+            cg_writer.setText(String.valueOf(user.getEmail()));
             }
 
 
