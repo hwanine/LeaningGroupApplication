@@ -1,5 +1,6 @@
 package com.example.leaninggroupapplication;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -23,6 +24,11 @@ import org.json.JSONObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -34,12 +40,23 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class GroupScreen extends AppCompatActivity {
     EditText enterCommentsEdit;
+    Button gs_joinBtn;
+    Button gs_cancelBtn;
+    TextView gs_category;
+    TextView gs_title;
+    TextView gs_date;
+    TextView gs_start_time;
+    TextView gs_end_time;
+    TextView gs_writer;
+    TextView gs_content;
+    TextView gs_numberOfUserMax;
+    TextView gs_numberOfUserNow;
     public final int REQUEST_CODE = 101;
     private ListView listView;
     CommentsList adapter;
@@ -55,7 +72,8 @@ public class GroupScreen extends AppCompatActivity {
 
         Button commentsButton;
         Button fileSendButton;
-
+        gs_joinBtn = (Button) findViewById(R.id.gs_joinBtn);
+        gs_cancelBtn = (Button) findViewById(R.id.gs_cancelBtn);
 
         listView = findViewById(R.id.gs_commentList);
         //ArrayList< Comments> items = new ArrayList<>();
@@ -68,6 +86,7 @@ public class GroupScreen extends AppCompatActivity {
         final String comment_nickname=gIntent.getStringExtra("nickname");
         final String group_room_number=gIntent.getStringExtra("group_number");
         Log.d("닉넴",comment_nickname);
+
         BackgroundUITask UItask= new BackgroundUITask();
         UItask.execute(group_room_number);
 
@@ -99,6 +118,88 @@ public class GroupScreen extends AppCompatActivity {
             public void onClick(View view) {
                 //Intent listIntent = new Intent(getApplicationContext(), FileSendActivity.class); //파일샌드액티비티에서 보낼 파일 선택하기 위해 새 액티비티 열기
                 //startActivityForResult(listIntent, REQUEST_CODE);
+
+            }
+        });
+
+        gs_joinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = gs_title.getText().toString();
+                String category = gs_category.getText().toString();
+                String date = gs_date.getText().toString();
+                String starttime = gs_start_time.getText().toString();
+                String endtime = gs_end_time.getText().toString();
+
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+
+                            if (success) {
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
+                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                startActivity(intent);
+                            } else {
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                builder.setMessage("참여 실패.").setNegativeButton("확인", null).create().show();
+                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Intent gIntent = getIntent();
+                //String nic=gIntent.getStringExtra("nickname");
+                joinGroup join = new joinGroup(group_room_number, category, title, comment_nickname, date, starttime, endtime, responseListener);
+                Log.i("여기", group_room_number);
+                RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
+                queue.add(join);
+
+            }
+        });
+
+        gs_cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean success = jsonResponse.getBoolean("success");
+
+                            if(success){
+                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                builder.setMessage("취소 성공.").setPositiveButton("확인",null).create().show();
+                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                builder.setMessage("취소 실패.").setNegativeButton("확인",null).create().show();
+                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        }
+                        catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Intent gIntent = getIntent();
+                cancelGroup cancel = new cancelGroup(comment_nickname, group_room_number, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
+                queue.add(cancel);
 
             }
         });
@@ -284,15 +385,15 @@ public class GroupScreen extends AppCompatActivity {
                 JSONArray jsonArray = jsonObject.getJSONArray("response");
                 int count = 0;
                 Log.d("가져온거 ", "호출됨");
-                TextView gs_category = findViewById(R.id.gs_category);
-                TextView gs_title = findViewById(R.id.gs_title);
-                TextView gs_writer = findViewById(R.id.gs_writer);
-                TextView gs_content = findViewById(R.id.gs_content);
-                TextView gs_numberOfUserMax = findViewById(R.id.gs_numberOfUserMax);
-                TextView gs_numberOfUserNow = findViewById(R.id.gs_numberOfUserNow);
-                TextView gs_date = findViewById(R.id.gs_date);
-                TextView gs_start_time = findViewById(R.id.gs_start_time);
-                TextView gs_end_time = findViewById(R.id.gs_end_time);
+                gs_category = findViewById(R.id.gs_category);
+                gs_title = findViewById(R.id.gs_title);
+                gs_writer = findViewById(R.id.gs_writer);
+                gs_content = findViewById(R.id.gs_content);
+                gs_numberOfUserMax = findViewById(R.id.gs_numberOfUserMax);
+                gs_numberOfUserNow = findViewById(R.id.gs_numberOfUserNow);
+                gs_date = findViewById(R.id.gs_date);
+                gs_start_time = findViewById(R.id.gs_start_time);
+                gs_end_time = findViewById(R.id.gs_end_time);
 
                 gs_numberOfUserMax.setText("10");
 
@@ -325,5 +426,45 @@ public class GroupScreen extends AppCompatActivity {
 
         }
 
+    }
+
+    class joinGroup extends StringRequest {
+
+        final static private String URL = "http://rkdlem1613.dothome.co.kr/join.php";
+        private Map<String, String> parameters;
+
+        public joinGroup(String roomnum, String  category, String title, String nic, String date,
+                         String starttime, String endtime, Response.Listener<String> listener){
+            super(Method.POST, URL, listener, null);
+            parameters = new HashMap<>();
+            parameters.put("category", category);
+            parameters.put("title", title);
+            parameters.put("roomnum", roomnum);
+            parameters.put("nic", nic);
+            parameters.put("date", date);
+            parameters.put("starttime", starttime);
+            parameters.put("endtime", endtime);
+        }
+
+        public Map<String, String> getParams(){
+            return parameters;
+        }
+    }
+
+    //취소 할때
+    class cancelGroup extends StringRequest {
+
+        final static private String URL = "http://rkdlem1613.dothome.co.kr/cancel.php";
+        private Map<String, String> parameters;
+
+        public cancelGroup(String nic, String roomnum, Response.Listener<String> listener){
+            super(Method.POST, URL, listener, null);
+            parameters = new HashMap<>();
+            parameters.put("nic", nic);
+            parameters.put("roomnum", roomnum);
+        }
+        public Map<String, String> getParams(){
+            return parameters;
+        }
     }
 }
