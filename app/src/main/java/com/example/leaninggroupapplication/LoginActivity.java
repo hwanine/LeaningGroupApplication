@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClick_FindEmail(View view) {
-        Intent intent = new Intent(this, SignInActivity.class); //find email activity 만들어야함
+        Intent intent = new Intent(this, FindEmail.class); //find email activity 만들어야함
         startActivity(intent);
     }
 
