@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//
+////
 
 
     public void onClick_log(View view) {
