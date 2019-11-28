@@ -171,36 +171,44 @@ public class GroupScreen extends AppCompatActivity {
         gs_cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
+                int max = Integer.parseInt(gs_numberOfUserMax.getText().toString());
+                int min = Integer.parseInt(gs_numberOfUserNow.getText().toString());
+                if (max <= min) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                    builder.setMessage("인원 제한").setNegativeButton("확인", null).create().show();
+                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                    startActivity(intent);
+                } else {
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
 
-                            if(success){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                builder.setMessage("취소 성공.").setPositiveButton("확인",null).create().show();
-                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                startActivity(intent);
-                            }
-                            else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                builder.setMessage("취소 실패.").setNegativeButton("확인",null).create().show();
-                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                startActivity(intent);
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
+
+                                if (success) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                    builder.setMessage("취소 성공.").setPositiveButton("확인", null).create().show();
+                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                    builder.setMessage("취소 실패.").setNegativeButton("확인", null).create().show();
+                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                         }
-                        catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                Intent gIntent = getIntent();
-                cancelGroup cancel = new cancelGroup(comment_nickname, group_room_number, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
-                queue.add(cancel);
+                    };
+                    Intent gIntent = getIntent();
+                    cancelGroup cancel = new cancelGroup(comment_nickname, group_room_number, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
+                    queue.add(cancel);
 
+                }
             }
         });
 
