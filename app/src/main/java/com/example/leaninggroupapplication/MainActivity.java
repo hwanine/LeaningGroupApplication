@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         adapterView.getItemAtPosition(position);
 
                         Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
-                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getNickname()));
+                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getEmail()));
                         groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
                         startActivity(groupScreenIntent);
                     }
@@ -361,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+////
 
 
     public void onClick_log(View view) {
