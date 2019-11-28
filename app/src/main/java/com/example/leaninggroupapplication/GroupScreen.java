@@ -125,60 +125,61 @@ public class GroupScreen extends AppCompatActivity {
         gs_joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = gs_title.getText().toString();
-                String category = gs_category.getText().toString();
-                String date = gs_date.getText().toString();
-                String starttime = gs_start_time.getText().toString();
-                String endtime = gs_end_time.getText().toString();
+                int max = Integer.parseInt(gs_numberOfUserMax.getText().toString());
+                int min = Integer.parseInt(gs_numberOfUserNow.getText().toString());
+                System.out.println(max);
+                if (max <= min) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                    builder.setMessage("인원 제한으로 참여 제한 됩니다.").setNegativeButton("확인", null).create().show();
+                } else {
+                    String title = gs_title.getText().toString();
+                    String category = gs_category.getText().toString();
+                    String date = gs_date.getText().toString();
+                    String starttime = gs_start_time.getText().toString();
+                    String endtime = gs_end_time.getText().toString();
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-                        try {
+                            try {
 
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
 
-                            if (success) {
+                                if (success) {
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
-                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                startActivity(intent);
-                            } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                    builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
+                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                    startActivity(intent);
+                                } else {
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                builder.setMessage("참여 실패.").setNegativeButton("확인", null).create().show();
-                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                startActivity(intent);
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                    builder.setMessage("참여 실패.").setNegativeButton("확인", null).create().show();
+                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                };
-                Intent gIntent = getIntent();
-                //String nic=gIntent.getStringExtra("nickname");
-                joinGroup join = new joinGroup(group_room_number, category, title, comment_nickname, date, starttime, endtime, responseListener);
-                Log.i("여기", group_room_number);
-                RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
-                queue.add(join);
+                    };
+                    Intent gIntent = getIntent();
+                    //String nic=gIntent.getStringExtra("nickname");
+                    joinGroup join = new joinGroup(group_room_number, category, title, comment_nickname, date, starttime, endtime, responseListener);
+                    Log.i("여기", group_room_number);
+                    RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
+                    queue.add(join);
 
+                }
             }
         });
 
         gs_cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int max = Integer.parseInt(gs_numberOfUserMax.getText().toString());
-                int min = Integer.parseInt(gs_numberOfUserNow.getText().toString());
-                if (max <= min) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                    builder.setMessage("인원 제한").setNegativeButton("확인", null).create().show();
-                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
+
                     Response.Listener<String> responseListener = new Response.Listener<String>() {
 
                         @Override
@@ -209,7 +210,7 @@ public class GroupScreen extends AppCompatActivity {
                     queue.add(cancel);
 
                 }
-            }
+
         });
 
     }
