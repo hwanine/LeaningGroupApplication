@@ -403,7 +403,7 @@ public class GroupScreen extends AppCompatActivity {
                 gs_start_time = findViewById(R.id.gs_start_time);
                 gs_end_time = findViewById(R.id.gs_end_time);
 
-                gs_numberOfUserMax.setText("10");
+
 
                 JSONObject object = jsonArray.getJSONObject(count);
                 String num = object.getString("group_roomnumber");
@@ -423,9 +423,9 @@ public class GroupScreen extends AppCompatActivity {
                 String content = object.getString("group_contents");
                 gs_content.setText(content);
                 String memberNumber = object.getString("member_number");
-                gs_numberOfUserNow.setText(memberNumber);
-
-
+                gs_numberOfUserMax.setText(memberNumber);
+                String pre_usernumber = object.getString("pre_usernum");
+                gs_numberOfUserNow.setText(pre_usernumber);
 
             } catch (Exception e) {
                 e.printStackTrace();
