@@ -172,6 +172,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(0);
                 category="언어";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 LanguageFrameListView.setAdapter(adapter);
                 NetworkTask nt = new NetworkTask();
                 nt.execute();
@@ -184,6 +186,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(1);
                 category="자격증";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 LicenseFrameListView.setAdapter(adapter);
                 NetworkTask nt= new NetworkTask();
                 nt.execute();
@@ -196,6 +200,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(2);
                 category="독서";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 ReadingFrameListView.setAdapter(adapter);
                 NetworkTask nt= new NetworkTask();
                 nt.execute();
@@ -208,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(3);
                 category="전공";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 MajoringFrameListView.setAdapter(adapter);
                 NetworkTask nt= new NetworkTask();
                 nt.execute();
@@ -220,6 +228,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(4);
                 category="취미";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 HobbyFrameListView.setAdapter(adapter);
                 NetworkTask nt= new NetworkTask();
                 nt.execute();
