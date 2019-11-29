@@ -1,11 +1,13 @@
 package com.example.leaninggroupapplication;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -53,6 +55,7 @@ import java.util.Map;
 
 
 public class GroupScreen extends AppCompatActivity {
+
     EditText enterCommentsEdit;
     Button gs_joinBtn;
     Button gs_cancelBtn;
@@ -69,12 +72,13 @@ public class GroupScreen extends AppCompatActivity {
     private ListView listView;
     CommentsList adapter;
     private ArrayAdapter<String> listAdapter;
-    //>>>>>>> Stashed changes
-    //댓글 테스트
+
     ArrayList< Comments> items = new ArrayList<>();
 
-
+    //SharedPreferences pref=getSharedPreferences("alarmPending",0);
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_screen);
 
@@ -156,29 +160,50 @@ public class GroupScreen extends AppCompatActivity {
                                 JSONObject jsonResponse = new JSONObject(response);
 
                                 boolean success = jsonResponse.getBoolean("success");
-                                String Rmeeting_data=jsonResponse.getString("meeting_date");
-                                String Rmeeting_start_time=jsonResponse.getString("meeting_start_time");
-
-                                String meeting_data="2019-11-29";
-                                String meeting_start_time="17:08:00";
-                                Log.d("왔나요",meeting_data);
-                                Log.d("왔나요2",meeting_start_time);
-
-                                Calendar cal = Calendar.getInstance();
-                                cal.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
-                                cal.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7)));
-                                cal.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(7,9)));
-
-                                cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
-                                cal.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5)));
-                                cal.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
 
 
-                                Toast.makeText(getApplicationContext(), " 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
-                                //Log.d("왔나요 똑바로 말해",date_text);
-                                diaryNotification(cal);
+
                                 if (success) {
+                                    String meeting_data=jsonResponse.getString("meeting_date");
+                                    String meeting_start_time=jsonResponse.getString("meeting_start_time");
 
+                                    //String meeting_data="2019-11-30";
+                                    //String meeting_start_time="01:01:00";
+
+
+                                    Log.d("왔나요",meeting_data);
+                                    Log.d("왔나요2",meeting_start_time);
+
+                                    Calendar cal = Calendar.getInstance();
+                                    Calendar cal2 = Calendar.getInstance();
+
+                                    cal.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
+                                    cal.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7))-1);
+
+                                    System.out.println("똑바로 달"+cal.get(Calendar.MONTH));
+                                    cal.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(8,10)));
+
+                                    cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
+                                    cal.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5)));
+                                    cal.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
+/*
+                                    Date nextDate = cal.getTime();
+                                    String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
+                                    Log.d("문제 확인",date_text);
+
+
+                                    cal2.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
+                                    cal2.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7)));
+                                    cal2.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(8,10)));
+
+                                    cal2.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
+                                    cal2.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5))+1);
+                                    cal2.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
+*/
+                                    Toast.makeText(getApplicationContext(), " 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+
+                                    diaryNotification(cal);
+                                    diaryNotification(cal2);
                                     AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
                                     builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
                                     Intent intent = new Intent(GroupScreen.this, MainActivity.class);
@@ -273,9 +298,22 @@ public class GroupScreen extends AppCompatActivity {
         PackageManager pm = this.getPackageManager();
         //ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class); //componentName이 어떻게 쓰이는건지 좀 봐야겠는데
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        //alarmPendings.add(PendingIntent.getBroadcast(this, alarmPendings.size(), alarmIntent, 0));
 
+        Date currentDateTime = calendar.getTime(); // 캘린더를 date객체로 변환
+        String date_text = new SimpleDateFormat("MMddhhmm").format(currentDateTime);
+        Log.d("시간확인",date_text);
+        int alarmTime = Integer.parseInt(date_text);
+        System.out.println("알람시간"+alarmTime);
+        System.out.println("똑바로 들어가나 메소드 달"+calendar.get(Calendar.MONTH));
+        System.out.println("똑바로 들어가나 "+calendar.get(Calendar.DATE));
+        /*
+        SharedPreferences sharedPreferences = getSharedPreferences("alarmPending",Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(date_text,date_text);
+        editor.commit();
+*/
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         // 사용자가 매일 알람을 허용했다면
         if (dailyNotify) {
@@ -284,11 +322,12 @@ public class GroupScreen extends AppCompatActivity {
             if (alarmManager != null) {
 
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                        AlarmManager.INTERVAL_DAY, pendingIntent); // 이 코드가 calendar가 저장한 시간에 alarmReceiver에  인텐트를 보내어 알림바(notification)을 내리게 하는 코드이다
-                Log.d("왔나요3","왔겠지");
+                        AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this,
+                                alarmTime,alarmIntent,0)); // 이 코드가 calendar가 저장한 시간에 alarmReceiver에  인텐트를 보내어 알림바(notification)을 내리게 하는 코드이다
+                //시간이랑 pendingIntent만 다르면 알람을 여러개 만들수 있음
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    //alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmPendings.get(alarmPendings.size()-1));
                 }
             }
         /*
@@ -298,6 +337,7 @@ public class GroupScreen extends AppCompatActivity {
                     PackageManager.DONT_KILL_APP);
            */
         }
+        //pendingIntent = null;
 //        else { //Disable Daily Notifications
 //            if (PendingIntent.getBroadcast(this, 0, alarmIntent, 0) != null && alarmManager != null) {
 //                alarmManager.cancel(pendingIntent);
@@ -318,7 +358,7 @@ public class GroupScreen extends AppCompatActivity {
             String commet_mem;
             String comment_cont;
             String commentTime;
-            SimpleDateFormat format = new SimpleDateFormat (  "HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat ("HH:mm:ss");
 
 
             System.out.println(jsonArray.length());
