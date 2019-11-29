@@ -19,7 +19,7 @@ public class CheckAttenidngViewActivity extends AppCompatActivity implements Vie
 
         ListView listView = findViewById(R.id.AttendingListView);
         ArrayList<CheckAttendingActivity> attenders = new ArrayList<>();
-        attenders.add(new CheckAttendingActivity("곽송이","20173040","rkdlem1613@changwon.ac.kr", this));
+        //attenders.add(new CheckAttendingActivity("곽송이","20173040","rkdlem1613@changwon.ac.kr", this));
 
         CheckAttendingListAdapter adapter = new CheckAttendingListAdapter(attenders);
         listView.setAdapter(adapter);

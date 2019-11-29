@@ -1,9 +1,15 @@
 package com.example.leaninggroupapplication;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,8 +45,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -125,83 +133,114 @@ public class GroupScreen extends AppCompatActivity {
         gs_joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = gs_title.getText().toString();
-                String category = gs_category.getText().toString();
-                String date = gs_date.getText().toString();
-                String starttime = gs_start_time.getText().toString();
-                String endtime = gs_end_time.getText().toString();
+                int max = Integer.parseInt(gs_numberOfUserMax.getText().toString());
+                int min = Integer.parseInt(gs_numberOfUserNow.getText().toString());
+                System.out.println(max);
+                if (max <= min) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                    builder.setMessage("인원 제한으로 참여 제한 됩니다.").setNegativeButton("확인", null).create().show();
+                } else {
+                    String title = gs_title.getText().toString();
+                    String category = gs_category.getText().toString();
+                    String date = gs_date.getText().toString();
+                    String starttime = gs_start_time.getText().toString();
+                    String endtime = gs_end_time.getText().toString();
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-                        try {
+                            try {
+                                //여기서 meeting_data 와 meeting_start_time 파싱
 
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
+                                JSONObject jsonResponse = new JSONObject(response);
 
-                            if (success) {
+                                boolean success = jsonResponse.getBoolean("success");
+                                String Rmeeting_data=jsonResponse.getString("meeting_date");
+                                String Rmeeting_start_time=jsonResponse.getString("meeting_start_time");
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
-                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                startActivity(intent);
-                            } else {
+                                String meeting_data="2019-11-29";
+                                String meeting_start_time="17:08:00";
+                                Log.d("왔나요",meeting_data);
+                                Log.d("왔나요2",meeting_start_time);
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                builder.setMessage("참여 실패.").setNegativeButton("확인", null).create().show();
-                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                startActivity(intent);
+                                Calendar cal = Calendar.getInstance();
+                                cal.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
+                                cal.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7)));
+                                cal.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(7,9)));
+
+                                cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
+                                cal.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5)));
+                                cal.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
+
+
+                                Toast.makeText(getApplicationContext(), " 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                //Log.d("왔나요 똑바로 말해",date_text);
+                                diaryNotification(cal);
+                                if (success) {
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                    builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
+                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                    startActivity(intent);
+                                } else {
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                    builder.setMessage("참여 실패.").setNegativeButton("확인", null).create().show();
+                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                };
-                Intent gIntent = getIntent();
-                //String nic=gIntent.getStringExtra("nickname");
-                joinGroup join = new joinGroup(group_room_number, category, title, comment_nickname, date, starttime, endtime, responseListener);
-                Log.i("여기", group_room_number);
-                RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
-                queue.add(join);
+                    };
+                    Intent gIntent = getIntent();
+                    //String nic=gIntent.getStringExtra("nickname");
+                    joinGroup join = new joinGroup(group_room_number, category, title, comment_nickname, date, starttime, endtime, responseListener);
+                    Log.i("여기", group_room_number);
+                    RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
+                    queue.add(join);
 
+                }
             }
         });
 
         gs_cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
 
-                            if(success){
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                builder.setMessage("취소 성공.").setPositiveButton("확인",null).create().show();
-                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                startActivity(intent);
-                            }
-                            else{
-                                AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                builder.setMessage("취소 실패.").setNegativeButton("확인",null).create().show();
-                                Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                startActivity(intent);
+                    Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jsonResponse = new JSONObject(response);
+                                boolean success = jsonResponse.getBoolean("success");
+
+                                if (success) {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                    builder.setMessage("취소 성공.").setPositiveButton("확인", null).create().show();
+                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                    builder.setMessage("취소 실패.").setNegativeButton("확인", null).create().show();
+                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
                         }
-                        catch (JSONException e){
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                Intent gIntent = getIntent();
-                cancelGroup cancel = new cancelGroup(comment_nickname, group_room_number, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
-                queue.add(cancel);
+                    };
+                    Intent gIntent = getIntent();
+                    cancelGroup cancel = new cancelGroup(comment_nickname, group_room_number, responseListener);
+                    RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
+                    queue.add(cancel);
 
-            }
+                }
+
         });
 
     }
@@ -223,6 +262,53 @@ public class GroupScreen extends AppCompatActivity {
                 }
             }
         }*/
+
+    void diaryNotification(Calendar calendar)
+    {
+//        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+//        Boolean dailyNotify = sharedPref.getBoolean(SettingsActivity.KEY_PREF_DAILY_NOTIFICATION, true);
+        Boolean dailyNotify = true; // 무조건 알람을 사용
+
+        PackageManager pm = this.getPackageManager();
+        //ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class); //componentName이 어떻게 쓰이는건지 좀 봐야겠는데
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+
+        // 사용자가 매일 알람을 허용했다면
+        if (dailyNotify) {
+
+
+            if (alarmManager != null) {
+
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        AlarmManager.INTERVAL_DAY, pendingIntent); // 이 코드가 calendar가 저장한 시간에 alarmReceiver에  인텐트를 보내어 알림바(notification)을 내리게 하는 코드이다
+                Log.d("왔나요3","왔겠지");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                }
+            }
+        /*
+            // 부팅 후 실행되는 리시버 사용가능하게 설정
+            pm.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);
+           */
+        }
+//        else { //Disable Daily Notifications
+//            if (PendingIntent.getBroadcast(this, 0, alarmIntent, 0) != null && alarmManager != null) {
+//                alarmManager.cancel(pendingIntent);
+//                //Toast.makeText(this,"Notifications were disabled",Toast.LENGTH_SHORT).show();
+//            }
+//            pm.setComponentEnabledSetting(receiver,
+//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+//                    PackageManager.DONT_KILL_APP);
+//        }
+    }
+
     public void comment_extraction(String response)  {
 
         try{
@@ -395,7 +481,7 @@ public class GroupScreen extends AppCompatActivity {
                 gs_start_time = findViewById(R.id.gs_start_time);
                 gs_end_time = findViewById(R.id.gs_end_time);
 
-                gs_numberOfUserMax.setText("10");
+
 
                 JSONObject object = jsonArray.getJSONObject(count);
                 String num = object.getString("group_roomnumber");
@@ -415,9 +501,9 @@ public class GroupScreen extends AppCompatActivity {
                 String content = object.getString("group_contents");
                 gs_content.setText(content);
                 String memberNumber = object.getString("member_number");
-                gs_numberOfUserNow.setText(memberNumber);
-
-
+                gs_numberOfUserMax.setText(memberNumber);
+                String pre_usernumber = object.getString("pre_usernum");
+                gs_numberOfUserNow.setText(pre_usernumber);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -449,6 +535,8 @@ public class GroupScreen extends AppCompatActivity {
         public Map<String, String> getParams(){
             return parameters;
         }
+
+
     }
 
     //취소 할때

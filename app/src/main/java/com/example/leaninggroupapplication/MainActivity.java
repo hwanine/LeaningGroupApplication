@@ -90,10 +90,9 @@ public class MainActivity extends AppCompatActivity {
         MajoringFrameListView = (ListView)findViewById(R.id.MajoringFrameListView);
         HobbyFrameListView = (ListView)findViewById(R.id.HobbyFrameListView);
 
-        ListView listView =(ListView)findViewById(R.id.LanguageFrameListView);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+//1
+        LanguageFrameListView.setAdapter(adapter);
+        LanguageFrameListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l){
                 android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -121,12 +120,126 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//Title.toString(),GroupDate.toString(),Writer.toString(),GroupNumOfMem.toString(),GroupNumber.toString()
+//2
+        LicenseFrameListView.setAdapter(adapter);
+        LicenseFrameListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l){
+                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("모임정보 확인");
+                builder.setMessage("모임을 보시겠습니까?.");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapterView.getItemAtPosition(position);
+
+                        Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getEmail()));
+                        groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                        startActivity(groupScreenIntent);
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create();
+                builder.show();
 
 
-        // NetworkTask networkTask = new NetworkTask(url, null);
-        // networkTask.execute();
+            }
+        });
+//3
+        MajoringFrameListView.setAdapter(adapter);
+        MajoringFrameListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l){
+                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("모임정보 확인");
+                builder.setMessage("모임을 보시겠습니까?.");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapterView.getItemAtPosition(position);
 
+                        Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getEmail()));
+                        groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                        startActivity(groupScreenIntent);
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create();
+                builder.show();
+
+
+            }
+        });
+//4
+        LanguageFrameListView.setAdapter(adapter);
+        LanguageFrameListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l){
+                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("모임정보 확인");
+                builder.setMessage("모임을 보시겠습니까?.");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapterView.getItemAtPosition(position);
+
+                        Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getEmail()));
+                        groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                        startActivity(groupScreenIntent);
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create();
+                builder.show();
+
+
+            }
+        });
+//5
+        HobbyFrameListView.setAdapter(adapter);
+        HobbyFrameListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l){
+                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("모임정보 확인");
+                builder.setMessage("모임을 보시겠습니까?.");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapterView.getItemAtPosition(position);
+
+                        Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getEmail()));
+                        groupScreenIntent.putExtra("group_number",summaryObject.get(position).GroupNum);
+                        startActivity(groupScreenIntent);
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create();
+                builder.show();
+
+
+            }
+        });
 
 
         loginUserEmail = (TextView)findViewById(R.id.getEmail);
@@ -172,6 +285,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(0);
                 category="언어";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 LanguageFrameListView.setAdapter(adapter);
                 NetworkTask nt = new NetworkTask();
                 nt.execute();
@@ -184,6 +299,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(1);
                 category="자격증";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 LicenseFrameListView.setAdapter(adapter);
                 NetworkTask nt= new NetworkTask();
                 nt.execute();
@@ -196,6 +313,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(2);
                 category="독서";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 ReadingFrameListView.setAdapter(adapter);
                 NetworkTask nt= new NetworkTask();
                 nt.execute();
@@ -208,6 +327,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(3);
                 category="전공";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 MajoringFrameListView.setAdapter(adapter);
                 NetworkTask nt= new NetworkTask();
                 nt.execute();
@@ -220,6 +341,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 changeView(4);
                 category="취미";
+                summaryObject.clear();
+                adapter.notifyDataSetChanged();
                 HobbyFrameListView.setAdapter(adapter);
                 NetworkTask nt= new NetworkTask();
                 nt.execute();
