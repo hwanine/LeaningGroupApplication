@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
@@ -386,8 +387,14 @@ public class MainActivity extends AppCompatActivity {
         setupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,CreateGroup.class);
-                startActivity(intent);
+                if (prefManager.isLoggedIn()) {
+
+                    Intent intent = new Intent(MainActivity.this, CreateGroup.class);
+                    startActivity(intent);
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "로그인 후에 이용할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -572,26 +579,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class InsertData extends StringRequest {
-
-        final static private String URL = "http://rkdlem1613.dothome.co.kr/insert6.php";
-        private Map<String, String> parameters;
-
-        public InsertData(String  category, String title, String content, String numberOfUser, String date,
-                          String starttime, String endtime, Response.Listener<String> listener){
-            super(Method.POST, URL, listener, null);
-            parameters = new HashMap<>();
-            parameters.put("category", category);
-            parameters.put("title", title);
-            parameters.put("content", content);
-            parameters.put("numberOfUser", numberOfUser);
-            parameters.put("date", date);
-            parameters.put("starttime", starttime);
-            parameters.put("endtime", endtime);
-        }
-
-        public Map<String, String> getParams(){
-            return parameters;
-        }
-    }
 }
