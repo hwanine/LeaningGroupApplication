@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClick_ChangePassword(View view) {
-        Intent intent = new Intent(this, SignInActivity.class); //find email activity 만들어야함
+        Intent intent = new Intent(this, ChangePasswd.class); //find email activity 만들어야함
         startActivity(intent);
     }
 

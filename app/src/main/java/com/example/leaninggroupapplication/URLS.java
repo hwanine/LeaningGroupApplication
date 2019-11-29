@@ -8,5 +8,7 @@ public class URLS {
     public static final String URL_AUTH = URL_ROOT + "phpmail.php";
     public static final String URL_AVAIL_AUTH = URL_ROOT + "api.php?action=authentication";
     public static final String URL_FIND_EMAIL = URL_ROOT + "api.php?action=find_email";
+    public static final String URL_CHANGE_PASSWD = URL_ROOT + "api.php?action=change_passwd";
+    public static final String URL_NEW_PASSWD = URL_ROOT + "api.php?action=new_passwd";
 
 }

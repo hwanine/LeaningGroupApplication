@@ -23,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/EditTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FindEmail"></activity>
+        <activity android:name=".NewPasswd"></activity>
+        <activity android:name=".ChangePasswd" />
+        <activity android:name=".FindEmail" />
         <activity android:name=".Authentication" />
         <activity android:name=".CheckAttenidngViewActivity" /> <!-- <activity android:name=".createGroupSummaryObject" /> -->
         <!-- <activity android:name=".CheckAttendingActivity" /> -->
