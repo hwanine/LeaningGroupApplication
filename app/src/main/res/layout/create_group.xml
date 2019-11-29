@@ -28,7 +28,6 @@
             android:ellipsize="end"
             android:inputType="textPersonName"
             android:singleLine="true"
-            android:text="제목 입력"
             android:textSize="15dp"
             tools:layout_editor_absoluteX="99dp"
             tools:layout_editor_absoluteY="70dp" />
@@ -52,7 +51,6 @@
         android:selectAllOnFocus="false"
         android:singleLine="false"
         android:inputType="textMultiLine"
-        android:text="내용입력"
         android:textSize="15dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:visibility="visible"
@@ -76,7 +74,6 @@
         android:layout_marginLeft="5dp"
         android:ems="10"
         android:inputType="number"
-        android:text="0"
         android:textSize="15dp"
         tools:layout_editor_absoluteX="26dp"
         tools:layout_editor_absoluteY="440dp" />
@@ -98,7 +95,6 @@
         android:layout_marginLeft="5dp"
         android:ems="10"
         android:inputType="date"
-        android:text="00-00-00"
         android:textSize="15dp"
         tools:layout_editor_absoluteX="26dp"
         tools:layout_editor_absoluteY="440dp" />
