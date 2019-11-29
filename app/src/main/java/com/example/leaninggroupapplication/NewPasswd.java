@@ -110,7 +110,7 @@ public class NewPasswd extends AppCompatActivity {
                 Toast.makeText(this, "비밀번호가 일치하지 않습니다. 재입력 바랍니다", Toast.LENGTH_SHORT).show();
             }else{ //비밀번호와 비밀버호 체크가 같게 입력된 경우
 
-                RegisterPasswd rp = new RegisterPasswd(email, nickname, passwd);
+                RegisterPasswd rp = new RegisterPasswd(passwd, email, nickname);
                 rp.execute();
             }
 
