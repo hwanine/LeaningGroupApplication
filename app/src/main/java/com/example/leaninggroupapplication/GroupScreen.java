@@ -1,9 +1,15 @@
 package com.example.leaninggroupapplication;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,8 +45,10 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -143,10 +151,32 @@ public class GroupScreen extends AppCompatActivity {
                         public void onResponse(String response) {
 
                             try {
+                                //여기서 meeting_data 와 meeting_start_time 파싱
 
                                 JSONObject jsonResponse = new JSONObject(response);
-                                boolean success = jsonResponse.getBoolean("success");
 
+                                boolean success = jsonResponse.getBoolean("success");
+                                String Rmeeting_data=jsonResponse.getString("meeting_date");
+                                String Rmeeting_start_time=jsonResponse.getString("meeting_start_time");
+
+                                String meeting_data="2019-11-29";
+                                String meeting_start_time="17:08:00";
+                                Log.d("왔나요",meeting_data);
+                                Log.d("왔나요2",meeting_start_time);
+
+                                Calendar cal = Calendar.getInstance();
+                                cal.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
+                                cal.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7)));
+                                cal.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(7,9)));
+
+                                cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
+                                cal.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5)));
+                                cal.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
+
+
+                                Toast.makeText(getApplicationContext(), " 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                //Log.d("왔나요 똑바로 말해",date_text);
+                                diaryNotification(cal);
                                 if (success) {
 
                                     AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
@@ -232,6 +262,53 @@ public class GroupScreen extends AppCompatActivity {
                 }
             }
         }*/
+
+    void diaryNotification(Calendar calendar)
+    {
+//        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+//        Boolean dailyNotify = sharedPref.getBoolean(SettingsActivity.KEY_PREF_DAILY_NOTIFICATION, true);
+        Boolean dailyNotify = true; // 무조건 알람을 사용
+
+        PackageManager pm = this.getPackageManager();
+        //ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class); //componentName이 어떻게 쓰이는건지 좀 봐야겠는데
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+
+        // 사용자가 매일 알람을 허용했다면
+        if (dailyNotify) {
+
+
+            if (alarmManager != null) {
+
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        AlarmManager.INTERVAL_DAY, pendingIntent); // 이 코드가 calendar가 저장한 시간에 alarmReceiver에  인텐트를 보내어 알림바(notification)을 내리게 하는 코드이다
+                Log.d("왔나요3","왔겠지");
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                }
+            }
+        /*
+            // 부팅 후 실행되는 리시버 사용가능하게 설정
+            pm.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);
+           */
+        }
+//        else { //Disable Daily Notifications
+//            if (PendingIntent.getBroadcast(this, 0, alarmIntent, 0) != null && alarmManager != null) {
+//                alarmManager.cancel(pendingIntent);
+//                //Toast.makeText(this,"Notifications were disabled",Toast.LENGTH_SHORT).show();
+//            }
+//            pm.setComponentEnabledSetting(receiver,
+//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+//                    PackageManager.DONT_KILL_APP);
+//        }
+    }
+
     public void comment_extraction(String response)  {
 
         try{
@@ -458,6 +535,8 @@ public class GroupScreen extends AppCompatActivity {
         public Map<String, String> getParams(){
             return parameters;
         }
+
+
     }
 
     //취소 할때
