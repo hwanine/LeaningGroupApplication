@@ -75,9 +75,16 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View v) { //이메일 인증 버튼
 
                 final String email = userEmail.getText().toString().trim();
-                Auth auth = new Auth(email);
-                auth.execute();
+                String checkValidEmail = email.substring(email.length()-15,email.length());
 
+                if(!checkValidEmail.equals("@changwon.ac.kr")){
+                    
+                    Toast.makeText(getApplicationContext(), "창원대학교 이메일 주소 형식과 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
+
+                }else {
+                    Auth auth = new Auth(email);
+                    auth.execute();
+                }
             }
         });
 
