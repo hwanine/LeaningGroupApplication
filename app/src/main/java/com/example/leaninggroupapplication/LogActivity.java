@@ -3,9 +3,12 @@ package com.example.leaninggroupapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.RequestQueue;
@@ -34,22 +37,59 @@ public class LogActivity extends AppCompatActivity {
 
     ArrayList<GroupList> data;
     GroupAdapter adapter;
+    ListAdapter adapterr;
     String category;
     String title;
     String num;
     String date;
     String starttime;
     String endtime;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logcheck_list);
+
         data = new ArrayList<>();
         adapter = new GroupAdapter(data);
+
+        final PrefManager prefManager = PrefManager.getInstance(LogActivity.this);
+        user = prefManager.getUser();
+
         ListView listview =  (ListView)findViewById(R.id.grouplog_view);
         listview.setAdapter(adapter);
+
         new BackgroundTask().execute();
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l){
+                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(LogActivity.this);
+                builder.setTitle("모임정보 확인");
+                builder.setMessage("모임을 보시겠습니까?.");
+                builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapterView.getItemAtPosition(position);
+
+                        Intent groupScreenIntent = new Intent(getApplicationContext(), GroupScreen.class);
+                        groupScreenIntent.putExtra("nickname",String.valueOf(user.getEmail()));
+                        groupScreenIntent.putExtra("group_number",data.get(position).getGroup_num());
+                        startActivity(groupScreenIntent);
+                    }
+                });
+                builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.create();
+                builder.show();
+
+
+            }
+        });
 
 
 
