@@ -92,8 +92,6 @@ public class CreateGroup extends AppCompatActivity {
         titleFilter[0]=new InputFilter.LengthFilter(50);
         cg_title.setFilters(titleFilter);
 
-        cg_date = (TextView) findViewById(R.id.cg_date);
-
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
         InputFilter[] numberOfUserFilter = new InputFilter[1];
         numberOfUserFilter[0]=new InputFilter.LengthFilter(5);
@@ -101,10 +99,12 @@ public class CreateGroup extends AppCompatActivity {
 
         cg_writer = (TextView) findViewById(R.id.cg_writer);
         cg_dateBtn = (Button) findViewById(R.id.cg_dateBtn);
+        cg_date = (TextView) findViewById(R.id.cg_date);
         cg_start_timeBtn = (Button)findViewById(R.id.cg_start_timeBtn);
         cg_end_timeBtn = (Button)findViewById(R.id.cg_end_timeBtn);
         cg_start_time = (TextView) findViewById(R.id.cg_start_time);
         cg_end_time = (TextView) findViewById(R.id.cg_end_time);
+
 
         cg_dateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +114,7 @@ public class CreateGroup extends AppCompatActivity {
             }
 
         });
+
 
         cg_start_timeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,16 +284,18 @@ public class CreateGroup extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 y = year;
-                m = month+1;
+                m = month + 1;
                 d = dayOfMonth;
 
             }
-        },2019, 11, 1);
+        }, 2019, 11, 1);
 
         datePickerDialog.setMessage("모임 날짜를 선택하세요");
         datePickerDialog.show();
 
+
     }
+
 
     void showStartTime(){
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
