@@ -2,6 +2,7 @@
 package com.example.leaninggroupapplication;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +49,7 @@ public class CreateGroup extends AppCompatActivity {
 
     Button cg_cancelBtn;
     Button cg_OkBtn;
+    Button cg_dateBtn;
     Spinner category_spinner;
     Spinner cg_start_time;
     Spinner cg_start_time_m;
@@ -56,7 +59,7 @@ public class CreateGroup extends AppCompatActivity {
     EditText cg_title;
     EditText cg_content;
     EditText cg_numberOfUser;
-    EditText cg_date;
+    TextView cg_date;
     String category;
     String start_time;
     String start_time_m;
@@ -65,6 +68,7 @@ public class CreateGroup extends AppCompatActivity {
     String starttime;
     String endtime;
 
+    int y=0,m=0,d=0;
     String group_roomnumber;
 
 
@@ -80,13 +84,22 @@ public class CreateGroup extends AppCompatActivity {
         category_spinner = (Spinner) findViewById(R.id.category_spinner);
         cg_content = (EditText) findViewById(R.id.cg_content);
         cg_title = (EditText) findViewById(R.id.cg_title);
-        cg_date = (EditText) findViewById(R.id.cg_date);
+        cg_date = (TextView) findViewById(R.id.cg_date);
         cg_start_time = (Spinner) findViewById(R.id.cg_start_time);
         cg_end_time = (Spinner) findViewById(R.id.cg_end_time);
         cg_start_time_m = (Spinner) findViewById(R.id.cg_start_time_m);
         cg_end_time_m = (Spinner) findViewById(R.id.cg_end_time_m);
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
         cg_writer = (TextView) findViewById(R.id.cg_writer);
+        cg_dateBtn = (Button) findViewById(R.id.cg_dateBtn);
+
+        cg_dateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDate();
+                cg_date.setText(y+"."+m+"."+d);
+            }
+        });
 
 
         cg_cancelBtn = findViewById(R.id.cg_cancelBtn);
@@ -286,6 +299,21 @@ public class CreateGroup extends AppCompatActivity {
         }
 
     }
+    void showDate() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                y = year;
+                m = month+1;
+                d = dayOfMonth;
+
+            }
+        },2019, 11, 1);
+
+        datePickerDialog.setMessage("모임 날짜를 선택하세요");
+        datePickerDialog.show();
+    }
+
 }
 
 
