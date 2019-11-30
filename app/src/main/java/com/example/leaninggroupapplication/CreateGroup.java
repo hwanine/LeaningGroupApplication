@@ -4,6 +4,7 @@ package com.example.leaninggroupapplication;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,26 +53,21 @@ public class CreateGroup extends AppCompatActivity {
     Button cg_cancelBtn;
     Button cg_OkBtn;
     Button cg_dateBtn;
+    Button cg_start_timeBtn;
+    Button cg_end_timeBtn;
     Spinner category_spinner;
-    Spinner cg_start_time;
-    Spinner cg_start_time_m;
-    Spinner cg_end_time;
-    Spinner cg_end_time_m;
+
 
     EditText cg_title;
     EditText cg_content;
     EditText cg_numberOfUser;
     TextView cg_date;
     String category;
-    String start_time;
-    String start_time_m;
-    String end_time;
-    String end_time_m;
-    String starttime;
-    String endtime;
+    TextView cg_start_time;
+    TextView cg_end_time;
 
     int y=0,m=0,d=0;
-    String group_roomnumber;
+    int sh=0,smi=0,eh=0,emi=0;
 
 
     TextView cg_writer;
@@ -85,13 +83,13 @@ public class CreateGroup extends AppCompatActivity {
         cg_content = (EditText) findViewById(R.id.cg_content);
         cg_title = (EditText) findViewById(R.id.cg_title);
         cg_date = (TextView) findViewById(R.id.cg_date);
-        cg_start_time = (Spinner) findViewById(R.id.cg_start_time);
-        cg_end_time = (Spinner) findViewById(R.id.cg_end_time);
-        cg_start_time_m = (Spinner) findViewById(R.id.cg_start_time_m);
-        cg_end_time_m = (Spinner) findViewById(R.id.cg_end_time_m);
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
         cg_writer = (TextView) findViewById(R.id.cg_writer);
         cg_dateBtn = (Button) findViewById(R.id.cg_dateBtn);
+        cg_start_timeBtn = (Button)findViewById(R.id.cg_start_timeBtn);
+        cg_end_timeBtn = (Button)findViewById(R.id.cg_end_timeBtn);
+        cg_start_time = (TextView) findViewById(R.id.cg_start_time);
+        cg_end_time = (TextView) findViewById(R.id.cg_end_time);
 
         cg_dateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +97,24 @@ public class CreateGroup extends AppCompatActivity {
                 showDate();
                 cg_date.setText(y+"."+m+"."+d);
             }
+
+        });
+
+        cg_start_timeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showStartTime();
+                cg_start_time.setText(sh+":"+smi);
+            }
+        });
+
+        cg_end_timeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEndTime();
+                cg_end_time.setText(eh+":"+emi);
+            }
+
         });
 
 
@@ -119,9 +135,9 @@ public class CreateGroup extends AppCompatActivity {
                 String content = cg_content.getText().toString();
                 String numberOfUser = cg_numberOfUser.getText().toString();
                 String date = cg_date.getText().toString();
-                //String starttime = cg_starttime.getText().toString();
-                //String endtime = cg_endtime.getText().toString();
                 String writer = cg_writer.getText().toString();
+                String starttime=cg_start_time.getText().toString();
+                String endtime=cg_end_time.getText().toString();
 
 
                 emptycheak(title, content, date, numberOfUser);
@@ -180,58 +196,6 @@ public class CreateGroup extends AppCompatActivity {
             }
         });
 
-        cg_start_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                start_time = (String) parent.getItemAtPosition(position);
-                starttime = start_time;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        cg_start_time_m.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                start_time_m = "00";
-                start_time_m = (String) parent.getItemAtPosition(position);
-                starttime = start_time + start_time_m + "00";
-            }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        cg_end_time.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                end_time = (String) parent.getItemAtPosition(position);
-                endtime = end_time;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        cg_end_time_m.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                end_time_m = "00";
-                end_time_m = (String) parent.getItemAtPosition(position);
-                endtime += end_time_m + "00";
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         final PrefManager prefManager = PrefManager.getInstance(CreateGroup.this);
         User user = prefManager.getUser();
 
@@ -312,6 +276,36 @@ public class CreateGroup extends AppCompatActivity {
 
         datePickerDialog.setMessage("모임 날짜를 선택하세요");
         datePickerDialog.show();
+
+    }
+
+    void showStartTime(){
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                sh = hourOfDay;
+                smi = minute;
+            }
+        },0,0,false);
+
+        timePickerDialog.setMessage("시간을 선택하세요");
+        timePickerDialog.show();
+
+
+    }
+
+    void showEndTime(){
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                eh = hourOfDay;
+                emi = minute;
+            }
+        },0,0,false);
+
+        timePickerDialog.setMessage("시간을 선택하세요");
+        timePickerDialog.show();
+
     }
 
 }
