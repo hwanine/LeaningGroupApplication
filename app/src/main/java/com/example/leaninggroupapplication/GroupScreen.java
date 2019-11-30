@@ -98,16 +98,15 @@ public class GroupScreen extends AppCompatActivity {
         listView.setAdapter(adapter);
 
 
-
         Intent gIntent = getIntent();
-        final String comment_nickname=gIntent.getStringExtra("nickname");
-        final String group_room_number=gIntent.getStringExtra("group_number");
-        Log.d("닉넴",comment_nickname);
+        final String comment_nickname = gIntent.getStringExtra("nickname");
+        final String group_room_number = gIntent.getStringExtra("group_number");
+        Log.d("닉넴", comment_nickname);
 
-        BackgroundUITask UItask= new BackgroundUITask();
+        BackgroundUITask UItask = new BackgroundUITask();
         UItask.execute(group_room_number);
 
-        commentsButton=(Button) findViewById(R.id.gs_commentBtn);
+        commentsButton = (Button) findViewById(R.id.gs_commentBtn);
         commentsButton.setOnClickListener(new View.OnClickListener() { //댓글 쓰고 확인 버튼 누를때
             @Override
             public void onClick(View view) {
@@ -122,14 +121,14 @@ public class GroupScreen extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "comment를 입력해주세요", Toast.LENGTH_LONG).show();
                     //else if (!isNetWork()) {
                     //        Toast.makeText(getApplicationContext(), "네트워크 연결 불량", Toast.LENGTH_LONG).show();
-                }else {
+                } else {
                     CommentCommunicate taskComment = new CommentCommunicate();
                     taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php", comment_nickname, enterCommentString, group_room_number); // groupNumber은 구현후 들어가도록 하겠다
                 }
             }
         });
 
-        fileSendButton=(Button) findViewById(R.id.sendFileBtn);
+        fileSendButton = (Button) findViewById(R.id.sendFileBtn);
         fileSendButton.setOnClickListener(new View.OnClickListener() { // 첨부파일 이미지 클릭할때
             @Override
             public void onClick(View view) {
@@ -168,31 +167,30 @@ public class GroupScreen extends AppCompatActivity {
                                     boolean success = jsonResponse.getBoolean("success");
 
 
-
                                     if (success) {
 
-                                        String meeting_data=jsonResponse.getString("meeting_date");
-                                        String meeting_start_time=jsonResponse.getString("meeting_start_time");
+                                        String meeting_data = jsonResponse.getString("meeting_date");
+                                        String meeting_start_time = jsonResponse.getString("meeting_start_time");
 
                                         //String meeting_data="2019-11-30";
                                         //String meeting_start_time="01:01:00";
 
 
-                                        Log.d("왔나요",meeting_data);
-                                        Log.d("왔나요2",meeting_start_time);
+                                        Log.d("왔나요", meeting_data);
+                                        Log.d("왔나요2", meeting_start_time);
 
                                         Calendar cal = Calendar.getInstance();
                                         Calendar cal2 = Calendar.getInstance();
 
-                                        cal.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
-                                        cal.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7))-1);
+                                        cal.set(Calendar.YEAR, Integer.parseInt(meeting_data.substring(0, 4)));
+                                        cal.set(Calendar.MONTH, Integer.parseInt(meeting_data.substring(5, 7)) - 1);
 
-                                        System.out.println("똑바로 달"+cal.get(Calendar.MONTH));
-                                        cal.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(8,10)));
+                                        System.out.println("똑바로 달" + cal.get(Calendar.MONTH));
+                                        cal.set(Calendar.DATE, Integer.parseInt(meeting_data.substring(8, 10)));
 
-                                        cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
-                                        cal.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5)));
-                                        cal.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
+                                        cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(meeting_start_time.substring(0, 2)));
+                                        cal.set(Calendar.MINUTE, Integer.parseInt(meeting_start_time.substring(3, 5)));
+                                        cal.set(Calendar.SECOND, Integer.parseInt(meeting_start_time.substring(6, 8)));
 /*
                                     Date nextDate = cal.getTime();
                                     String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
@@ -247,6 +245,8 @@ public class GroupScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (prefManager.isLoggedIn()) {
+
                     Response.Listener<String> responseListener = new Response.Listener<String>() {
 
                         @Override
@@ -271,16 +271,24 @@ public class GroupScreen extends AppCompatActivity {
                             }
                         }
                     };
+
                     Intent gIntent = getIntent();
                     cancelGroup cancel = new cancelGroup(comment_nickname, group_room_number, responseListener);
                     RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
                     queue.add(cancel);
 
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "로그인 후에 이용할 수 있습니다.", Toast.LENGTH_SHORT).show();
                 }
+            }
 
         });
-
     }
+
+
+
 ///oncreate
     /*
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
