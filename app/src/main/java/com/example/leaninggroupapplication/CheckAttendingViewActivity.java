@@ -66,22 +66,21 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray =jsonObject.getJSONArray("response");
             int count = 0;
-            String commet_mem;
-            String comment_cont;
-            String commentTime;
-            SimpleDateFormat format = new SimpleDateFormat ("HH:mm:ss");
-
+            String real_name;
+            String school_number;
+            String email;
+            String warning_count;
 
             System.out.println(jsonArray.length());
             while(count < jsonArray.length()){
                 JSONObject object = jsonArray.getJSONObject(count);
-                commet_mem = object.getString("comment_member");
-                comment_cont = object.getString("comment_content");
-                commentTime = object.getString("comment_time");
-                //commentTime = format.format(commentTime);
-                //Log.d("혹시 너때문이니",commentTime.toString());
-                Comments commentData = new Comments(commet_mem,comment_cont,commentTime);
-                //items.add(commentData);
+                real_name = object.getString("real_name");
+                school_number = object.getString("school_number");
+                email = object.getString("email");
+                warning_count = object.getString("warning_count");
+
+                CheckAttendingActivity AttendingData = new CheckAttendingActivity(real_name,school_number,email,this);
+                attenders.add(AttendingData);
                 count++;
 
             }
