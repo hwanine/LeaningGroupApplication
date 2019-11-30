@@ -13,6 +13,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -118,6 +119,10 @@ public class GroupScreen extends AppCompatActivity {
 
 
                 enterCommentsEdit = (EditText) findViewById(R.id.gs_enterComments); //댓글 내용 가져오기
+                InputFilter[] enterCommentsFilter = new InputFilter[1];
+                enterCommentsFilter[0]=new InputFilter.LengthFilter(200);
+                enterCommentsEdit.setFilters(enterCommentsFilter);
+
                 String enterCommentString = enterCommentsEdit.getText().toString();  // 댓글 내용 스트링변환
                 if (enterCommentString.length() == 0) {//아무것도 안썻을때
                     Toast.makeText(getApplicationContext(), "comment를 입력해주세요", Toast.LENGTH_LONG).show();

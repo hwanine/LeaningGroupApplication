@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -80,10 +81,24 @@ public class CreateGroup extends AppCompatActivity {
 
 
         category_spinner = (Spinner) findViewById(R.id.category_spinner);
+
         cg_content = (EditText) findViewById(R.id.cg_content);
+        InputFilter[] contentFilter = new InputFilter[1];
+        contentFilter[0]=new InputFilter.LengthFilter(1000);
+        cg_content.setFilters(contentFilter);
+
         cg_title = (EditText) findViewById(R.id.cg_title);
+        InputFilter[] titleFilter = new InputFilter[1];
+        titleFilter[0]=new InputFilter.LengthFilter(50);
+        cg_title.setFilters(titleFilter);
+
         cg_date = (TextView) findViewById(R.id.cg_date);
+
         cg_numberOfUser = (EditText) findViewById(R.id.cg_numberOfUser);
+        InputFilter[] numberOfUserFilter = new InputFilter[1];
+        numberOfUserFilter[0]=new InputFilter.LengthFilter(5);
+        cg_numberOfUser.setFilters(numberOfUserFilter);
+
         cg_writer = (TextView) findViewById(R.id.cg_writer);
         cg_dateBtn = (Button) findViewById(R.id.cg_dateBtn);
         cg_start_timeBtn = (Button)findViewById(R.id.cg_start_timeBtn);

@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -47,11 +48,34 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         userEmail = findViewById(R.id.input_email_authentication);
+        InputFilter[] userEmailFilter = new InputFilter[1];
+        userEmailFilter[0]=new InputFilter.LengthFilter(45);
+        userEmail.setFilters(userEmailFilter);
+
         userNickname = findViewById(R.id.input_nick_name);
+        InputFilter[] userNicknameFilter = new InputFilter[1];
+        userNicknameFilter[0]=new InputFilter.LengthFilter(20);
+        userNickname.setFilters(userNicknameFilter);
+
         userPasswd = findViewById(R.id.input_password);
+        InputFilter[] userPasswdFilter = new InputFilter[1];
+        userPasswdFilter[0]=new InputFilter.LengthFilter(45);
+        userPasswd.setFilters(userPasswdFilter);
+
         userSchoolnumber = findViewById(R.id.input_school_number);
+        InputFilter[] userSchoolnumberFilter = new InputFilter[1];
+        userSchoolnumberFilter[0]=new InputFilter.LengthFilter(20);
+        userSchoolnumber.setFilters(userSchoolnumberFilter);
+
         userRealname = findViewById(R.id.input_real_name);
+        InputFilter[] userRealnameFilter = new InputFilter[1];
+        userRealnameFilter[0]=new InputFilter.LengthFilter(45);
+        userRealname.setFilters(userRealnameFilter);
+
         userPasswdcheck = findViewById(R.id.check_password);
+        InputFilter[] userPasswdcheckFilter = new InputFilter[1];
+        userPasswdcheckFilter[0]=new InputFilter.LengthFilter(45);
+        userPasswdcheck.setFilters(userPasswdcheckFilter);
 
         final Intent back = getIntent();
         final String afterEmail;
