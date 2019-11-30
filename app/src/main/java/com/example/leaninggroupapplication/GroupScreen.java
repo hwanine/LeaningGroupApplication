@@ -68,6 +68,7 @@ public class GroupScreen extends AppCompatActivity {
     TextView gs_content;
     TextView gs_numberOfUserMax;
     TextView gs_numberOfUserNow;
+    User user;
     public final int REQUEST_CODE = 101;
     private ListView listView;
     CommentsList adapter;
@@ -88,6 +89,10 @@ public class GroupScreen extends AppCompatActivity {
         gs_cancelBtn = (Button) findViewById(R.id.gs_cancelBtn);
 
         listView = findViewById(R.id.gs_commentList);
+
+        final PrefManager prefManager = PrefManager.getInstance(GroupScreen.this);
+        user = prefManager.getUser();
+
         //ArrayList< Comments> items = new ArrayList<>();
         adapter = new CommentsList(items);
         listView.setAdapter(adapter);
@@ -140,52 +145,54 @@ public class GroupScreen extends AppCompatActivity {
                 int max = Integer.parseInt(gs_numberOfUserMax.getText().toString());
                 int min = Integer.parseInt(gs_numberOfUserNow.getText().toString());
                 System.out.println(max);
-                if (max <= min) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                    builder.setMessage("인원 제한으로 참여 제한 됩니다.").setNegativeButton("확인", null).create().show();
-                } else {
-                    String title = gs_title.getText().toString();
-                    String category = gs_category.getText().toString();
-                    String date = gs_date.getText().toString();
-                    String starttime = gs_start_time.getText().toString();
-                    String endtime = gs_end_time.getText().toString();
+                if (prefManager.isLoggedIn()) {
+                    if (max <= min) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                        builder.setMessage("인원 제한으로 참여 제한 됩니다.").setNegativeButton("확인", null).create().show();
+                    } else {
+                        String title = gs_title.getText().toString();
+                        String category = gs_category.getText().toString();
+                        String date = gs_date.getText().toString();
+                        String starttime = gs_start_time.getText().toString();
+                        String endtime = gs_end_time.getText().toString();
 
-                    Response.Listener<String> responseListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
+                        Response.Listener<String> responseListener = new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
 
-                            try {
-                                //여기서 meeting_data 와 meeting_start_time 파싱
+                                try {
+                                    //여기서 meeting_data 와 meeting_start_time 파싱
 
-                                JSONObject jsonResponse = new JSONObject(response);
+                                    JSONObject jsonResponse = new JSONObject(response);
 
-                                boolean success = jsonResponse.getBoolean("success");
-
-
-
-                                if (success) {
-                                    String meeting_data=jsonResponse.getString("meeting_date");
-                                    String meeting_start_time=jsonResponse.getString("meeting_start_time");
-
-                                    //String meeting_data="2019-11-30";
-                                    //String meeting_start_time="01:01:00";
+                                    boolean success = jsonResponse.getBoolean("success");
 
 
-                                    Log.d("왔나요",meeting_data);
-                                    Log.d("왔나요2",meeting_start_time);
 
-                                    Calendar cal = Calendar.getInstance();
-                                    Calendar cal2 = Calendar.getInstance();
+                                    if (success) {
 
-                                    cal.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
-                                    cal.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7))-1);
+                                        String meeting_data=jsonResponse.getString("meeting_date");
+                                        String meeting_start_time=jsonResponse.getString("meeting_start_time");
 
-                                    System.out.println("똑바로 달"+cal.get(Calendar.MONTH));
-                                    cal.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(8,10)));
+                                        //String meeting_data="2019-11-30";
+                                        //String meeting_start_time="01:01:00";
 
-                                    cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
-                                    cal.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5)));
-                                    cal.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
+
+                                        Log.d("왔나요",meeting_data);
+                                        Log.d("왔나요2",meeting_start_time);
+
+                                        Calendar cal = Calendar.getInstance();
+                                        Calendar cal2 = Calendar.getInstance();
+
+                                        cal.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
+                                        cal.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7))-1);
+
+                                        System.out.println("똑바로 달"+cal.get(Calendar.MONTH));
+                                        cal.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(8,10)));
+
+                                        cal.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
+                                        cal.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5)));
+                                        cal.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
 /*
                                     Date nextDate = cal.getTime();
                                     String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
@@ -200,33 +207,38 @@ public class GroupScreen extends AppCompatActivity {
                                     cal2.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5))+1);
                                     cal2.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
 */
-                                    Toast.makeText(getApplicationContext(), " 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), " 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
 
-                                    diaryNotification(cal);
-                                    diaryNotification(cal2);
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                    builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
-                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                    startActivity(intent);
-                                } else {
+                                        diaryNotification(cal);
+                                        diaryNotification(cal2);
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                        builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
+                                        Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                        startActivity(intent);
+                                    } else {
 
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
-                                    builder.setMessage("참여 실패.").setNegativeButton("확인", null).create().show();
-                                    Intent intent = new Intent(GroupScreen.this, MainActivity.class);
-                                    startActivity(intent);
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
+                                        builder.setMessage("참여 실패.").setNegativeButton("확인", null).create().show();
+                                        Intent intent = new Intent(GroupScreen.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-                        }
-                    };
-                    Intent gIntent = getIntent();
-                    //String nic=gIntent.getStringExtra("nickname");
-                    joinGroup join = new joinGroup(group_room_number, category, title, comment_nickname, date, starttime, endtime, responseListener);
-                    Log.i("여기", group_room_number);
-                    RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
-                    queue.add(join);
+                        };
+                        Intent gIntent = getIntent();
+                        //String nic=gIntent.getStringExtra("nickname");
+                        joinGroup join = new joinGroup(group_room_number, category, title, comment_nickname, date, starttime, endtime, responseListener);
+                        Log.i("여기", group_room_number);
+                        RequestQueue queue = Volley.newRequestQueue(GroupScreen.this);
+                        queue.add(join);
 
+                    }
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), "로그인 후에 이용할 수 있습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
