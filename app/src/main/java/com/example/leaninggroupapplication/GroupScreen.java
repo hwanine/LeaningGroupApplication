@@ -86,7 +86,6 @@ public class GroupScreen extends AppCompatActivity {
         setContentView(R.layout.group_screen);
 
         Button commentsButton;
-        Button fileSendButton;
         gs_joinBtn = (Button) findViewById(R.id.gs_joinBtn);
         gs_cancelBtn = (Button) findViewById(R.id.gs_cancelBtn);
 
@@ -117,6 +116,7 @@ public class GroupScreen extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
 
 
+
                 enterCommentsEdit = (EditText) findViewById(R.id.gs_enterComments); //댓글 내용 가져오기
                 String enterCommentString = enterCommentsEdit.getText().toString();  // 댓글 내용 스트링변환
                 if (enterCommentString.length() == 0) {//아무것도 안썻을때
@@ -126,19 +126,11 @@ public class GroupScreen extends AppCompatActivity {
                 } else {
                     CommentCommunicate taskComment = new CommentCommunicate();
                     taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php", comment_nickname, enterCommentString, group_room_number); // groupNumber은 구현후 들어가도록 하겠다
+                    enterCommentsEdit.setText("");
                 }
             }
         });
 
-        fileSendButton = (Button) findViewById(R.id.sendFileBtn);
-        fileSendButton.setOnClickListener(new View.OnClickListener() { // 첨부파일 이미지 클릭할때
-            @Override
-            public void onClick(View view) {
-                //Intent listIntent = new Intent(getApplicationContext(), FileSendActivity.class); //파일샌드액티비티에서 보낼 파일 선택하기 위해 새 액티비티 열기
-                //startActivityForResult(listIntent, REQUEST_CODE);
-
-            }
-        });
 
         gs_joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
