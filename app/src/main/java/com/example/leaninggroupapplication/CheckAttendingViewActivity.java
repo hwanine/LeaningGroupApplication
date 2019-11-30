@@ -3,28 +3,47 @@ package com.example.leaninggroupapplication;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class CheckAttendingViewActivity extends AppCompatActivity implements View.OnClickListener{ //모임화면을 생성해 한눈에 볼 수 있도록 하는 뷰로, 시간이 되었을 때 참석하겠다고 하면 넘어가야하는 액티비티이다.
-
+    ArrayList<CheckAttendingActivity> attenders = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_attenidng_view);
 
+        Intent attendIntent = getIntent();
+        String dataGroupNum=attendIntent.getStringExtra("group_num");
+        Log.d("왔다",dataGroupNum);
+
+        AttendMembers attendTask = new AttendMembers();
+        attendTask.execute("http://rkdlem1613.dothome.co.kr/attend.php",dataGroupNum);
+
         ListView listView = findViewById(R.id.AttendingListView);
-        ArrayList<CheckAttendingActivity> attenders = new ArrayList<>();
+
         attenders.add(new CheckAttendingActivity("곽송이","20173040","rkdlem1613@changwon.ac.kr", this));
 
         CheckAttendingListAdapter adapter = new CheckAttendingListAdapter(attenders);
         listView.setAdapter(adapter);
     }
-
+///oncerate 끝
 
     @Override
     public void onClick(View v){
@@ -39,5 +58,105 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
         dialog.setCancelable(false);
         dialog.show();
     }
+//////
+
+    public void comment_extraction(String response)  {
+
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray =jsonObject.getJSONArray("response");
+            int count = 0;
+            String commet_mem;
+            String comment_cont;
+            String commentTime;
+            SimpleDateFormat format = new SimpleDateFormat ("HH:mm:ss");
+
+
+            System.out.println(jsonArray.length());
+            while(count < jsonArray.length()){
+                JSONObject object = jsonArray.getJSONObject(count);
+                commet_mem = object.getString("comment_member");
+                comment_cont = object.getString("comment_content");
+                commentTime = object.getString("comment_time");
+                //commentTime = format.format(commentTime);
+                //Log.d("혹시 너때문이니",commentTime.toString());
+                Comments commentData = new Comments(commet_mem,comment_cont,commentTime);
+                //items.add(commentData);
+                count++;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /////
+    private class AttendMembers extends AsyncTask<String,String,String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String group_roomnumber = params[1];
+
+            String output = "";
+
+            String postParameters = "group_roomnumber=" + group_roomnumber;
+
+            try {
+                //연결 url 설정
+                URL url = new URL(params[0]);
+
+                //커넥션 객체 생성
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");
+                conn.connect();
+
+                conn.setConnectTimeout(10000);
+
+                OutputStream outputStream = conn.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
+
+
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+                    int i = 0 ;
+                    for(;;){
+                        //웹상에 보이는 텍스트를 라인단위로 읽어 저장
+                        String line = br.readLine();
+                        if(line == null) {
+                            break;
+                        }
+                        i++;
+                        output += line;
+                    }
+                    Log.d("됬나check",output);
+
+                    br.close();
+                }
+                conn.disconnect();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return output;
+        }
+
+
+        protected void onPostExecute(String s) {
+
+            super.onPostExecute(s);
+
+            try {
+                //comment_extraction(s);
+
+                //adapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
 
 }

@@ -55,6 +55,8 @@ import java.util.Map;
 
 
 public class GroupScreen extends AppCompatActivity {
+    String group_num; // 알람 리시버에 전달할 그룹넘버
+
 
     EditText enterCommentsEdit;
     Button gs_joinBtn;
@@ -318,7 +320,7 @@ public class GroupScreen extends AppCompatActivity {
         PackageManager pm = this.getPackageManager();
         //ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class); //componentName이 어떻게 쓰이는건지 좀 봐야겠는데
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        //alarmPendings.add(PendingIntent.getBroadcast(this, alarmPendings.size(), alarmIntent, 0));
+        alarmIntent.putExtra("group_num",group_num); //알람을 하려는 모임방 번호 전달
 
         Date currentDateTime = calendar.getTime(); // 캘린더를 date객체로 변환
         String date_text = new SimpleDateFormat("MMddhhmm").format(currentDateTime);
@@ -327,14 +329,8 @@ public class GroupScreen extends AppCompatActivity {
         System.out.println("알람시간"+alarmTime);
         System.out.println("똑바로 들어가나 메소드 달"+calendar.get(Calendar.MONTH));
         System.out.println("똑바로 들어가나 "+calendar.get(Calendar.DATE));
-        /*
-        SharedPreferences sharedPreferences = getSharedPreferences("alarmPending",Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(date_text,date_text);
-        editor.commit();
-*/
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         // 사용자가 매일 알람을 허용했다면
         if (dailyNotify) {
 
@@ -343,7 +339,7 @@ public class GroupScreen extends AppCompatActivity {
 
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this,
-                                alarmTime,alarmIntent,0)); // 이 코드가 calendar가 저장한 시간에 alarmReceiver에  인텐트를 보내어 알림바(notification)을 내리게 하는 코드이다
+                                alarmTime,alarmIntent,PendingIntent.FLAG_ONE_SHOT)); // 이 코드가 calendar가 저장한 시간에 alarmReceiver에  인텐트를 보내어 알림바(notification)을 내리게 하는 코드이다
                 //시간이랑 pendingIntent만 다르면 알람을 여러개 만들수 있음
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -545,7 +541,7 @@ public class GroupScreen extends AppCompatActivity {
 
 
                 JSONObject object = jsonArray.getJSONObject(count);
-                String num = object.getString("group_roomnumber");
+                group_num = object.getString("group_roomnumber");
 
                 String category = object.getString("category");
                 gs_category.setText(category);
