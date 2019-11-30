@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,6 +38,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     TextView loginUserNickname;
     Button loginButton;
     User user;
+    int getAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         ReadingFrameListView = (ListView)findViewById(R.id.ReadingFrameListView);
         MajoringFrameListView = (ListView)findViewById(R.id.MajoringFrameListView);
         HobbyFrameListView = (ListView)findViewById(R.id.HobbyFrameListView);
+
 
 //1
         LanguageFrameListView.setAdapter(adapter);
@@ -400,6 +405,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 //온크리에이트 끝
+
+
 
     public class NetworkTask extends AsyncTask<Void, Void, String> {
 

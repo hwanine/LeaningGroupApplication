@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,7 +24,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent notificationIntent = new Intent(context, MainActivity.class);
+        Intent notificationIntent = new Intent(context, AlarmAttend.class);
+
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -31,7 +33,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         Log.d("왔나요4","왔겠지");
 
         PendingIntent pendingI = PendingIntent.getActivity(context, 0,
-                notificationIntent, 0); // 이걸로 메인으로 이동하자
+                notificationIntent, 0); // 이걸로 이동?
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
