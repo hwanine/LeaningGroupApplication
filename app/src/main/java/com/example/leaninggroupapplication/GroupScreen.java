@@ -281,7 +281,7 @@ public class GroupScreen extends AppCompatActivity {
         });
 
     }
-
+///oncreate
     /*
         protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             // 내가 fileSendActivity액티비티를 종료하고 다시
@@ -390,7 +390,7 @@ public class GroupScreen extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
+/////
     private class CommentCommunicate extends AsyncTask<String,String,String> {
         //SimpleDateFormat format1 = new SimpleDateFormat ( "yyyy-MM-dd HH:mm:ss");
         //Date time = new Date();
@@ -463,6 +463,7 @@ public class GroupScreen extends AppCompatActivity {
         }
 
     }
+
     //모임 정보 쿼리문
     class BackgroundUITask extends AsyncTask<String, String, String> {
 
@@ -565,7 +566,7 @@ public class GroupScreen extends AppCompatActivity {
         }
 
     }
-
+//////
     class joinGroup extends StringRequest {
 
         final static private String URL = "http://rkdlem1613.dothome.co.kr/join.php";

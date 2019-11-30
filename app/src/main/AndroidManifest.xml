@@ -29,7 +29,7 @@
         <activity android:name=".ChangePasswd" />
         <activity android:name=".FindEmail" />
         <activity android:name=".Authentication" />
-        <activity android:name=".CheckAttenidngViewActivity" /> <!-- <activity android:name=".createGroupSummaryObject" /> -->
+        <activity android:name=".CheckAttendingViewActivity" /> <!-- <activity android:name=".createGroupSummaryObject" /> -->
         <!-- <activity android:name=".CheckAttendingActivity" /> -->
         <activity
             android:name=".LoadingActivity"
@@ -56,6 +56,9 @@
         <activity android:name=".GroupScreen" />
         <activity android:name=".Comments" />
         <activity android:name=".CommentsList" />
+        <activity android:name=".AlarmAttend"/>
+
+
     </application>
 
 </manifest>
