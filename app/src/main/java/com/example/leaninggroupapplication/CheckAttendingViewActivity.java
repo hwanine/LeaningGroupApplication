@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public class CheckAttendingViewActivity extends AppCompatActivity implements View.OnClickListener{ //모임화면을 생성해 한눈에 볼 수 있도록 하는 뷰로, 시간이 되었을 때 참석하겠다고 하면 넘어가야하는 액티비티이다.
     ArrayList<CheckAttendingActivity> attenders = new ArrayList<>();
+    CheckAttendingListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +39,8 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
         ListView listView = findViewById(R.id.AttendingListView);
 
-        attenders.add(new CheckAttendingActivity("곽송이","20173040","rkdlem1613@changwon.ac.kr", this));
 
-        CheckAttendingListAdapter adapter = new CheckAttendingListAdapter(attenders);
+        adapter = new CheckAttendingListAdapter(attenders);
         listView.setAdapter(adapter);
     }
 ///oncerate 끝
@@ -147,9 +147,9 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
             super.onPostExecute(s);
 
             try {
-                //comment_extraction(s);
+                comment_extraction(s);
 
-                //adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             } catch (Exception e) {
                 e.printStackTrace();
             }
