@@ -1,5 +1,7 @@
 package com.example.leaninggroupapplication;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,6 +24,8 @@ public class RequestHandler {
         StringBuilder sb = new StringBuilder();
 
         try {
+
+
             url = new URL(requestURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(15000);
@@ -34,10 +38,14 @@ public class RequestHandler {
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
             writer.write(getPostDataString(postDataParams));
+
+            Log.d("request 입력",getPostDataString(postDataParams));
             writer.flush();
             writer.close();
             os.close();
             int responseCode = connection.getResponseCode();
+
+            Log.d("리스폰스",Integer.toString(responseCode));
 
             if (responseCode == HttpURLConnection.HTTP_OK) {
 
@@ -71,6 +79,7 @@ public class RequestHandler {
             else
                 result.append("&");
             result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+
             result.append("=");
             result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
         }

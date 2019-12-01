@@ -20,4 +20,5 @@ public class CheckAttendingActivity extends AppCompatActivity { //참여자 정�
         this.EMail = EMail;
         this.ReportOn = ReportOn;
     }
+
 }
