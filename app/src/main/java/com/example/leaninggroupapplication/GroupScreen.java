@@ -185,29 +185,18 @@ public class GroupScreen extends AppCompatActivity {
                                         cal.set(Calendar.MONTH, Integer.parseInt(meeting_data.substring(5, 7)) - 1);
 
                                         System.out.println("똑바로 달" + cal.get(Calendar.MONTH));
+                                        System.out.println("똑바로 date"+meeting_data.substring(8, 10));
+                                        System.out.println("똑바로 hour"+meeting_data.substring(0, 2));
                                         cal.set(Calendar.DATE, Integer.parseInt(meeting_data.substring(8, 10)));
 
                                         cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(meeting_start_time.substring(0, 2)));
                                         cal.set(Calendar.MINUTE, Integer.parseInt(meeting_start_time.substring(3, 5)));
                                         cal.set(Calendar.SECOND, Integer.parseInt(meeting_start_time.substring(6, 8)));
-/*
-                                    Date nextDate = cal.getTime();
-                                    String date_text = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분 ", Locale.getDefault()).format(nextDate);
-                                    Log.d("문제 확인",date_text);
 
-
-                                    cal2.set(Calendar.YEAR,Integer.parseInt(meeting_data.substring(0,4)));
-                                    cal2.set(Calendar.MONTH,Integer.parseInt(meeting_data.substring(5,7)));
-                                    cal2.set(Calendar.DATE,Integer.parseInt(meeting_data.substring(8,10)));
-
-                                    cal2.set(Calendar.HOUR_OF_DAY,Integer.parseInt(meeting_start_time.substring(0,2)));
-                                    cal2.set(Calendar.MINUTE,Integer.parseInt(meeting_start_time.substring(3,5))+1);
-                                    cal2.set(Calendar.SECOND,Integer.parseInt(meeting_start_time.substring(6,8)));
-*/
                                         Toast.makeText(getApplicationContext(), " 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
 
                                         diaryNotification(cal);
-                                        diaryNotification(cal2);
+
                                         AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
                                         builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
                                         Intent intent = new Intent(GroupScreen.this, MainActivity.class);
@@ -286,26 +275,8 @@ public class GroupScreen extends AppCompatActivity {
         });
     }
 
-
-
 ///oncreate
-    /*
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            // 내가 fileSendActivity액티비티를 종료하고 다시
-            // group screen으로 돌아올때 동작하는 메소드이다
-            super.onActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == REQUEST_CODE) { // 내가 액티비티를 불러올때 요청한 코드 101인지 조사한다
-
-                if (resultCode == RESULT_OK) {
-                    String path = data.getStringExtra("path");
-                    String line = new String();
-                    // 이아래부터는 받아온 경로의 파일을 전송하는 코드를 작성하면 됩니다
-
-
-                }
-            }
-        }*/
 
     void diaryNotification(Calendar calendar)
     {
