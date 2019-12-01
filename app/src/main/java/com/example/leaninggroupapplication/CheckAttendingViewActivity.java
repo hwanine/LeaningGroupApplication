@@ -31,6 +31,7 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
     ArrayList<CheckAttendingActivity> attenders = new ArrayList<>();
     CheckAttendingListAdapter adapter;
 
+    ArrayList<String> getPos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,7 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
     public void onClick(View v){
 
         View openParentView = (View)v.getParent();
-        String position = (String) openParentView.getTag();
+        final String position = (String) openParentView.getTag();
 
         EditText input = new EditText(this);
         AlertDialog.Builder dialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
@@ -68,8 +69,23 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        int getI = 0;
+
+                        for(int i=0; attenders.size() > i; i++){
+
+                            if(getPos.get(i).equals(attenders.get(i).EMail) == true){
+
+                                getI = i;
+
+                            }else{
+
+                                getI = 0;
+                                Toast.makeText(getApplicationContext(),"에러",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
                         //AsyncTask객체 생성 신고하는거!
-                        ReportUser reportUser = new ReportUser(attenders.get(2).toString(),attenders.get(1).toString(),attenders.get(0).toString());
+                        ReportUser reportUser = new ReportUser(attenders.get(getI).EMail,attenders.get(getI).SchoolNumber,attenders.get(getI).Name);
                         reportUser.execute();
                         dialog.cancel();
                     }
@@ -171,6 +187,7 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
                 CheckAttendingActivity AttendingData = new CheckAttendingActivity(real_name,school_number,email,this);
                 attenders.add(AttendingData);
                 count++;
+                getPos.add(email);
 
             }
         } catch (Exception e) {
