@@ -56,6 +56,8 @@ public class CreateGroup extends AppCompatActivity {
     Button cg_dateBtn;
     Button cg_start_timeBtn;
     Button cg_end_timeBtn;
+    Button cg_set1;
+    Button cg_set2;
     Spinner category_spinner;
 
 
@@ -104,13 +106,32 @@ public class CreateGroup extends AppCompatActivity {
         cg_end_timeBtn = (Button)findViewById(R.id.cg_end_timeBtn);
         cg_start_time = (TextView) findViewById(R.id.cg_start_time);
         cg_end_time = (TextView) findViewById(R.id.cg_end_time);
+        cg_set1 = (Button)findViewById(R.id.cg_set1);
+        cg_set2 = (Button)findViewById(R.id.cg_set2);
+
+        cg_set1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cg_date.setText(y+"."+m+"."+d);
+            }
+        });
+
+        cg_set2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cg_start_time.setText(sh+":"+smi);
+                cg_end_time.setText(eh+":"+emi);
+            }
+        });
+
+
 
 
         cg_dateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDate();
-                cg_date.setText(y+"."+m+"."+d);
+
             }
 
         });
@@ -120,7 +141,7 @@ public class CreateGroup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showStartTime();
-                cg_start_time.setText(sh+":"+smi);
+
             }
         });
 
@@ -128,7 +149,7 @@ public class CreateGroup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showEndTime();
-                cg_end_time.setText(eh+":"+emi);
+
             }
 
         });

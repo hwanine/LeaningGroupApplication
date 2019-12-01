@@ -107,13 +107,15 @@
         android:id="@+id/cg_dateBtn"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:text="달력"/>
+        android:text="달력"
+        android:layout_weight="1"/>
 
- <!--       <Button
-            android:id="@+id/cg_set1"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="선택완료"/>-->
+      <Button
+          android:id="@+id/cg_set1"
+          android:layout_width="wrap_content"
+          android:layout_height="40dp"
+          android:text="선택완료"
+          android:layout_weight="1"/>
 
     </LinearLayout>
 
@@ -136,7 +138,8 @@
             android:id="@+id/cg_start_time"
             android:layout_width="50dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="5dp"/>
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -148,29 +151,33 @@
             android:id="@+id/cg_end_time"
             android:layout_marginLeft="5dp"
             android:layout_width="50dp"
-            android:layout_height="48dp"/>
+            android:layout_height="48dp"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/cg_start_timeBtn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:text="시작시간" />
 
         <Button
             android:id="@+id/cg_end_timeBtn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_weight="1"
             android:text="끝시간"/>
 
-        <!--       <Button
-                   android:id="@+id/cg_set2"
-                   android:layout_width="wrap_content"
-                   android:layout_height="40dp"
-                   android:text="선택완료"/> -->
+         <Button
+             android:id="@+id/cg_set2"
+             android:layout_width="wrap_content"
+             android:layout_height="40dp"
+             android:layout_weight="1"
+             android:text="선택완료"/>
 
     </LinearLayout>
 
-      <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
