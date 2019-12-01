@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
         }*/
 
         protected  void onPreExecute(){
-            target = "http://rkdlem1613.dothome.co.kr/gettest.php";
+            target = "http://ec2-13-209-49-31.ap-northeast-2.compute.amazonaws.com/gettest.php";
         }
 
         @Override

@@ -130,7 +130,7 @@ public class GroupScreen extends AppCompatActivity {
                     //        Toast.makeText(getApplicationContext(), "네트워크 연결 불량", Toast.LENGTH_LONG).show();
                 } else {
                     CommentCommunicate taskComment = new CommentCommunicate();
-                    taskComment.execute("http://rkdlem1613.dothome.co.kr/comment.php", comment_nickname, enterCommentString, group_room_number); // groupNumber은 구현후 들어가도록 하겠다
+                    taskComment.execute("http://ec2-13-209-49-31.ap-northeast-2.compute.amazonaws.com/comment.php", comment_nickname, enterCommentString, group_room_number); // groupNumber은 구현후 들어가도록 하겠다
                     enterCommentsEdit.setText("");
                 }
             }
@@ -442,7 +442,7 @@ public class GroupScreen extends AppCompatActivity {
         String target;
 
         protected void onPreExecute() {
-            target = "http://rkdlem1613.dothome.co.kr/groupScreen.php";
+            target = "http://ec2-13-209-49-31.ap-northeast-2.compute.amazonaws.com/groupScreen.php";
         }
 
         @Override
@@ -541,7 +541,7 @@ public class GroupScreen extends AppCompatActivity {
 //////
     class joinGroup extends StringRequest {
 
-        final static private String URL = "http://rkdlem1613.dothome.co.kr/join.php";
+        final static private String URL = "http://ec2-13-209-49-31.ap-northeast-2.compute.amazonaws.com/join.php";
         private Map<String, String> parameters;
 
         public joinGroup(String roomnum, String  category, String title, String nic, String date,
@@ -567,7 +567,7 @@ public class GroupScreen extends AppCompatActivity {
     //취소 할때
     class cancelGroup extends StringRequest {
 
-        final static private String URL = "http://rkdlem1613.dothome.co.kr/cancel.php";
+        final static private String URL = "http://ec2-13-209-49-31.ap-northeast-2.compute.amazonaws.com/cancel.php";
         private Map<String, String> parameters;
 
         public cancelGroup(String nic, String roomnum, Response.Listener<String> listener){

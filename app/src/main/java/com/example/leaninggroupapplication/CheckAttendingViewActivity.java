@@ -43,7 +43,7 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
         Log.d("왔다",dataGroupNum);
 
         AttendMembers attendTask = new AttendMembers();
-        attendTask.execute("http://rkdlem1613.dothome.co.kr/attend.php",dataGroupNum);
+        attendTask.execute("http://ec2-13-209-49-31.ap-northeast-2.compute.amazonaws.com/attend.php",dataGroupNum);
 
         ListView listView = findViewById(R.id.AttendingListView);
 
@@ -73,7 +73,7 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
                         for(int i=0; attenders.size() > i; i++){
 
-                            if(getPos.get(i).equals(attenders.get(i).EMail) == true){
+                            if(getPos.get(i).equals(attenders.get(i).EMail)){
 
                                 getI = i;
 

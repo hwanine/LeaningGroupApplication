@@ -245,7 +245,7 @@ public class CreateGroup extends AppCompatActivity {
 
     class InsertData extends StringRequest {
 
-        final static private String URL = "http://rkdlem1613.dothome.co.kr/insert6.php";
+        final static private String URL = "http://ec2-13-209-49-31.ap-northeast-2.compute.amazonaws.com/insert6.php";
         private Map<String, String> parameters;
 
         public InsertData(String category, String title, String content, String numberOfUser, String date,

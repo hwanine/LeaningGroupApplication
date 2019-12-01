@@ -100,7 +100,7 @@ public class LogActivity extends AppCompatActivity {
         String target;
 
         protected  void onPreExecute(){
-            target = "http://rkdlem1613.dothome.co.kr/getlog2.php";
+            target = "http://ec2-13-209-49-31.ap-northeast-2.compute.amazonaws.com/getlog2.php";
 
             //InsertNic insert = new InsertNic(target, nic,);
         }
