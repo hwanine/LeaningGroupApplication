@@ -1,12 +1,14 @@
 package com.example.leaninggroupapplication;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,6 +60,17 @@ public class CheckAttendingListAdapter extends BaseAdapter{ //모임시 참석�
         EMail.setText(checkAttendingActivities.get(position).EMail);
         SchoolNumber.setText(checkAttendingActivities.get(position).SchoolNumber);
         ReportOn.setOnClickListener(checkAttendingActivities.get(position).ReportOn);
+
+       /*
+        final String text = checkAttendingActivities.get(position).Name;
+
+        ReportOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("나왔나",text);
+            }
+        });
+        */
 
         convertView.setTag(""+position);
         return convertView;

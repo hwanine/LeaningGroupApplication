@@ -77,7 +77,6 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
                                 getI = i;
 
-
                             }else{
 
                                 getI = 0;
@@ -155,7 +154,8 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
                 JSONObject obj = new JSONObject(s);
 
                 if(obj.getBoolean("error")){
-                    Toast.makeText(getApplicationContext(),"신고에 실패했습니다.", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(getApplicationContext(),"해당 유저를 신고하였습니다", Toast.LENGTH_SHORT).show();
 
                 }else{
                     Toast.makeText(getApplicationContext(),"해당 유저를 신고하였습니다.",Toast.LENGTH_SHORT).show();

@@ -100,25 +100,13 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(Void... voids) {
-
-            RequestHandler requestHandler = new RequestHandler();
-
-            HashMap<String, String> params = new HashMap<>();
-            params.put("email", userEmail);
-            params.put("passwd", userPasswd);
-
-            return requestHandler.sendPostRequest(URLS.URL_LOGIN, params);
-        }
-
-        @Override
         protected void onPostExecute(String s) {
 
             super.onPostExecute(s);
 
             try {
 
-                Log.e("here",s);
+                //Log.e("here",s);
                 JSONObject obj = new JSONObject(s);
 
                 if (!obj.getBoolean("error")) {
@@ -158,6 +146,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            RequestHandler requestHandler = new RequestHandler();
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("email", userEmail);
+            params.put("passwd", userPasswd);
+
+            return requestHandler.sendPostRequest(URLS.URL_LOGIN, params);
+        }
     }
 
    /* View.OnClickListener loginButtonClickListener = new View.OnClickListener(){
