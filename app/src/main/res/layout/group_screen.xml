@@ -9,7 +9,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/gs_category"
@@ -30,6 +31,8 @@
             android:textSize="14dp"
             android:ems="10"
             android:inputType="textPersonName"
+            android:textColor="#33aabb"
+            android:textStyle="bold"
             android:singleLine="true"
             android:text="제목 입력"
             tools:layout_editor_absoluteX="99dp"
@@ -84,8 +87,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="#33aabb"
             android:text="이용자 수"
+            android:textStyle="bold"
             tools:layout_editor_absoluteX="35dp"
             tools:layout_editor_absoluteY="389dp" />
 
@@ -119,15 +123,17 @@
         android:id="@+id/gs_joinBtn"
         android:layout_width="70dp"
         android:layout_height="37dp"
-        android:layout_marginLeft="4dp"
-        android:text="참여"/>
+        android:layout_margin="2dp"
+        android:text="참여"
+        android:background="@drawable/buttonbordr2"/>
 
         <Button
             android:id="@+id/gs_cancelBtn"
             android:layout_width="70dp"
             android:layout_height="37dp"
-            android:layout_marginRight="5dp"
+            android:layout_margin="2dp"
             android:text="취소"
+            android:background="@drawable/buttonbordr2"
             tools:layout_editor_absoluteX="108dp"
             tools:layout_editor_absoluteY="378dp" />
 
@@ -144,8 +150,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="#33aabb"
             android:text="날짜"
+            android:textStyle="bold"
             tools:layout_editor_absoluteX="35dp"
             tools:layout_editor_absoluteY="389dp" />
 
@@ -173,8 +180,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="#33aabb"
         android:text="시간"
+        android:textStyle="bold"
         tools:layout_editor_absoluteX="329dp"
         tools:layout_editor_absoluteY="389dp" />
 
@@ -218,8 +226,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="#33aabb"
             android:text="댓글"
+            android:textStyle="bold"
             android:id="@+id/gs_text4"/>
 
         <EditText
@@ -235,9 +244,9 @@
         <Button
             android:layout_width="60dp"
             android:layout_height="37dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="2dp"
+            android:layout_margin="2dp"
             android:text="확인"
+            android:background="@drawable/buttonbordr2"
             android:id="@+id/gs_commentBtn"/>
 
 
