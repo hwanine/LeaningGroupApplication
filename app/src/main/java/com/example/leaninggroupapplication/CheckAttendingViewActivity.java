@@ -143,7 +143,7 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
             return requestHandler.sendPostRequest(URLS.URL_REPORT_ON, params);
         }
-
+//
         @Override
         protected void onPostExecute(String s){
 
