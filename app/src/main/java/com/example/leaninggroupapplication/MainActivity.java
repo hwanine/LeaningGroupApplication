@@ -187,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 //4
-        LanguageFrameListView.setAdapter(adapter);
-        LanguageFrameListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        ReadingFrameListView.setAdapter(adapter);
+        ReadingFrameListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l){
                 android.app.AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
