@@ -3,15 +3,19 @@ package com.example.leaninggroupapplication;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -21,10 +25,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CheckAttendingViewActivity extends AppCompatActivity implements View.OnClickListener{ //모임화면을 생성해 한눈에 볼 수 있도록 하는 뷰로, 시간이 되었을 때 참석하겠다고 하면 넘어가야하는 액티비티이다.
     ArrayList<CheckAttendingActivity> attenders = new ArrayList<>();
     CheckAttendingListAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +46,6 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
         ListView listView = findViewById(R.id.AttendingListView);
 
-
         adapter = new CheckAttendingListAdapter(attenders);
         listView.setAdapter(adapter);
     }
@@ -47,18 +53,101 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
     @Override
     public void onClick(View v){
+
         View openParentView = (View)v.getParent();
         String position = (String) openParentView.getTag();
 
+        EditText input = new EditText(this);
         AlertDialog.Builder dialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
 
-        String message = position + ": 해당 유저를 신고하였습니다.(나중에는 이름과 포지션을 매칭시켜 해당 유저 이름을 보여주며 신고했다고 하기. 그리고 신고하시겠습니까? 하며 신고사유를 적는 팝업이 필요! 다이얼로그 메시지 말고";
+        dialog.setMessage("해당 유저를 신고하는 사유를 적어주십시오. \n (예, 실제 모임에 불참석하고 참석 확인/ \n 실제 모임에서 불쾌한 언행을 행사 등... )");
+        dialog.setView(input);
+        dialog.setCancelable(false);
+        dialog.setPositiveButton("확인",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //AsyncTask객체 생성 신고하는거!
+                        ReportUser reportUser = new ReportUser(attenders.get(2).toString(),attenders.get(1).toString(),attenders.get(0).toString());
+                        reportUser.execute();
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.cancel();
+                    }
+                });
+
+        dialog.show();
+
+        /*String message = position + ": 해당 유저를 신고하였습니다.(나중에는 이름과 포지션을 매칭시켜 해당 유저 이름을 보여주며 신고했다고 하기. 그리고 신고하시겠습니까? 하며 신고사유를 적는 팝업이 필요! 다이얼로그 메시지 말고";
         dialog.setMessage(message);
         dialog.setPositiveButton("확인",null);
         dialog.setCancelable(false);
-        dialog.show();
+        dialog.show();*/
     }
 //////
+
+    class ReportUser extends AsyncTask<Void, Void, String>{
+
+        String uEmail, schoolnumber, realname;
+
+
+        ReportUser(String email, String schoolnumber, String realname){
+
+            this.uEmail = email;
+            this.schoolnumber = schoolnumber;
+            this.realname = realname;
+
+        }
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            RequestHandler requestHandler = new RequestHandler();
+
+            HashMap<String, String> params = new HashMap<>();
+
+            params.put("email",uEmail);
+            params.put("school_number", schoolnumber);
+            params.put("real_name", realname);
+
+            return requestHandler.sendPostRequest(URLS.URL_REPORT_ON, params);
+        }
+
+        @Override
+        protected void onPostExecute(String s){
+
+            super.onPostExecute(s);
+
+            try{
+
+                JSONObject obj = new JSONObject(s);
+
+                if(obj.getBoolean("error")){
+
+                    Toast.makeText(getApplicationContext(),"해당 유저를 신고하였습니다", Toast.LENGTH_SHORT).show();
+
+                }else{
+
+                    Toast.makeText(getApplicationContext(),"신고에 실패했습니다.",Toast.LENGTH_SHORT).show();
+
+                }
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     public void comment_extraction(String response)  {
 

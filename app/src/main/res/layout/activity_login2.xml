@@ -63,6 +63,7 @@
             android:layout_gravity="center"
             android:text="@string/action_sign_in"
             android:textStyle="bold"
+            android:background="@drawable/buttonborder"
             />
 <!--           android:background="@drawable/button_background"-->
             <!--android:onClick="mainActivityClick"/>-->

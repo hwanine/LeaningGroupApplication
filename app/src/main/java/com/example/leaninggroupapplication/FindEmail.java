@@ -128,6 +128,7 @@ public class FindEmail extends AppCompatActivity {
                     alt.setMessage("입력하신 학번과 이름에 해당하는 이메일은 \n"+ showEmail + " 입니다.")
                             .setCancelable(false)
                             .setPositiveButton("OK",
+
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
