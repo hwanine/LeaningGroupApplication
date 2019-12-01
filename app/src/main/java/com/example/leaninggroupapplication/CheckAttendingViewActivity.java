@@ -155,7 +155,7 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
                 if(obj.getBoolean("error")){
 
-                    Toast.makeText(getApplicationContext(),"해당 유저를 신고하였습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"신고 실패", Toast.LENGTH_SHORT).show();
 
                 }else{
                     Toast.makeText(getApplicationContext(),"해당 유저를 신고하였습니다.",Toast.LENGTH_SHORT).show();
