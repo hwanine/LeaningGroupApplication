@@ -179,7 +179,7 @@ public class GroupScreen extends AppCompatActivity {
                                         Log.d("왔나요2", meeting_start_time);
 
                                         Calendar cal = Calendar.getInstance();
-                                        Calendar cal2 = Calendar.getInstance();
+
 
                                         cal.set(Calendar.YEAR, Integer.parseInt(meeting_data.substring(0, 4)));
                                         cal.set(Calendar.MONTH, Integer.parseInt(meeting_data.substring(5, 7)) - 1);
@@ -195,7 +195,7 @@ public class GroupScreen extends AppCompatActivity {
 
                                         Toast.makeText(getApplicationContext(), " 알람이 설정되었습니다!", Toast.LENGTH_SHORT).show();
 
-                                        diaryNotification(cal);
+                                        diaryNotification(cal,group_num);
 
                                         AlertDialog.Builder builder = new AlertDialog.Builder(GroupScreen.this);
                                         builder.setMessage("참여 성공.").setPositiveButton("확인", null).create().show();
@@ -278,7 +278,7 @@ public class GroupScreen extends AppCompatActivity {
 ///oncreate
 
 
-    void diaryNotification(Calendar calendar)
+    void diaryNotification(Calendar calendar,String group_num)
     {
 //        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 //        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -291,6 +291,7 @@ public class GroupScreen extends AppCompatActivity {
         alarmIntent.putExtra("group_num",group_num); //알람을 하려는 모임방 번호 전달
 
         Date currentDateTime = calendar.getTime(); // 캘린더를 date객체로 변환
+
         String date_text = new SimpleDateFormat("MMddhhmm").format(currentDateTime);
         Log.d("시간확인",date_text);
         int alarmTime = Integer.parseInt(date_text);

@@ -120,6 +120,9 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
             this.schoolnumber = schoolnumber;
             this.realname = realname;
 
+            Log.i("이름1:", email);
+            Log.i("이름2:", schoolnumber);
+            Log.i("이름3:", realname);
         }
 
         @Override
@@ -140,7 +143,7 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
             return requestHandler.sendPostRequest(URLS.URL_REPORT_ON, params);
         }
-
+//
         @Override
         protected void onPostExecute(String s){
 
@@ -152,11 +155,13 @@ public class CheckAttendingViewActivity extends AppCompatActivity implements Vie
 
                 if(obj.getBoolean("error")){
 
-                    Toast.makeText(getApplicationContext(),"해당 유저를 신고하였습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"신고 실패", Toast.LENGTH_SHORT).show();
 
                 }else{
-
                     Toast.makeText(getApplicationContext(),"해당 유저를 신고하였습니다.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+
 
                 }
             }catch (JSONException e){

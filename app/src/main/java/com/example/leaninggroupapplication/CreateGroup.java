@@ -1,13 +1,18 @@
 
 package com.example.leaninggroupapplication;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
@@ -44,6 +49,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -171,9 +179,10 @@ public class CreateGroup extends AppCompatActivity {
                 String title = cg_title.getText().toString();
                 String content = cg_content.getText().toString();
                 String numberOfUser = cg_numberOfUser.getText().toString();
-                String date = cg_date.getText().toString();
+                final String date = cg_date.getText().toString();
                 String writer = cg_writer.getText().toString();
-                String starttime=cg_start_time.getText().toString();
+                final String starttime=cg_start_time.getText().toString();
+
                 String endtime=cg_end_time.getText().toString();
 
 
@@ -193,8 +202,64 @@ public class CreateGroup extends AppCompatActivity {
 
                         boolean success = jsonResponse.getBoolean("success");
 
-
                             if (success) {
+
+                                Calendar cal = Calendar.getInstance();
+                                String substHour;
+                                String substMinute;
+                                String substMonth;
+                                String substDate;
+
+                                String group_num = jsonResponse.getString("max_group_num");
+
+                                Log.d("날짜",date);
+                                cal.set(Calendar.YEAR, Integer.parseInt(date.substring(0, 4)));
+
+                                //1~9월까지
+                                if(date.indexOf(".",5)==6) {
+                                    if(date.length()==8){
+                                        substMonth=date.substring(5,6);
+                                        substDate=date.substring(7,8);
+                                    }else{
+                                        substMonth=date.substring(5,6);
+                                        substDate=date.substring(7,9);
+                                    }
+                                } else{ // 10~12월까지
+                                    if(date.length()==9){
+                                        substMonth=date.substring(5,7);
+                                        substDate=date.substring(8,9);
+                                    }else{
+                                        substMonth=date.substring(5,7);
+                                        substDate=date.substring(7,10);
+                                    }
+                                }
+                                cal.set(Calendar.MONTH, Integer.parseInt(substMonth)-1);
+                                cal.set(Calendar.DATE, Integer.parseInt(substDate));
+
+                                if(starttime.indexOf(":")==1){ // 시간이 0~10시 사이일때
+                                    substHour = starttime.substring(0, 1);
+                                    if(starttime.length()==3){ //  0~10분 사이
+                                        substMinute=starttime.substring(2,3);
+                                    }else if(starttime.length()==4){ // 10~60분 사이
+                                        substMinute=starttime.substring(2,4);
+                                    }else{
+                                        substMinute="00";
+                                    }
+                                }else {
+                                    substHour = starttime.substring(0, 2);
+                                    if(starttime.length()==4){ // 10~12시 사이 0~10분 사이
+                                        substMinute=starttime.substring(3,4);
+                                    }else if(starttime.length()==5){ //10~12시 사이 10~60분 사이
+                                        substMinute=starttime.substring(3,5);
+                                    }else{
+                                        substMinute="00";
+                                    }
+                                }
+                                cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(substHour));
+                                cal.set(Calendar.MINUTE, Integer.parseInt(substMinute));
+                                cal.set(Calendar.SECOND, 0);
+
+                                diaryNotification(cal,group_num);
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(CreateGroup.this);
                                 builder.setMessage("모임 등록에 성공했습니다.").setPositiveButton("확인", null).create().show();
@@ -242,6 +307,65 @@ public class CreateGroup extends AppCompatActivity {
 
 
     }
+    // oncreate끝
+
+
+    void diaryNotification(Calendar calendar,String group_num)
+    {
+//        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+//        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+//        Boolean dailyNotify = sharedPref.getBoolean(SettingsActivity.KEY_PREF_DAILY_NOTIFICATION, true);
+        Boolean dailyNotify = true; // 무조건 알람을 사용
+
+        PackageManager pm = this.getPackageManager();
+        //ComponentName receiver = new ComponentName(this, DeviceBootReceiver.class); //componentName이 어떻게 쓰이는건지 좀 봐야겠는데
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        alarmIntent.putExtra("group_num",group_num); //알람을 하려는 모임방 번호 전달
+
+        Date currentDateTime = calendar.getTime(); // 캘린더를 date객체로 변환
+
+        String date_text = new SimpleDateFormat("MMddhhmm").format(currentDateTime);
+        Log.d("시간확인",date_text);
+        int alarmTime = Integer.parseInt(date_text);
+        System.out.println("알람시간"+alarmTime);
+        System.out.println("똑바로 들어가나 메소드 달"+calendar.get(Calendar.MONTH));
+        System.out.println("똑바로 들어가나 "+calendar.get(Calendar.DATE));
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        // 사용자가 매일 알람을 허용했다면
+        if (dailyNotify) {
+
+
+            if (alarmManager != null) {
+
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        AlarmManager.INTERVAL_DAY, PendingIntent.getBroadcast(this,
+                                alarmTime,alarmIntent,PendingIntent.FLAG_ONE_SHOT)); // 이 코드가 calendar가 저장한 시간에 alarmReceiver에  인텐트를 보내어 알림바(notification)을 내리게 하는 코드이다
+                //시간이랑 pendingIntent만 다르면 알람을 여러개 만들수 있음
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    //alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), alarmPendings.get(alarmPendings.size()-1));
+                }
+            }
+        /*
+            // 부팅 후 실행되는 리시버 사용가능하게 설정
+            pm.setComponentEnabledSetting(receiver,
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);
+           */
+        }
+        //pendingIntent = null;
+//        else { //Disable Daily Notifications
+//            if (PendingIntent.getBroadcast(this, 0, alarmIntent, 0) != null && alarmManager != null) {
+//                alarmManager.cancel(pendingIntent);
+//                //Toast.makeText(this,"Notifications were disabled",Toast.LENGTH_SHORT).show();
+//            }
+//            pm.setComponentEnabledSetting(receiver,
+//                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+//                    PackageManager.DONT_KILL_APP);
+//        }
+    }
+
 
     class InsertData extends StringRequest {
 
@@ -258,6 +382,9 @@ public class CreateGroup extends AppCompatActivity {
             parameters.put("numberOfUser", numberOfUser);
             parameters.put("date", date);
             parameters.put("starttime", starttime);
+
+
+
             parameters.put("endtime", endtime);
             parameters.put("writer", writer);
         }
