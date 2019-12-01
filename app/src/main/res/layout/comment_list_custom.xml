@@ -19,12 +19,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13dp"
+                android:textStyle="bold"
+                android:textColor="#33aabb"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/comment_comment_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+
                 android:textSize="13dp"
                 android:text="TextView" />
 
