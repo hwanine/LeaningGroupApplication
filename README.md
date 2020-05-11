@@ -270,8 +270,3 @@ L&D Soft팀에서는 이와 같은 기존 소프트웨어의 단점을 해소하
 ## 이메일 찾기
 
 ![image](https://user-images.githubusercontent.com/57826388/78469194-d9e9e300-7759-11ea-83c9-a7fbe3a6c940.png)
-
-<br>
-
-## 모임 로그 확인
-
