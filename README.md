@@ -227,18 +227,33 @@ L&D Soft팀에서는 이와 같은 기존 소프트웨어의 단점을 해소하
 
 <br>
 
+## 이메일 찾기
+
+![image](https://user-images.githubusercontent.com/57826388/82796478-933e7c80-9eb0-11ea-87b4-9ab77b7acdf8.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82796557-af421e00-9eb0-11ea-95e2-327e8a3324bd.png)
+
+<br>
+
+## 비밀번호 변경
+
+![image](https://user-images.githubusercontent.com/57826388/82796607-c08b2a80-9eb0-11ea-91fb-bd9f69586d7b.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82796650-d862ae80-9eb0-11ea-91d4-703411eda1fe.png)
+
+<br>
+
 ## 모임 개설
 
 ![image](https://user-images.githubusercontent.com/57826388/82797985-db5e9e80-9eb2-11ea-9dff-98f8af81b412.png)
 
 ![image](https://user-images.githubusercontent.com/57826388/82798079-021cd500-9eb3-11ea-84fe-d175c3936238.png)
 
-
 <br>
 
 ## 모임 화면(+ 댓글)
 
-![image](https://user-images.githubusercontent.com/57826388/82796938-4b6c2500-9eb1-11ea-938a-f4b377bf145c.png)
+![image](https://user-images.githubusercontent.com/57826388/82798202-2a0c3880-9eb3-11ea-8e9c-19ba8f4fab1c.png)
 
 ![image](https://user-images.githubusercontent.com/57826388/82797108-9128ed80-9eb1-11ea-8139-e64b2c06b07e.png)
 
@@ -249,7 +264,6 @@ L&D Soft팀에서는 이와 같은 기존 소프트웨어의 단점을 해소하
 ![image](https://user-images.githubusercontent.com/57826388/82798135-182a9580-9eb3-11ea-9c66-8fb27656e594.png)
 
 ![image](https://user-images.githubusercontent.com/57826388/82797342-e5cc6880-9eb1-11ea-9a6c-76eb9df14581.png)
-
 
 <br
 
@@ -287,20 +301,5 @@ L&D Soft팀에서는 이와 같은 기존 소프트웨어의 단점을 해소하
 
 ![image](https://user-images.githubusercontent.com/57826388/82797564-3774f300-9eb2-11ea-8607-91e0b24d0f21.png)
 
-<br>
-
-## 이메일 찾기
-
-![image](https://user-images.githubusercontent.com/57826388/82796478-933e7c80-9eb0-11ea-87b4-9ab77b7acdf8.png)
-
-![image](https://user-images.githubusercontent.com/57826388/82796557-af421e00-9eb0-11ea-95e2-327e8a3324bd.png)
-
-<br>
-
-## 비밀번호 변경
-
-![image](https://user-images.githubusercontent.com/57826388/82796607-c08b2a80-9eb0-11ea-91fb-bd9f69586d7b.png)
-
-![image](https://user-images.githubusercontent.com/57826388/82796650-d862ae80-9eb0-11ea-91d4-703411eda1fe.png)
 
 
