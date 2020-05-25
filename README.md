@@ -207,25 +207,32 @@ L&D Soft팀에서는 이와 같은 기존 소프트웨어의 단점을 해소하
 
 ## 로그인
 
-![image](https://user-images.githubusercontent.com/57826388/78469125-2b45a280-7759-11ea-8501-87bb02b380fa.png)
+![image](https://user-images.githubusercontent.com/57826388/82796211-21663300-9eb0-11ea-9df6-05cc7c8ee61e.png)
 
 <br>
 
 ## 회원가입
 
-![image](https://user-images.githubusercontent.com/57826388/78469136-4a443480-7759-11ea-998d-47de62e90498.png)
+![image](https://user-images.githubusercontent.com/57826388/82796269-36db5d00-9eb0-11ea-8fd1-d18350c868e9.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82796125-fd0a5680-9eaf-11ea-8a40-65175f059d94.png)
 
 <br>
 
 ## 이메일 인증
 
-![image](https://user-images.githubusercontent.com/57826388/78469138-4c0df800-7759-11ea-98e0-72ec99dd3267.png)
+![image](https://user-images.githubusercontent.com/57826388/82796340-55415880-9eb0-11ea-9cd0-d7d40dc65fff.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82796407-75711780-9eb0-11ea-8731-799bcd622202.png)
 
 <br>
 
 ## 모임 개설
 
-![image](https://user-images.githubusercontent.com/57826388/78469154-66e06c80-7759-11ea-8fa8-b79039e4b22c.png)
+![image](https://user-images.githubusercontent.com/57826388/82796735-00eaa880-9eb1-11ea-803f-3ceab1538771.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82796809-195ac300-9eb1-11ea-8b90-e42bf3c90dcb.png)
+
 
 <br>
 
@@ -237,13 +244,26 @@ L&D Soft팀에서는 이와 같은 기존 소프트웨어의 단점을 해소하
 
 ## 메인 화면
 
-![image](https://user-images.githubusercontent.com/57826388/78469160-76f84c00-7759-11ea-8252-5df729841f4c.png)
+![image](https://user-images.githubusercontent.com/57826388/82796870-2ecfed00-9eb1-11ea-8a3a-841c34d540ec.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82797342-e5cc6880-9eb1-11ea-9a6c-76eb9df14581.png)
+
+
+<br
+
+## 참여 및 모임 화면
+
+![image](https://user-images.githubusercontent.com/57826388/82796938-4b6c2500-9eb1-11ea-938a-f4b377bf145c.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82797108-9128ed80-9eb1-11ea-8139-e64b2c06b07e.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82797194-b61d6080-9eb1-11ea-878b-952a2ecfd8e0.png)
 
 <br>
 
 ## 모임 로그 확인
 
-![image](https://user-images.githubusercontent.com/57826388/78469161-78c20f80-7759-11ea-85c8-f6299931277d.png)
+![image](https://user-images.githubusercontent.com/57826388/82797275-cf261180-9eb1-11ea-8323-5b001c86a857.png)
 
 <br>
 
@@ -259,14 +279,28 @@ L&D Soft팀에서는 이와 같은 기존 소프트웨어의 단점을 해소하
 
 ![image](https://user-images.githubusercontent.com/57826388/78469183-bd4dab00-7759-11ea-9edc-4b318722b214.png)
 
+![image](https://user-images.githubusercontent.com/57826388/82797509-24622300-9eb2-11ea-9791-f625d94ce5af.png)
+
 <br>
 
 ## 신고하기
 
-![image](https://user-images.githubusercontent.com/57826388/78469185-bf176e80-7759-11ea-8a9b-d3bd58fe8a87.png)
+![image](https://user-images.githubusercontent.com/57826388/82797564-3774f300-9eb2-11ea-8607-91e0b24d0f21.png)
 
 <br>
 
 ## 이메일 찾기
 
-![image](https://user-images.githubusercontent.com/57826388/78469194-d9e9e300-7759-11ea-83c9-a7fbe3a6c940.png)
+![image](https://user-images.githubusercontent.com/57826388/82796478-933e7c80-9eb0-11ea-87b4-9ab77b7acdf8.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82796557-af421e00-9eb0-11ea-95e2-327e8a3324bd.png)
+
+<br>
+
+## 비밀번호 변경
+
+![image](https://user-images.githubusercontent.com/57826388/82796607-c08b2a80-9eb0-11ea-91fb-bd9f69586d7b.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82796650-d862ae80-9eb0-11ea-91d4-703411eda1fe.png)
+
+
