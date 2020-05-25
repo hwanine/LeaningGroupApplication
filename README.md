@@ -229,35 +229,35 @@ L&D Soft팀에서는 이와 같은 기존 소프트웨어의 단점을 해소하
 
 ## 모임 개설
 
-![image](https://user-images.githubusercontent.com/57826388/82796735-00eaa880-9eb1-11ea-803f-3ceab1538771.png)
+![image](https://user-images.githubusercontent.com/57826388/82797985-db5e9e80-9eb2-11ea-9dff-98f8af81b412.png)
 
-![image](https://user-images.githubusercontent.com/57826388/82796809-195ac300-9eb1-11ea-8b90-e42bf3c90dcb.png)
+![image](https://user-images.githubusercontent.com/57826388/82798079-021cd500-9eb3-11ea-84fe-d175c3936238.png)
 
 
 <br>
 
 ## 모임 화면(+ 댓글)
 
-![image](https://user-images.githubusercontent.com/57826388/78469155-68aa3000-7759-11ea-967e-d6beaf35aefa.png)
+![image](https://user-images.githubusercontent.com/57826388/82796938-4b6c2500-9eb1-11ea-938a-f4b377bf145c.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82797108-9128ed80-9eb1-11ea-8139-e64b2c06b07e.png)
 
 <br>
 
 ## 메인 화면
 
-![image](https://user-images.githubusercontent.com/57826388/82796870-2ecfed00-9eb1-11ea-8a3a-841c34d540ec.png)
+![image](https://user-images.githubusercontent.com/57826388/82798135-182a9580-9eb3-11ea-9c66-8fb27656e594.png)
 
 ![image](https://user-images.githubusercontent.com/57826388/82797342-e5cc6880-9eb1-11ea-9a6c-76eb9df14581.png)
 
 
 <br
 
-## 참여 및 모임 화면
-
-![image](https://user-images.githubusercontent.com/57826388/82796938-4b6c2500-9eb1-11ea-938a-f4b377bf145c.png)
-
-![image](https://user-images.githubusercontent.com/57826388/82797108-9128ed80-9eb1-11ea-8139-e64b2c06b07e.png)
+## 참여 및 참여 취소
 
 ![image](https://user-images.githubusercontent.com/57826388/82797194-b61d6080-9eb1-11ea-878b-952a2ecfd8e0.png)
+
+![image](https://user-images.githubusercontent.com/57826388/82797798-92a6e580-9eb2-11ea-8c16-5222b72ad747.png)
 
 <br>
 
